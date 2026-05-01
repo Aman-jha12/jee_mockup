@@ -142,16 +142,13 @@ export default function ExamPage() {
               </div>
             ) : (
               <div className="space-y-3">
-                <input
-                  value={currentAnswer}
-                  onChange={(e) => setAnswer(currentQuestion.id, e.target.value)}
-                  className="w-full rounded-md border border-slate-300 p-3 text-sm"
-                  placeholder="Enter numerical answer"
-                />
+                <div className="rounded-md border border-slate-300 bg-white p-3 text-sm text-slate-800">
+                  {currentAnswer || <span className="text-slate-400">No answer entered</span>}
+                </div>
                 <VirtualKeyboard
-                  onKeyPress={(key) => setAnswer(currentQuestion.id, `${currentAnswer}${key}`)}
-                  onBackspace={() => setAnswer(currentQuestion.id, currentAnswer.slice(0, -1))}
-                  onClear={() => clearAnswer(currentQuestion.id)}
+                  value={currentAnswer}
+                  onValueChange={(value) => setAnswer(currentQuestion.id, value)}
+                  disabled={false}
                 />
               </div>
             )}
