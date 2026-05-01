@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { QuestionPaletteButton } from "@/components/exam/question-palette-button";
 import { StatusBadge } from "@/components/exam/status-badge";
 import { VirtualKeyboard } from "@/components/exam/virtual-keyboard";
 import { useExam } from "@/context/exam-context";
@@ -9,13 +10,6 @@ import { formatTime, SUBJECTS, toTitleCase } from "@/lib/exam-utils";
 import { Question, Subject } from "@/types/exam";
 
 type QuestionsPayload = { questions: Question[] };
-
-const statusColorMap = {
-  answered: "bg-emerald-500",
-  "not-answered": "bg-red-500",
-  "not-visited": "bg-slate-400",
-  "marked-for-review": "bg-purple-600",
-} as const;
 
 export default function ExamPage() {
   const router = useRouter();
@@ -38,6 +32,14 @@ export default function ExamPage() {
   } = useExam();
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const autoSubmittedRef = useRef(false);
+
+  const handleSubmit = useCallback(async () => {
+    if (submitting) return;
+    setSubmitting(true);
+    await submitExam();
+    router.push("/result");
+  }, [router, submitExam, submitting]);
 
   useEffect(() => {
     const loadQuestions = async () => {
@@ -55,10 +57,11 @@ export default function ExamPage() {
   }, [initializeExam, initialized, questions.length]);
 
   useEffect(() => {
-    if (!loading && remainingTime <= 0 && !submitting) {
-      void handleSubmit();
+    if (!loading && remainingTime <= 0 && !autoSubmittedRef.current) {
+      autoSubmittedRef.current = true;
+      void submitExam().then(() => router.push("/result"));
     }
-  }, [loading, remainingTime, submitting]);
+  }, [loading, remainingTime, router, submitExam]);
 
   const questionsBySubject = useMemo(
     () =>
@@ -73,12 +76,6 @@ export default function ExamPage() {
   );
 
   const currentQuestion = questionsBySubject[currentSubject]?.[currentIndexBySubject[currentSubject] ?? 0] ?? null;
-
-  const handleSubmit = async () => {
-    setSubmitting(true);
-    await submitExam();
-    router.push("/result");
-  };
 
   if (loading || !currentQuestion) {
     return (
@@ -105,8 +102,8 @@ export default function ExamPage() {
           Marks for correct answer: +4 | Negative: -1
         </p>
 
-        <section className="grid min-h-[78vh] grid-cols-1 lg:grid-cols-[1fr_330px]">
-          <div className="border-r border-slate-200 p-4">
+        <section className="flex min-h-[78vh]">
+          <div className="flex-1 border-r border-slate-200 p-4">
             <p className="mb-2 text-sm font-semibold text-slate-700">
               Question No. {currentIndexBySubject[currentSubject] + 1}
             </p>
@@ -159,32 +156,36 @@ export default function ExamPage() {
               </div>
             )}
 
-            <div className="mt-6 flex flex-wrap gap-3">
-              <button
-                type="button"
-                onClick={() => markForReviewAndNext(currentQuestion)}
-                className="rounded-md bg-purple-600 px-4 py-2 text-sm font-semibold text-white hover:bg-purple-700"
-              >
-                Mark for Review & Next
-              </button>
-              <button
-                type="button"
-                onClick={() => clearAnswer(currentQuestion.id)}
-                className="rounded-md bg-rose-600 px-4 py-2 text-sm font-semibold text-white hover:bg-rose-700"
-              >
-                Clear Response
-              </button>
-              <button
-                type="button"
-                onClick={() => saveAndNext(currentQuestion)}
-                className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
-              >
-                Save & Next
-              </button>
+            <div className="mt-6 flex items-center justify-between">
+              <div className="flex gap-4">
+                <button
+                  type="button"
+                  onClick={() => markForReviewAndNext(currentQuestion)}
+                  className="rounded-lg bg-purple-600 px-5 py-2 text-sm font-bold text-white hover:bg-purple-700"
+                >
+                  Mark for Review & Next
+                </button>
+                <button
+                  type="button"
+                  onClick={() => clearAnswer(currentQuestion.id)}
+                  className="rounded-lg bg-red-500 px-5 py-2 text-sm font-bold text-white hover:bg-red-600"
+                >
+                  Clear Response
+                </button>
+              </div>
+              <div className="ml-auto">
+                <button
+                  type="button"
+                  onClick={() => saveAndNext(currentQuestion)}
+                  className="rounded-lg bg-blue-600 px-6 py-2 text-sm font-bold text-white hover:bg-blue-700"
+                >
+                  Save & Next
+                </button>
+              </div>
             </div>
           </div>
 
-          <aside className="flex flex-col bg-slate-50 p-4">
+          <aside className="box-border flex w-[320px] flex-col overflow-y-auto bg-slate-50 p-4">
             <div className="mb-4 flex items-center gap-3 rounded-lg border border-slate-300 bg-white p-3">
               <div className="h-14 w-14 rounded-full bg-slate-300" />
               <div>
@@ -200,7 +201,7 @@ export default function ExamPage() {
               <StatusBadge label="Marked for Review" color="bg-purple-600" />
             </div>
 
-            <div className="mb-3 flex gap-2">
+            <div className="mb-3 flex flex-wrap gap-2">
               {SUBJECTS.map((subject) => (
                 <button
                   key={subject}
@@ -217,20 +218,18 @@ export default function ExamPage() {
               ))}
             </div>
 
-            <div className="grid grid-cols-5 gap-2 rounded-lg border border-slate-300 bg-white p-3">
+            <div className="grid grid-cols-5 gap-3 rounded-lg border border-slate-300 bg-white p-3">
               {subjectQuestions.map((question, idx) => {
                 const status = getQuestionStatus(question);
+                const isActive = currentIndexBySubject[currentSubject] === idx;
                 return (
-                  <button
+                  <QuestionPaletteButton
                     key={question.id}
-                    type="button"
+                    index={idx}
+                    status={status}
+                    isActive={isActive}
                     onClick={() => jumpToQuestion(currentSubject, idx)}
-                    className={`h-9 rounded text-xs font-semibold text-white ${
-                      statusColorMap[status]
-                    } ${currentIndexBySubject[currentSubject] === idx ? "ring-2 ring-offset-2 ring-slate-900" : ""}`}
-                  >
-                    {idx + 1}
-                  </button>
+                  />
                 );
               })}
             </div>
