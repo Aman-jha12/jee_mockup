@@ -2,7 +2,8 @@ import { ExamResult, Question, QuestionResponse, Subject, SubjectSummary } from 
 
 export const SUBJECTS: Subject[] = ["mathematics", "physics", "chemistry"];
 export const QUESTIONS_PER_SUBJECT = 25;
-export const EXAM_DURATION_SECONDS = 180 * 60;
+// 24 hours for development, 180 minutes for production
+export const EXAM_DURATION_SECONDS = process.env.NODE_ENV === "development" ? 24 * 60 * 60 : 180 * 60;
 
 export const toTitleCase = (subject: Subject) =>
   subject.charAt(0).toUpperCase() + subject.slice(1);

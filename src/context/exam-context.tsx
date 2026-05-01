@@ -69,6 +69,12 @@ export function ExamProvider({ children }: { children: React.ReactNode }) {
       currentIndexBySubject: Record<Subject, number>;
       remainingTime: number;
     };
+    // If time has expired, clear the exam state to allow restart during development
+    if (parsed.remainingTime <= 0) {
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(RESULT_KEY);
+      return;
+    }
     setQuestions(parsed.questions ?? []);
     setResponses(parsed.responses ?? {});
     setCurrentSubject(parsed.currentSubject ?? "mathematics");
@@ -104,18 +110,22 @@ export function ExamProvider({ children }: { children: React.ReactNode }) {
   }, [initialized]);
 
   const initializeExam = useCallback((incomingQuestions: Question[]) => {
+    console.log(`initializeExam called with ${incomingQuestions.length} questions`);
     setQuestions(incomingQuestions);
     setResponses((prev) => {
       if (Object.keys(prev).length > 0) return prev;
-      return incomingQuestions.reduce<Record<string, QuestionResponse>>((acc, q) => {
+      const newResponses = incomingQuestions.reduce<Record<string, QuestionResponse>>((acc, q) => {
         acc[q.id] = { answer: "", visited: false, markedForReview: false };
         return acc;
       }, {});
+      console.log(`initializeExam: Created ${Object.keys(newResponses).length} responses`);
+      return newResponses;
     });
     setCurrentSubject("mathematics");
     setCurrentIndexBySubject(defaultIndexMap);
     setRemainingTime((prev) => (prev <= 0 ? EXAM_DURATION_SECONDS : prev));
     setInitialized(true);
+    console.log("initializeExam: Exam initialized");
   }, []);
 
   const getQuestionsBySubject = useCallback(

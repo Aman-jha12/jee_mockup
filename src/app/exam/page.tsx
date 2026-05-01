@@ -32,7 +32,21 @@ export default function ExamPage() {
   } = useExam();
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const autoSubmittedRef = useRef(false);
+  const loadingStartedRef = useRef(false);
+
+  // Clear expired result from storage on mount to allow restart
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const hasResult = localStorage.getItem("jee_mock_exam_latest_result");
+      if (hasResult) {
+        localStorage.removeItem("jee_mock_exam_latest_result");
+        localStorage.removeItem("jee_mock_exam_state");
+        console.log("Cleared expired exam data, allowing fresh start");
+      }
+    }
+  }, []);
 
   const handleSubmit = useCallback(async () => {
     if (submitting) return;
@@ -43,18 +57,35 @@ export default function ExamPage() {
 
   useEffect(() => {
     const loadQuestions = async () => {
-      if (initialized && questions.length > 0) {
-        setLoading(false);
-        return;
-      }
+      // Use ref guard to load only once on mount
+      if (loadingStartedRef.current) return;
+      loadingStartedRef.current = true;
 
-      const response = await fetch("/api/questions", { cache: "no-store" });
-      const payload = (await response.json()) as QuestionsPayload;
-      initializeExam(payload.questions);
-      setLoading(false);
+      try {
+        console.log("Fetching questions from API...");
+        const response = await fetch("/api/questions", { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error(`API returned ${response.status}`);
+        }
+        const payload = (await response.json()) as QuestionsPayload;
+        console.log(`Loaded ${payload.questions.length} questions`);
+        initializeExam(payload.questions);
+        
+        // Wait for state to propagate
+        setTimeout(() => {
+          console.log("Setting loading to false");
+          setLoading(false);
+        }, 150);
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : "Unknown error";
+        console.error("Error loading questions:", msg);
+        setError(`Failed to load questions: ${msg}`);
+        setLoading(false);
+      }
     };
     void loadQuestions();
-  }, [initializeExam, initialized, questions.length]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (!loading && remainingTime <= 0 && !autoSubmittedRef.current) {
@@ -63,24 +94,65 @@ export default function ExamPage() {
     }
   }, [loading, remainingTime, router, submitExam]);
 
-  const questionsBySubject = useMemo(
-    () =>
-      SUBJECTS.reduce(
-        (acc, subject) => {
-          acc[subject] = questions.filter((q) => q.subject === subject).slice(0, 25);
-          return acc;
-        },
-        {} as Record<Subject, Question[]>
-      ),
-    [questions]
-  );
+  const questionsBySubject = useMemo(() => {
+    console.log(`Computed questionsBySubject - total questions: ${questions.length}, initialized: ${initialized}`);
+    return SUBJECTS.reduce(
+      (acc, subject) => {
+        const filtered = questions.filter((q) => q.subject === subject).slice(0, 25);
+        console.log(`${subject}: ${filtered.length} questions`);
+        acc[subject] = filtered;
+        return acc;
+      },
+      {} as Record<Subject, Question[]>
+    );
+  }, [questions]);
 
   const currentQuestion = questionsBySubject[currentSubject]?.[currentIndexBySubject[currentSubject] ?? 0] ?? null;
+  
+  useEffect(() => {
+    console.log({
+      loading,
+      currentQuestion: currentQuestion ? `Q${currentQuestion.id}` : null,
+      questions: questions.length,
+      initialized,
+    });
+  }, [loading, currentQuestion, questions, initialized]);
+
+  if (error) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-slate-200 p-3">
+        <div className="w-full max-w-[500px] rounded-lg bg-white p-8 shadow">
+          <h2 className="mb-4 text-2xl font-bold text-red-600">Error</h2>
+          <p className="mb-6 text-slate-700">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="w-full rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+          >
+            Retry
+          </button>
+        </div>
+      </main>
+    );
+  }
 
   if (loading || !currentQuestion) {
     return (
-      <main className="flex min-h-screen items-center justify-center text-slate-700">
-        Loading exam...
+      <main className="flex min-h-screen items-center justify-center bg-slate-200 p-3 text-slate-700">
+        <div className="w-full max-w-[1000px] rounded-lg bg-white p-8 shadow">
+          <div className="animate-pulse space-y-4">
+            <div className="h-8 w-3/4 rounded bg-slate-200" />
+            <div className="h-6 w-1/2 rounded bg-slate-200" />
+            <div className="space-y-2">
+              <div className="h-40 rounded bg-slate-200" />
+            </div>
+            <div className="grid grid-cols-5 gap-3">
+              {Array.from({ length: 25 }).map((_, i) => (
+                <div key={i} className="h-10 w-10 rounded bg-slate-200" />
+              ))}
+            </div>
+          </div>
+          <p className="mt-6 text-center text-sm text-slate-500">Loading exam...</p>
+        </div>
       </main>
     );
   }
@@ -88,6 +160,13 @@ export default function ExamPage() {
   const subjectQuestions = questionsBySubject[currentSubject];
   const currentResponse = responses[currentQuestion.id];
   const currentAnswer = currentResponse?.answer ?? "";
+  const cleanedQuestionText = currentQuestion.questionText
+    .replace(
+      /^\s*(?:(?:mathematics|physics|chemistry)\s+)?(?:(?:mcq|numerical)\s*)?(?:question\s*)?(?:no\.?|number)?\s*\d+\s*[:.)-]?\s*/i,
+      ""
+    )
+    .replace(/^\s*(?:mathematics|physics|chemistry)\s+(?:mcq|numerical)\s*[:.)-]?\s*/i, "")
+    .trim();
 
   return (
     <main className="min-h-screen bg-slate-200 p-3 text-slate-900">
@@ -98,17 +177,14 @@ export default function ExamPage() {
           <div className="text-right">Time Left: {formatTime(remainingTime)}</div>
         </header>
 
-        <p className="border-b border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-700">
-          Marks for correct answer: +4 | Negative: -1
-        </p>
-
         <section className="flex min-h-[78vh]">
           <div className="flex-1 border-r border-slate-200 p-4">
-            <p className="mb-2 text-sm font-semibold text-slate-700">
-              Question No. {currentIndexBySubject[currentSubject] + 1}
-            </p>
+            <div className="mb-2 flex items-center justify-between text-sm font-semibold text-slate-700">
+              <p>Question No. {currentIndexBySubject[currentSubject] + 1}</p>
+              <p className="text-right">Marks for correct answer: +4 | Negative: -1</p>
+            </div>
             <div className="mb-4 rounded-lg border border-slate-200 bg-slate-50 p-4">
-              <p className="text-sm leading-6">{currentQuestion.questionText}</p>
+              <p className="text-sm leading-6">{cleanedQuestionText}</p>
               {currentQuestion.imageUrl ? (
                 <img
                   src={currentQuestion.imageUrl}
@@ -136,7 +212,7 @@ export default function ExamPage() {
                       checked={currentAnswer === option.label}
                       onChange={() => setAnswer(currentQuestion.id, option.label)}
                     />
-                    <span>{option.label}. {option.value}</span>
+                    <span className="font-semibold text-slate-800">{option.value}</span>
                   </label>
                 ))}
               </div>
@@ -187,7 +263,7 @@ export default function ExamPage() {
               <div className="h-14 w-14 rounded-full bg-slate-300" />
               <div>
                 <p className="text-sm font-semibold">Candidate</p>
-                <p className="text-xs text-slate-500">Photo Placeholder</p>
+                <p className="text-xs text-slate-500">Aman Jha</p>
               </div>
             </div>
 
@@ -235,7 +311,7 @@ export default function ExamPage() {
               type="button"
               onClick={() => void handleSubmit()}
               disabled={submitting}
-              className="mt-auto rounded-md bg-emerald-600 px-4 py-2.5 text-sm font-bold text-white hover:bg-emerald-700 disabled:bg-emerald-300"
+              className="mt-6 rounded-md bg-emerald-600 px-4 py-2.5 text-sm font-bold text-white hover:bg-emerald-700 disabled:bg-emerald-300"
             >
               {submitting ? "Submitting..." : "Submit"}
             </button>
