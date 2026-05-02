@@ -169,15 +169,15 @@ export default function ExamPage() {
     .trim();
 
   return (
-    <main className="min-h-screen bg-slate-200 p-3 text-slate-900">
-      <div className="mx-auto max-w-[1400px] rounded-lg bg-white shadow ring-1 ring-slate-300">
+    <main className="min-h-screen bg-slate-200 p-2 text-slate-900">
+      <div className="mx-auto w-full max-w-full rounded-lg bg-white shadow ring-1 ring-slate-300">
         <header className="grid grid-cols-3 gap-2 border-b border-slate-300 bg-slate-800 px-4 py-3 text-sm font-semibold text-white">
           <div>Question Type: {currentQuestion.type === "mcq" ? "MCQ" : "Numerical"}</div>
           <div className="text-center">{toTitleCase(currentSubject)}</div>
           <div className="text-right">Time Left: {formatTime(remainingTime)}</div>
         </header>
 
-        <section className="flex min-h-[78vh]">
+        <section className="flex min-h-[calc(100vh-4rem)]">
           <div className="flex-1 border-r border-slate-200 p-4">
             <div className="mb-2 flex items-center justify-between text-sm font-semibold text-slate-700">
               <p>Question No. {currentIndexBySubject[currentSubject] + 1}</p>
@@ -260,10 +260,9 @@ export default function ExamPage() {
 
           <aside className="box-border flex w-[320px] flex-col overflow-y-auto bg-slate-50 p-4">
             <div className="mb-4 flex items-center gap-3 rounded-lg border border-slate-300 bg-white p-3">
-              <div className="h-14 w-14 rounded-full bg-slate-300" />
+              <img src="https://i.pravatar.cc/150?img=11" alt="Candidate Profile" className="h-14 w-14 rounded-full border border-slate-200 object-cover" />
               <div>
-                <p className="text-sm font-semibold">Candidate</p>
-                <p className="text-xs text-slate-500">Aman Jha</p>
+                <p className="text-sm font-semibold">Aman Jha</p>
               </div>
             </div>
 
