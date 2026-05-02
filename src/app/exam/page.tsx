@@ -1,322 +1,354 @@
-"use client";
+'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
-import { QuestionPaletteButton } from "@/components/exam/question-palette-button";
-import { StatusBadge } from "@/components/exam/status-badge";
-import { VirtualKeyboard } from "@/components/exam/virtual-keyboard";
-import { useExam } from "@/context/exam-context";
-import { formatTime, SUBJECTS, toTitleCase } from "@/lib/exam-utils";
-import { Question, Subject } from "@/types/exam";
+import { useState, useEffect } from 'react';
+import { Clock, ChevronRight, Flag, XCircle, LayoutGrid, AlertCircle, Maximize2 } from 'lucide-react';
 
-type QuestionsPayload = { questions: Question[] };
+interface Question {
+  id: number;
+  text: string;
+  options: string[];
+  status: 'answered' | 'not-answered' | 'not-visited' | 'marked';
+}
 
-export default function ExamPage() {
-  const router = useRouter();
-  const {
-    questions,
-    responses,
-    currentSubject,
-    currentIndexBySubject,
-    remainingTime,
-    initialized,
-    initializeExam,
-    switchSubject,
-    jumpToQuestion,
-    setAnswer,
-    clearAnswer,
-    saveAndNext,
-    markForReviewAndNext,
-    submitExam,
-    getQuestionStatus,
-  } = useExam();
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const autoSubmittedRef = useRef(false);
-  const loadingStartedRef = useRef(false);
+const QUESTIONS: Question[] = Array.from({ length: 25 }, (_, i) => ({
+  id: i + 1,
+  text: `If sin(x) + cos(x) = √2, then find the value of tan(x) + cot(x). Consider the principal value in the range [0, π/2].`,
+  options: ['1', '√2', '2', '√3'],
+  status: i === 0 ? 'answered' : i < 5 ? 'not-answered' : 'not-visited',
+}));
 
-  // Clear expired result from storage on mount to allow restart
+export default function ExamInterface() {
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(0);
+  const [timeLeft, setTimeLeft] = useState(3600); // 1 hour
+  const [questions, setQuestions] = useState(QUESTIONS);
+  const [marked, setMarked] = useState<Set<number>>(new Set());
+  const [avatarSeed, setAvatarSeed] = useState('Felix');
+
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const hasResult = localStorage.getItem("jee_mock_exam_latest_result");
-      if (hasResult) {
-        localStorage.removeItem("jee_mock_exam_latest_result");
-        localStorage.removeItem("jee_mock_exam_state");
-        console.log("Cleared expired exam data, allowing fresh start");
-      }
-    }
+    // Generate a random seed on mount for a dynamic profile avatar
+    setAvatarSeed(Math.random().toString(36).substring(7));
+    
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
   }, []);
 
-  const handleSubmit = useCallback(async () => {
-    if (submitting) return;
-    setSubmitting(true);
-    await submitExam();
-    router.push("/result");
-  }, [router, submitExam, submitting]);
+  const formatTime = (seconds: number) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
-  useEffect(() => {
-    const loadQuestions = async () => {
-      // Use ref guard to load only once on mount
-      if (loadingStartedRef.current) return;
-      loadingStartedRef.current = true;
+  const isTimeRunningOut = timeLeft < 300;
 
-      try {
-        console.log("Fetching questions from API...");
-        const response = await fetch("/api/questions", { cache: "no-store" });
-        if (!response.ok) {
-          throw new Error(`API returned ${response.status}`);
-        }
-        const payload = (await response.json()) as QuestionsPayload;
-        console.log(`Loaded ${payload.questions.length} questions`);
-        initializeExam(payload.questions);
-        
-        // Wait for state to propagate
-        setTimeout(() => {
-          console.log("Setting loading to false");
-          setLoading(false);
-        }, 150);
-      } catch (err) {
-        const msg = err instanceof Error ? err.message : "Unknown error";
-        console.error("Error loading questions:", msg);
-        setError(`Failed to load questions: ${msg}`);
-        setLoading(false);
-      }
-    };
-    void loadQuestions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const handleSelectOption = (index: number) => {
+    setSelectedAnswer(index);
+    const newQuestions = [...questions];
+    newQuestions[currentQuestion].status = 'answered';
+    setQuestions(newQuestions);
+  };
 
-  useEffect(() => {
-    if (!loading && remainingTime <= 0 && !autoSubmittedRef.current) {
-      autoSubmittedRef.current = true;
-      void submitExam().then(() => router.push("/result"));
+  const handleMarkForReview = () => {
+    const newMarked = new Set(marked);
+    if (newMarked.has(currentQuestion)) {
+      newMarked.delete(currentQuestion);
+    } else {
+      newMarked.add(currentQuestion);
     }
-  }, [loading, remainingTime, router, submitExam]);
+    setMarked(newMarked);
+    const newQuestions = [...questions];
+    newQuestions[currentQuestion].status = marked.has(currentQuestion) ? 'answered' : 'marked';
+    setQuestions(newQuestions);
+  };
 
-  const questionsBySubject = useMemo(() => {
-    console.log(`Computed questionsBySubject - total questions: ${questions.length}, initialized: ${initialized}`);
-    return SUBJECTS.reduce(
-      (acc, subject) => {
-        const filtered = questions.filter((q) => q.subject === subject).slice(0, 25);
-        console.log(`${subject}: ${filtered.length} questions`);
-        acc[subject] = filtered;
-        return acc;
-      },
-      {} as Record<Subject, Question[]>
-    );
-  }, [questions]);
+  const handleClear = () => {
+    setSelectedAnswer(null);
+    const newQuestions = [...questions];
+    newQuestions[currentQuestion].status = 'not-answered';
+    setQuestions(newQuestions);
+  };
 
-  const currentQuestion = questionsBySubject[currentSubject]?.[currentIndexBySubject[currentSubject] ?? 0] ?? null;
-  
-  useEffect(() => {
-    console.log({
-      loading,
-      currentQuestion: currentQuestion ? `Q${currentQuestion.id}` : null,
-      questions: questions.length,
-      initialized,
-    });
-  }, [loading, currentQuestion, questions, initialized]);
+  const handleNext = () => {
+    if (currentQuestion < questions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+      setSelectedAnswer(null);
+    }
+  };
 
-  if (error) {
-    return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-200 p-3">
-        <div className="w-full max-w-[500px] rounded-lg bg-white p-8 shadow">
-          <h2 className="mb-4 text-2xl font-bold text-red-600">Error</h2>
-          <p className="mb-6 text-slate-700">{error}</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="w-full rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-          >
-            Retry
-          </button>
-        </div>
-      </main>
-    );
-  }
-
-  if (loading || !currentQuestion) {
-    return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-200 p-3 text-slate-700">
-        <div className="w-full max-w-[1000px] rounded-lg bg-white p-8 shadow">
-          <div className="animate-pulse space-y-4">
-            <div className="h-8 w-3/4 rounded bg-slate-200" />
-            <div className="h-6 w-1/2 rounded bg-slate-200" />
-            <div className="space-y-2">
-              <div className="h-40 rounded bg-slate-200" />
-            </div>
-            <div className="grid grid-cols-5 gap-3">
-              {Array.from({ length: 25 }).map((_, i) => (
-                <div key={i} className="h-10 w-10 rounded bg-slate-200" />
-              ))}
-            </div>
-          </div>
-          <p className="mt-6 text-center text-sm text-slate-500">Loading exam...</p>
-        </div>
-      </main>
-    );
-  }
-
-  const subjectQuestions = questionsBySubject[currentSubject];
-  const currentResponse = responses[currentQuestion.id];
-  const currentAnswer = currentResponse?.answer ?? "";
-  const cleanedQuestionText = currentQuestion.questionText
-    .replace(
-      /^\s*(?:(?:mathematics|physics|chemistry)\s+)?(?:(?:mcq|numerical)\s*)?(?:question\s*)?(?:no\.?|number)?\s*\d+\s*[:.)-]?\s*/i,
-      ""
-    )
-    .replace(/^\s*(?:mathematics|physics|chemistry)\s+(?:mcq|numerical)\s*[:.)-]?\s*/i, "")
-    .trim();
+  const goToQuestion = (index: number) => {
+    setCurrentQuestion(index);
+    setSelectedAnswer(questions[index].status === 'answered' ? 0 : null); 
+  };
 
   return (
-    <main className="min-h-screen bg-slate-200 p-2 text-slate-900">
-      <div className="mx-auto w-full max-w-full rounded-lg bg-white shadow ring-1 ring-slate-300">
-        <header className="grid grid-cols-3 gap-2 border-b border-slate-300 bg-slate-800 px-4 py-3 text-sm font-semibold text-white">
-          <div>Question Type: {currentQuestion.type === "mcq" ? "MCQ" : "Numerical"}</div>
-          <div className="text-center">{toTitleCase(currentSubject)}</div>
-          <div className="text-right">Time Left: {formatTime(remainingTime)}</div>
-        </header>
+    <div className="h-screen bg-[#f8fafc] flex flex-col font-sans selection:bg-blue-200 selection:text-blue-900 relative overflow-hidden">
+      {/* Background ambient decorative shapes */}
+      <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-blue-100/50 to-transparent pointer-events-none -z-10" />
+      <div className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-blue-300/20 rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute bottom-[-10%] left-[-5%] w-96 h-96 bg-indigo-300/20 rounded-full blur-3xl pointer-events-none -z-10" />
 
-        <section className="flex min-h-[calc(100vh-4rem)]">
-          <div className="flex-1 border-r border-slate-200 p-4">
-            <div className="mb-2 flex items-center justify-between text-sm font-semibold text-slate-700">
-              <p>Question No. {currentIndexBySubject[currentSubject] + 1}</p>
-              <p className="text-right">Marks for correct answer: +4 | Negative: -1</p>
+      {/* TOP NAVIGATION BAR */}
+      <nav className="flex-shrink-0 bg-white/80 backdrop-blur-xl border-b border-slate-200/80 shadow-sm px-6 py-2.5 flex items-center justify-between z-50">
+        <div className="flex items-center">
+          <h1 className="text-xl font-bold text-slate-800 tracking-tight truncate max-w-[200px] sm:max-w-md">
+            Mathematics
+          </h1>
+        </div>
+
+        <div className="flex flex-1 justify-center max-w-md mx-4">
+          {/* Animated Timer Indicator */}
+          <div className={`flex items-center gap-3 px-4 py-1.5 rounded-2xl font-mono text-lg font-bold shadow-sm transition-all duration-300 ${
+            isTimeRunningOut 
+              ? 'bg-red-50 text-red-600 border-2 border-red-400 animate-pulse shadow-red-500/10' 
+              : 'bg-white text-slate-800 border-2 border-slate-400 shadow-slate-200/50'
+          }`}>
+            <Clock className={`w-5 h-5 ${isTimeRunningOut ? 'text-red-500' : 'text-blue-500'}`} />
+            {formatTime(timeLeft)}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <button className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors hidden lg:block">
+            <Maximize2 className="w-5 h-5" />
+          </button>
+          
+          {/* USER PROFILE CARD */}
+          <div className="flex items-center gap-3 pl-4 lg:border-l border-slate-200">
+            <div className="text-right hidden sm:block">
+              <p className="text-sm font-semibold text-slate-800">Aced Candidate</p>
+              <p className="text-xs text-slate-500 font-medium tracking-wide">JEE2024001</p>
             </div>
-            <div className="mb-4 rounded-lg border border-slate-200 bg-slate-50 p-4">
-              <p className="text-sm leading-6">{cleanedQuestionText}</p>
-              {currentQuestion.imageUrl ? (
-                <img
-                  src={currentQuestion.imageUrl}
-                  alt="Question"
-                  className="mt-3 max-h-64 rounded border border-slate-200"
-                />
-              ) : null}
-            </div>
-
-            {currentQuestion.type === "mcq" ? (
-              <div className="space-y-2">
-                {[
-                  { label: "A", value: currentQuestion.optionA ?? "" },
-                  { label: "B", value: currentQuestion.optionB ?? "" },
-                  { label: "C", value: currentQuestion.optionC ?? "" },
-                  { label: "D", value: currentQuestion.optionD ?? "" },
-                ].map((option) => (
-                  <label
-                    key={option.label}
-                    className="flex cursor-pointer items-center gap-3 rounded-md border border-slate-200 bg-white p-3 text-sm hover:bg-slate-50"
-                  >
-                    <input
-                      type="radio"
-                      name={currentQuestion.id}
-                      checked={currentAnswer === option.label}
-                      onChange={() => setAnswer(currentQuestion.id, option.label)}
-                    />
-                    <span className="font-semibold text-slate-800">{option.value}</span>
-                  </label>
-                ))}
-              </div>
-            ) : (
-              <div className="space-y-3">
-                <div className="rounded-md border border-slate-300 bg-white p-3 text-sm text-slate-800">
-                  {currentAnswer || <span className="text-slate-400">No answer entered</span>}
-                </div>
-                <VirtualKeyboard
-                  value={currentAnswer}
-                  onValueChange={(value) => setAnswer(currentQuestion.id, value)}
-                  disabled={false}
-                />
-              </div>
-            )}
-
-            <div className="mt-6 flex items-center justify-between">
-              <div className="flex gap-4">
-                <button
-                  type="button"
-                  onClick={() => markForReviewAndNext(currentQuestion)}
-                  className="rounded-lg bg-purple-600 px-5 py-2 text-sm font-bold text-white hover:bg-purple-700"
-                >
-                  Mark for Review & Next
-                </button>
-                <button
-                  type="button"
-                  onClick={() => clearAnswer(currentQuestion.id)}
-                  className="rounded-lg bg-red-500 px-5 py-2 text-sm font-bold text-white hover:bg-red-600"
-                >
-                  Clear Response
-                </button>
-              </div>
-              <div className="ml-auto">
-                <button
-                  type="button"
-                  onClick={() => saveAndNext(currentQuestion)}
-                  className="rounded-lg bg-blue-600 px-6 py-2 text-sm font-bold text-white hover:bg-blue-700"
-                >
-                  Save & Next
-                </button>
-              </div>
+            <div className="relative group cursor-pointer">
+              {/* Dynamic Avatar */}
+              <img 
+                src={`https://api.dicebear.com/9.x/micah/svg?seed=${avatarSeed}&backgroundColor=b6e3f4,c0aede,d1d4f9`} 
+                alt="Candidate Profile" 
+                className="w-10 h-10 rounded-full border-2 border-white shadow-md shadow-slate-200/80 bg-slate-100 transition-transform group-hover:scale-105"
+              />
+              <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full shadow-sm"></div>
             </div>
           </div>
+        </div>
+      </nav>
 
-          <aside className="box-border flex w-[320px] flex-col overflow-y-auto bg-slate-50 p-4">
-            <div className="mb-4 flex items-center gap-3 rounded-lg border border-slate-300 bg-white p-3">
-              <img src="https://i.pravatar.cc/150?img=11" alt="Candidate Profile" className="h-14 w-14 rounded-full border border-slate-200 object-cover" />
-              <div>
-                <p className="text-lg font-semibold">Aman Jha</p>
+      {/* MAIN CONTENT WORKSPACE */}
+      <main className="flex flex-1 overflow-hidden p-3 md:p-4 gap-4 max-w-[1600px] mx-auto w-full">
+        
+        {/* LEFT COLUMN: QUESTION PANEL */}
+        <div className="flex-1 flex flex-col min-w-0">
+          
+          <div className="bg-white/90 backdrop-blur-md rounded-2xl flex-1 flex flex-col overflow-hidden border border-slate-200 shadow-xl shadow-slate-200/40 transition-all">
+            
+            {/* Question Header Metadata */}
+            <div className="px-6 py-4 border-b-2 border-slate-400 flex items-center justify-between bg-white/60">
+              <div className="flex items-center gap-4">
+                <span className="flex items-center justify-center w-10 h-10 rounded-2xl bg-blue-50 text-blue-600 font-bold text-base shadow-inner border-2 border-blue-400">
+                  Q{currentQuestion + 1}
+                </span>
+                <p className="text-sm font-extrabold text-slate-700 uppercase tracking-wider">
+                  Multiple Choice Question
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-xs font-bold px-3 py-1.5 bg-green-50 text-green-700 rounded-lg border-2 border-green-600 shadow-sm">
+                  +4 Marks
+                </span>
+                <span className="text-xs font-bold px-3 py-1.5 bg-red-50 text-red-700 rounded-lg border-2 border-red-600 shadow-sm">
+                  -1 Negative
+                </span>
               </div>
             </div>
 
-            <div className="mb-4 grid grid-cols-2 gap-2 rounded-lg border border-slate-300 bg-white p-3">
-              <StatusBadge label="Answered" color="bg-emerald-500" />
-              <StatusBadge label="Not Answered" color="bg-red-500" />
-              <StatusBadge label="Not Visited" color="bg-slate-400" />
-              <StatusBadge label="Marked for Review" color="bg-purple-600" />
+            {/* Question Area */}
+            <div className="flex-1 overflow-auto px-6 py-6 scroll-smooth custom-scrollbar">
+              <div className="max-w-4xl mx-auto">
+                <h2 className="text-[1.1rem] md:text-lg font-medium text-slate-800 leading-relaxed mb-8">
+                  {questions[currentQuestion].text}
+                </h2>
+
+                <div className="space-y-3">
+                  {questions[currentQuestion].options.map((option, index) => {
+                    const isSelected = selectedAnswer === index;
+                    return (
+                      <button
+                        key={index}
+                        onClick={() => handleSelectOption(index)}
+                        className={`w-full text-left p-4 rounded-2xl border-2 transition-all duration-200 relative group overflow-hidden ${
+                          isSelected 
+                            ? 'border-blue-500 bg-blue-50/40 shadow-md shadow-blue-500/10 scale-[1.01]' 
+                            : 'border-slate-300 bg-white hover:border-slate-400 hover:bg-slate-50/80 shadow-sm hover:shadow'
+                        }`}
+                      >
+                        {/* Dynamic Selection Accent Bar */}
+                        {isSelected && (
+                          <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-500 rounded-l-2xl shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+                        )}
+                        <div className="flex items-center gap-4">
+                          <div
+                            className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 border-2 ${
+                              isSelected 
+                                ? 'border-blue-500 bg-blue-500 scale-110' 
+                                : 'border-slate-400 bg-transparent group-hover:border-slate-500'
+                            }`}
+                          >
+                            {isSelected && <div className="w-2 h-2 bg-white rounded-full shadow-sm animate-in zoom-in duration-200" />}
+                          </div>
+                          <div className="flex-1">
+                            <span className={`font-bold mr-3 ${isSelected ? 'text-blue-600' : 'text-slate-400'}`}>
+                              {String.fromCharCode(65 + index)}.
+                            </span>
+                            <span className={`text-[1rem] font-medium ${isSelected ? 'text-slate-900' : 'text-slate-600'}`}>
+                              {option}
+                            </span>
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
 
-            <div className="mb-3 flex flex-wrap gap-2">
-              {SUBJECTS.map((subject) => (
+            {/* Bottom Action Footer */}
+            <div className="p-4 md:p-5 border-t border-slate-100 bg-slate-50/80 backdrop-blur-md flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
                 <button
-                  key={subject}
-                  type="button"
-                  onClick={() => switchSubject(subject)}
-                  className={`rounded-md px-3 py-1.5 text-xs font-semibold ${
-                    currentSubject === subject
-                      ? "bg-slate-800 text-white"
-                      : "bg-white text-slate-700 ring-1 ring-slate-300"
-                  }`}
+                  onClick={handleMarkForReview}
+                  className="px-5 py-3 rounded-xl font-extrabold text-sm flex items-center gap-2 transition-all duration-200 bg-white border-2 border-slate-400 text-indigo-700 hover:bg-indigo-50 hover:border-indigo-400 shadow-sm active:scale-95"
                 >
-                  {toTitleCase(subject)}
+                  <Flag className="w-4 h-4" />
+                  Mark for Review
                 </button>
-              ))}
+                <button
+                  onClick={handleClear}
+                  className="px-5 py-3 rounded-xl font-extrabold text-sm flex items-center gap-2 transition-all duration-200 bg-white border-2 border-slate-400 text-slate-700 hover:bg-red-50 hover:border-red-400 hover:text-red-700 shadow-sm active:scale-95"
+                >
+                  <XCircle className="w-4 h-4" />
+                  Clear
+                </button>
+              </div>
+              
+              <button
+                onClick={handleNext}
+                className="px-6 py-3 rounded-xl font-extrabold text-sm flex items-center gap-2 transition-all duration-200 bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 active:scale-95 border-2 border-transparent"
+              >
+                Save & Next
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT COLUMN: QUESTION PALETTE & STATUS */}
+        <div className="w-[340px] flex flex-col min-w-0 flex-shrink-0 hidden lg:flex">
+          
+          <div className="bg-white/90 backdrop-blur-md rounded-2xl flex-1 flex flex-col overflow-hidden border border-slate-200 shadow-xl shadow-slate-200/40">
+            
+            {/* Subject Tabs Filter */}
+            <div className="p-3 border-b border-slate-100 bg-slate-50/80">
+              <div className="flex gap-1.5 bg-slate-200/60 p-1.5 rounded-2xl">
+                {['Maths', 'Physics', 'Chemistry'].map((subject, idx) => (
+                  <button
+                    key={subject}
+                    className={`flex-1 py-2 px-3 rounded-xl text-sm font-bold transition-all duration-200 ${
+                      idx === 0 
+                        ? 'bg-white text-blue-600 shadow-sm' 
+                        : 'text-slate-500 hover:text-slate-700 hover:bg-slate-100/50'
+                    }`}
+                  >
+                    {subject}
+                  </button>
+                ))}
+              </div>
             </div>
 
-            <div className="grid grid-cols-5 gap-3 rounded-lg border border-slate-300 bg-white p-3">
-              {subjectQuestions.map((question, idx) => {
-                const status = getQuestionStatus(question);
-                const isActive = currentIndexBySubject[currentSubject] === idx;
-                return (
-                  <QuestionPaletteButton
-                    key={question.id}
-                    index={idx}
-                    status={status}
-                    isActive={isActive}
-                    onClick={() => jumpToQuestion(currentSubject, idx)}
-                  />
-                );
-              })}
+            {/* Dynamic Status Legend */}
+            <div className="p-5 border-b border-slate-100 bg-white/40">
+              <div className="grid grid-cols-2 gap-y-3 gap-x-4">
+                {[
+                  { color: 'bg-green-500', border: 'border-green-600', label: 'Answered', count: questions.filter(q => q.status === 'answered').length },
+                  { color: 'bg-red-500', border: 'border-red-600', label: 'Not Answered', count: questions.filter(q => q.status === 'not-answered').length },
+                  { color: 'bg-slate-100', border: 'border-slate-300', label: 'Not Visited', count: questions.filter(q => q.status === 'not-visited').length },
+                  { color: 'bg-indigo-500', border: 'border-indigo-600', label: 'Marked', count: questions.filter(q => q.status === 'marked').length },
+                ].map((item) => (
+                  <div key={item.label} className="flex items-center gap-2">
+                    <div className={`w-5 h-5 rounded-md ${item.color} border ${item.border} shadow-sm flex items-center justify-center text-[10px] text-slate-800 font-bold ${item.color.includes('green') || item.color.includes('red') || item.color.includes('indigo') ? 'text-white' : ''}`}>
+                      {item.count > 0 ? item.count : '0'}
+                    </div>
+                    <span className="text-[11px] font-semibold text-slate-600 uppercase tracking-wider">{item.label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <button
-              type="button"
-              onClick={() => void handleSubmit()}
-              disabled={submitting}
-              className="mt-6 rounded-md bg-emerald-600 px-4 py-2.5 text-sm font-bold text-white hover:bg-emerald-700 disabled:bg-emerald-300"
-            >
-              {submitting ? "Submitting..." : "Submit"}
-            </button>
-          </aside>
-        </section>
-      </div>
-    </main>
+            {/* Interactive Question Grid */}
+            <div className="p-5 flex-1 overflow-y-auto custom-scrollbar">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider">Question Palette</h3>
+              </div>
+              <div className="grid grid-cols-5 gap-2.5">
+                {questions.map((q, idx) => {
+                  let bgColor = 'bg-slate-50';
+                  let textColor = 'text-slate-600';
+                  let borderColor = 'border-slate-200';
+                  let shadow = 'shadow-sm';
+
+                  if (q.status === 'answered') {
+                    bgColor = 'bg-gradient-to-b from-green-400 to-green-500';
+                    textColor = 'text-white';
+                    borderColor = 'border-green-600';
+                  } else if (q.status === 'marked') {
+                    bgColor = 'bg-gradient-to-b from-indigo-400 to-indigo-500';
+                    textColor = 'text-white';
+                    borderColor = 'border-indigo-600';
+                  } else if (q.status === 'not-answered') {
+                    bgColor = 'bg-gradient-to-b from-red-400 to-red-500';
+                    textColor = 'text-white';
+                    borderColor = 'border-red-600';
+                  }
+
+                  const isActive = idx === currentQuestion;
+
+                  return (
+                    <button
+                      key={q.id}
+                      onClick={() => goToQuestion(idx)}
+                      className={`
+                        relative w-full aspect-square rounded-xl font-extrabold text-[14px] transition-all duration-200 border-2
+                        ${bgColor} ${textColor} ${borderColor} ${shadow}
+                        hover:brightness-110 active:scale-90
+                        ${isActive ? 'ring-4 ring-blue-500/30 scale-[1.10] z-10 shadow-lg border-blue-600' : 'hover:scale-105'}
+                      `}
+                    >
+                      {q.id}
+                      {/* Indicator for answered AND marked */}
+                      {q.status === 'marked' && (
+                        <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full border-2 border-white shadow-sm"></div>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Submit Final Action */}
+            <div className="p-4 border-t border-slate-100 bg-slate-50/80">
+              <button className="group relative w-full py-4 rounded-2xl font-bold tracking-wide text-[15px] transition-all duration-300 bg-slate-900 text-white shadow-lg hover:shadow-xl hover:shadow-slate-900/20 hover:bg-slate-800 active:scale-[0.98] flex items-center justify-center gap-2.5 border border-slate-700 overflow-hidden">
+                {/* Subtle top edge highlight */}
+                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                {/* Bottom elegant emerald glow on hover */}
+                <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-emerald-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-[1px]" />
+                <AlertCircle className="w-5 h-5 text-emerald-400 group-hover:text-emerald-300 transition-colors" strokeWidth={2} />
+                <span>Submit Final Exam</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </main>
+    </div>
   );
 }

@@ -209,9 +209,9 @@ export default function LoginPage() {
                     onChange={handleFieldChange}
                   >
                     <option disabled value="" />
-                    <option value="science">Science</option>
-                    <option value="commerce">Commerce</option>
-                    <option value="arts">Arts</option>
+                    <option value="science">PCM</option>
+                    <option value="commerce">PCMB</option>
+                    <option value="arts">PCB</option>
                   </select>
                   <label
                     className="pointer-events-none absolute left-4 top-3 origin-left text-xs font-medium text-slate-500 transition-all duration-300 peer-focus:-translate-y-7 peer-focus:scale-90 peer-focus:text-[#b91c1c] peer-valid:-translate-y-7 peer-valid:scale-90 md:left-5 md:top-4 md:text-sm"
