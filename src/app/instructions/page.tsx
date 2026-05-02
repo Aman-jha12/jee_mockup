@@ -129,7 +129,7 @@ export default function InstructionsPage() {
         }
       `}</style>
 
-      <div className="instructions-page inst-grain" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <div className="instructions-page inst-grain" style={{ fontFamily: "'Inter', sans-serif", overflowX: "hidden", width: "100%" }}>
         <div className="inst-mesh-gradient" />
 
         <main
@@ -198,26 +198,36 @@ export default function InstructionsPage() {
           {/* Stats Section */}
           <section
             style={{
-              width: "100vw",
-              marginLeft: "calc(-50vw + 50%)",
+              width: "100%",
               marginBottom: "4rem",
-              padding: "3.5rem 1.5rem",
-              backgroundImage: "url('/images/helpline-bg.png')",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
+              padding: "3.5rem 0",
               position: "relative",
             }}
           >
-            {/* Dark overlay for extra contrast */}
+            {/* Full-bleed background layer */}
             <div
               style={{
                 position: "absolute",
-                inset: 0,
-                background: "rgba(0,0,0,0.35)",
-                pointerEvents: "none",
+                top: 0,
+                bottom: 0,
+                left: "-50vw",
+                right: "-50vw",
+                backgroundImage: "url('/images/helpline-bg.png')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                zIndex: 0,
               }}
-            />
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background: "rgba(0,0,0,0.35)",
+                  pointerEvents: "none",
+                }}
+              />
+            </div>
             <div
               style={{
                 display: "grid",
@@ -265,7 +275,7 @@ export default function InstructionsPage() {
                     cursor: "default",
                     background: "rgba(255,255,255,0.07)",
                     backdropFilter: "blur(16px)",
-                    border: "1px solid rgba(255,255,255,0.12)",
+                    border: "2px solid #e7b205ff",
                     boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
                   }}
                   onMouseEnter={(e) => {
@@ -433,27 +443,47 @@ export default function InstructionsPage() {
                 {
                   num: 1,
                   title: "Electronic Protocol",
-                  desc: "Strict prohibition of electronic devices including smartwatches and calculators. Violation results in immediate disqualification.",
+                  desc: (
+                    <>
+                      Strict prohibition of <strong>electronic devices</strong> including <strong>smartwatches</strong> and <strong>calculators</strong>. Violation results in <strong>immediate disqualification</strong>.
+                    </>
+                  ),
                 },
                 {
                   num: 2,
                   title: "Identity Verification",
-                  desc: "Cross-verify your digital credentials with your physical Admit Card. Report any mismatch to the proctor immediately.",
+                  desc: (
+                    <>
+                      Cross-verify your digital credentials with your physical <strong>Admit Card</strong>. Report any mismatch to the proctor <strong>immediately</strong>.
+                    </>
+                  ),
                 },
                 {
                   num: 3,
                   title: "Navigation System",
-                  desc: "Utilize the Question Palette for seamless navigation. 'Save & Next' must be explicitly used for finalizing responses.",
+                  desc: (
+                    <>
+                      Utilize the <strong>Question Palette</strong> for seamless navigation. <strong>'Save & Next'</strong> must be explicitly used for finalizing responses.
+                    </>
+                  ),
                 },
                 {
                   num: 4,
                   title: "Negative Marking Matrix",
-                  desc: "Each correct answer yields +4. Each incorrect answer results in -1. Unattempted questions carry zero marks.",
+                  desc: (
+                    <>
+                      Each correct answer yields <strong>+4</strong>. Each incorrect answer results in <strong>-1</strong>. Unattempted questions carry <strong>zero marks</strong>.
+                    </>
+                  ),
                 },
                 {
                   num: 5,
                   title: "Auto-Submission Protocol",
-                  desc: "The session will terminate automatically at the end of 180 minutes. Ensure periodic review of your progress.",
+                  desc: (
+                    <>
+                      The session will terminate automatically at the end of <strong>180 minutes</strong>. Ensure periodic review of your progress.
+                    </>
+                  ),
                 },
               ].map((item) => (
                 <div
@@ -478,6 +508,7 @@ export default function InstructionsPage() {
                       height: "2.5rem",
                       borderRadius: "9999px",
                       background: "rgba(21,21,125,0.1)",
+                      border: "2px solid #d4af37",
                       color: "#15157d",
                       display: "flex",
                       alignItems: "center",

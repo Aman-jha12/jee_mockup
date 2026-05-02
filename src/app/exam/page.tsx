@@ -262,7 +262,7 @@ export default function ExamPage() {
             <div className="mb-4 flex items-center gap-3 rounded-lg border border-slate-300 bg-white p-3">
               <img src="https://i.pravatar.cc/150?img=11" alt="Candidate Profile" className="h-14 w-14 rounded-full border border-slate-200 object-cover" />
               <div>
-                <p className="text-sm font-semibold">Aman Jha</p>
+                <p className="text-lg font-semibold">Aman Jha</p>
               </div>
             </div>
 
