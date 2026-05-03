@@ -106,14 +106,14 @@ export default function LoginPage() {
         }}
       />
 
-      {/* 2. Gradient Overlay 1: Increased fading in the middle (between bubbles and login container) */}
+      {/* 2. Gradient Overlay 1: Significantly increased fading in the middle */}
       <div
         className="absolute inset-0 -z-20"
         style={{
-          background: "linear-gradient(to right, rgba(3,8,20,0.85) 0%, rgba(3,8,20,0.5) 25%, rgba(3,8,20,0.5) 50%, rgba(3,8,20,0.95) 65%, rgba(3,8,20,1) 100%)",
+          background: "linear-gradient(to right, rgba(3,8,20,0.85) 0%, rgba(3,8,20,0.7) 25%, rgba(3,8,20,0.7) 50%, rgba(3,8,20,0.95) 65%, rgba(3,8,20,1) 100%)",
         }}
       />
-      
+
       {/* 3. Gradient Overlay 2: Top/Bottom shading perfectly synced with left edge */}
       <div
         className="absolute inset-0 -z-20"
@@ -212,13 +212,13 @@ export default function LoginPage() {
       <div className="relative z-20 w-full flex min-h-screen">
         {/* Empty left side visual space */}
         <div className="hidden lg:block lg:w-[40%]"></div>
-        
+
         {/* 1. Form Card on right side (60%) */}
-        <div className="w-full lg:w-[60%] flex flex-col items-center lg:items-center justify-center px-4 md:px-12 xl:px-20 py-10">
-          
+        <div className="w-full lg:w-[60%] flex flex-col items-center justify-center px-4 md:px-12 xl:px-20 py-10">
+
           <div className="w-full max-w-[500px]">
-            {/* Centered Logo at top above the card - Moved closer to the container */}
-            <div className="flex justify-center mt-2 mb-5 w-full">
+            {/* Centered Logo at top above the card - Position left identical */}
+            <div className="flex justify-center mt-2 mb-5 w-full relative z-10">
               <Image
                 src="/images/logo_tig.png"
                 alt="TECHNO INDIA GROUP"
@@ -229,37 +229,37 @@ export default function LoginPage() {
                 loading="eager"
               />
             </div>
-            
-            {/* 2. Dark glass card */}
-            <div 
-              className="w-full p-[28px] md:p-[32px] flex flex-col gap-[28px]"
+
+            {/* 2. Dark glass card - Shifted up independently without moving the logo */}
+            <div
+              className="w-full p-[28px] md:p-[32px] flex flex-col gap-[28px] relative -translate-y-6"
               style={{
                 background: "rgba(10, 20, 40, 0.6)",
                 backdropFilter: "blur(20px)",
                 WebkitBackdropFilter: "blur(20px)",
                 border: "1px solid rgba(255, 255, 255, 0.08)",
-                borderRadius: "28px", 
+                borderRadius: "28px",
                 boxShadow: "0 20px 60px rgba(0,0,0,0.6)"
               }}
             >
               {/* 3. Typography & iOS Squircle */}
               <div className="flex flex-col mb-2">
                 <div className="flex items-center justify-center gap-6">
-                  
-                  {/* --- 120x120 Pure White iOS Squircle Container --- */}
-                  <div 
-                    className="w-[120px] h-[120px] bg-white flex items-center justify-center shrink-0"
+
+                  {/* --- 60x60 Pure White iOS Squircle Container --- */}
+                  <div
+                    className="w-[60px] h-[60px] bg-white flex items-center justify-center shrink-0"
                     style={{ clipPath: "url(#ios-squircle)" }}
                   >
-                    <Image 
-                      src="/images/tint_logo.webp" 
-                      alt="Logo" 
-                      width={48} 
-                      height={56} 
-                      className="object-contain" 
+                    <Image
+                      src="/images/tint_logo.webp"
+                      alt="Logo"
+                      width={32}
+                      height={36}
+                      className="object-contain"
                     />
                   </div>
-                  
+
                   <div className="flex flex-col text-left">
                     <h1 className="text-[36px] md:text-[40px] font-bold leading-none tracking-tight">
                       <span className="text-white">PREP</span>
@@ -307,15 +307,15 @@ export default function LoginPage() {
 
                     <div className="relative w-full">
                       <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <div className="text-white/40"><MailIcon /></div>
+                        <div className="text-white/40"><MapPinIcon /></div>
                       </div>
                       <input
                         className={inputClasses}
-                        name="email"
-                        placeholder="Email Address"
+                        name="city"
+                        placeholder="City"
                         required
-                        type="email"
-                        value={formData.email}
+                        type="text"
+                        value={formData.city}
                         onChange={handleFieldChange}
                       />
                     </div>
@@ -333,7 +333,7 @@ export default function LoginPage() {
                         value={formData.classStatus}
                         onChange={handleFieldChange}
                       >
-                        <option value="" disabled className="bg-[#0a1428] text-white/50">Class Status</option>
+                        <option value="" disabled hidden className="bg-[#0a1428] text-white/50">Class Status</option>
                         <option value="passout" className="bg-[#0a1428] text-white">12th Passout</option>
                         <option value="pursuing" className="bg-[#0a1428] text-white">Pursuing</option>
                       </select>
@@ -350,7 +350,7 @@ export default function LoginPage() {
                         value={formData.stream}
                         onChange={handleFieldChange}
                       >
-                        <option value="" disabled className="bg-[#0a1428] text-white/50">Stream in Class 12</option>
+                        <option value="" disabled hidden className="bg-[#0a1428] text-white/50">Stream in Class 12</option>
                         <option value="science" className="bg-[#0a1428] text-white">PCM</option>
                         <option value="commerce" className="bg-[#0a1428] text-white">PCMB</option>
                         <option value="arts" className="bg-[#0a1428] text-white">PCB</option>
@@ -360,15 +360,15 @@ export default function LoginPage() {
 
                   <div className="relative w-full">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <div className="text-white/40"><MapPinIcon /></div>
+                      <div className="text-white/40"><MailIcon /></div>
                     </div>
                     <input
                       className={inputClasses}
-                      name="city"
-                      placeholder="City"
+                      name="email"
+                      placeholder="Email Address"
                       required
-                      type="text"
-                      value={formData.city}
+                      type="email"
+                      value={formData.email}
                       onChange={handleFieldChange}
                     />
                   </div>
