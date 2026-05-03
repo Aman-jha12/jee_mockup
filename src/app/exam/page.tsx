@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Clock, ChevronRight, Flag, XCircle, LayoutGrid, AlertCircle, Maximize2 } from 'lucide-react';
 
 interface Question {
@@ -18,6 +19,7 @@ const QUESTIONS: Question[] = Array.from({ length: 25 }, (_, i) => ({
 }));
 
 export default function ExamInterface() {
+  const router = useRouter();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(0);
   const [timeLeft, setTimeLeft] = useState(3600); // 1 hour
@@ -336,7 +338,7 @@ export default function ExamInterface() {
 
             {/* Submit Final Action */}
             <div className="p-4 border-t border-slate-100 bg-slate-50/80">
-              <button className="group relative w-full py-4 rounded-2xl font-bold tracking-wide text-[15px] transition-all duration-300 bg-slate-900 text-white shadow-lg hover:shadow-xl hover:shadow-slate-900/20 hover:bg-slate-800 active:scale-[0.98] flex items-center justify-center gap-2.5 border border-slate-700 overflow-hidden">
+              <button onClick={() => router.push('/result')} className="group relative w-full py-4 rounded-2xl font-bold tracking-wide text-[15px] transition-all duration-300 bg-slate-900 text-white shadow-lg hover:shadow-xl hover:shadow-slate-900/20 hover:bg-slate-800 active:scale-[0.98] flex items-center justify-center gap-2.5 border border-slate-700 overflow-hidden">
                 {/* Subtle top edge highlight */}
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                 {/* Bottom elegant emerald glow on hover */}

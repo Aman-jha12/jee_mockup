@@ -4,6 +4,31 @@ import { useState, type ChangeEvent, type FormEvent } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 
+const UserIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+)
+const PhoneIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+)
+const MailIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+)
+const BookIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+)
+const LayersIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 12 12 17 22 12"></polyline><polyline points="2 17 12 22 22 17"></polyline></svg>
+)
+const MapPinIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+)
+const LockIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+)
+const ArrowRightIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+)
+
 export default function LoginPage() {
   const router = useRouter()
   const [step, setStep] = useState<"details" | "otp" | "verified">("details")
@@ -56,285 +81,420 @@ export default function LoginPage() {
 
   const handleStartExam = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    router.push("/exam")
+    router.push("/instructions")
   }
 
+  const inputClasses = "w-full pl-11 pr-4 py-3.5 bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.08)] rounded-[12px] text-white focus:border-[rgba(255,50,50,0.6)] focus:ring-[2px] focus:ring-[rgba(255,50,50,0.15)] focus:outline-none placeholder-white/40 transition-all duration-300 text-sm"
+
   return (
-    <div className="min-h-screen relative overflow-hidden flex flex-col items-center justify-start">
-      {/* Background blur image */}
+    <div className="min-h-screen relative overflow-hidden flex w-full">
+      {/* --- Global Math Definition for iOS Squircle --- */}
+      <svg width="0" height="0" className="absolute pointer-events-none">
+        <defs>
+          <clipPath id="ios-squircle" clipPathUnits="objectBoundingBox">
+            <path d="M 0.5,0 C 0.1,0 0,0.1 0,0.5 C 0,0.9 0.1,1 0.5,1 C 0.9,1 1,0.9 1,0.5 C 1,0.1 0.9,0 0.5,0 Z" />
+          </clipPath>
+        </defs>
+      </svg>
+
+      {/* 1. Background Image */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat -z-30"
         style={{
-          backgroundImage: "url('/images/university-campus.png')",
-          filter: "blur(8px)",
-          transform: "scale(1.1)",
+          backgroundImage: "url('/images/banner.webp')",
+          filter: "contrast(1.2) saturate(0.9)",
         }}
       />
 
-      {/* Top-left Semi Circle */}
+      {/* 2. Gradient Overlay 1: Increased fading in the middle (between bubbles and login container) */}
       <div
-        className="absolute top-0 left-0 w-[400px] h-[400px] bg-red-500 rounded-br-full z-10"
+        className="absolute inset-0 -z-20"
+        style={{
+          background: "linear-gradient(to right, rgba(3,8,20,0.85) 0%, rgba(3,8,20,0.5) 25%, rgba(3,8,20,0.5) 50%, rgba(3,8,20,0.95) 65%, rgba(3,8,20,1) 100%)",
+        }}
       />
-      {/* Bottom-right Semi Circle */}
+      
+      {/* 3. Gradient Overlay 2: Top/Bottom shading perfectly synced with left edge */}
       <div
-        className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-red-500 rounded-tl-full z-10"
+        className="absolute inset-0 -z-20"
+        style={{
+          background: "linear-gradient(to bottom, rgba(3,8,20,0.85) 0%, transparent 20%, transparent 80%, rgba(3,8,20,0.85) 100%)",
+        }}
       />
 
-      {/* Logo */}
-      <div className="relative z-20 mt-16 mb-8">
-        <Image
-          src="/images/logo-tigps.png"
-          alt="TECHNO INDIA GROUP"
-          width={150}
-          height={150}
-          className="object-contain"
-          priority
-          loading="eager"
+      {/* 3D BUBBLES VISUAL */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
+
+        {/* Orbital lines / Particle Trails */}
+        <div
+          className="absolute -top-[10%] -left-[20%] w-[1000px] h-[1000px] rounded-full"
+          style={{
+            border: "1px solid rgba(255,46,46,0.15)",
+            transform: "rotate(-15deg)",
+          }}
         />
+        <div
+          className="absolute top-[20%] -left-[30%] w-[1200px] h-[1200px] rounded-full"
+          style={{
+            border: "1px solid rgba(255,46,46,0.1)",
+            transform: "rotate(25deg)",
+          }}
+        />
+
+        {/* Bubble 1: Giant Bottom-Left */}
+        <div
+          className="absolute rounded-full"
+          style={{
+            width: "900px",
+            height: "900px",
+            bottom: "-40%",
+            left: "-25%",
+            background: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.08) 0%, rgba(20,5,5,0.2) 40%, rgba(255,46,46,0.1) 80%, rgba(255,46,46,0.25) 100%)",
+            boxShadow: "inset 60px 60px 100px -20px rgba(255,46,46,0.9), inset 0 0 30px rgba(255,46,46,0.3), 0 0 50px rgba(255,46,46,0.2), 0 0 16px rgba(255,255,255,0.2)",
+            border: "1px solid rgba(255, 255, 255, 0.45)",
+            backdropFilter: "blur(5px)"
+          }}
+        />
+
+        {/* Bubble 2: Medium Middle-Left */}
+        <div
+          className="absolute rounded-full"
+          style={{
+            width: "350px",
+            height: "350px",
+            top: "35%",
+            left: "-12%",
+            background: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.08) 0%, rgba(20,5,5,0.2) 30%, rgba(255,46,46,0.1) 70%, rgba(255,46,46,0.2) 100%)",
+            boxShadow: "inset 30px 30px 60px -10px rgba(255,46,46,0.9), inset 0 0 20px rgba(255,46,46,0.3), 0 0 30px rgba(255,46,46,0.2), 0 0 12px rgba(255,255,255,0.2)",
+            border: "1px solid rgba(255, 255, 255, 0.45)",
+            backdropFilter: "blur(5px)"
+          }}
+        />
+
+        {/* Bubble 3: Smaller Bottom-Center */}
+        <div
+          className="absolute rounded-full"
+          style={{
+            width: "220px",
+            height: "220px",
+            bottom: "8%",
+            left: "14%",
+            background: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.08) 0%, rgba(20,5,5,0.2) 40%, rgba(255,46,46,0.1) 80%, rgba(255,46,46,0.25) 100%)",
+            boxShadow: "inset 20px 20px 40px -5px rgba(255,46,46,0.9), inset 0 0 15px rgba(255,46,46,0.3), 0 0 25px rgba(255,46,46,0.2), 0 0 10px rgba(255,255,255,0.2)",
+            border: "1px solid rgba(255, 255, 255, 0.45)",
+            backdropFilter: "blur(5px)"
+          }}
+        />
+
+        {/* Bubble 4: Small Top-Left */}
+        <div
+          className="absolute rounded-full"
+          style={{
+            width: "80px",
+            height: "80px",
+            top: "28%",
+            left: "7%",
+            background: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.08) 0%, rgba(20,5,5,0.2) 30%, rgba(255,46,46,0.1) 70%, rgba(255,46,46,0.2) 100%)",
+            boxShadow: "inset 10px 10px 20px rgba(255,46,46,0.9), 0 0 8px rgba(255,255,255,0.2)",
+            border: "1px solid rgba(255, 255, 255, 0.45)"
+          }}
+        />
+
+        {/* Ambient floating particles */}
+        <div className="absolute w-[4px] h-[4px] bg-[#ff2e2e] rounded-full top-[45%] left-[20%] shadow-[0_0_12px_#ff2e2e]" />
+        <div className="absolute w-[3px] h-[3px] bg-white rounded-full top-[52%] left-[28%] shadow-[0_0_8px_white]" />
+        <div className="absolute w-[2px] h-[2px] bg-[#ff2e2e] rounded-full top-[22%] left-[18%] shadow-[0_0_8px_#ff2e2e]" />
+        <div className="absolute w-[5px] h-[5px] bg-[#ff2e2e] rounded-full bottom-[35%] left-[32%] shadow-[0_0_15px_#ff2e2e]" />
+
       </div>
 
-      {/* Login Container */}
-      <div className="relative z-20 w-full max-w-lg px-4 flex justify-center mt-2">
-        <div className="group relative w-full min-h-[520px] rounded-[36px] border border-slate-200/80 bg-white/95 p-4 shadow-[0_24px_60px_-18px_rgba(15,23,42,0.18)] ring-1 ring-slate-200/70 backdrop-blur-3xl md:min-h-[620px] md:p-6">
-          <div className="mb-4 flex items-center justify-center gap-3 md:mb-5 md:gap-4">
-            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-white transition-transform group-hover:rotate-[15deg] md:h-12 md:w-12 md:rounded-2xl">
+      {/* Main Layout Content */}
+      <div className="relative z-20 w-full flex min-h-screen">
+        {/* Empty left side visual space */}
+        <div className="hidden lg:block lg:w-[40%]"></div>
+        
+        {/* 1. Form Card on right side (60%) */}
+        <div className="w-full lg:w-[60%] flex flex-col items-center lg:items-center justify-center px-4 md:px-12 xl:px-20 py-10">
+          
+          <div className="w-full max-w-[500px]">
+            {/* Centered Logo at top above the card - Moved closer to the container */}
+            <div className="flex justify-center mt-2 mb-5 w-full">
               <Image
-                src="/images/tint_logo.webp"
-                className="h-8 w-auto md:h-10"
-                alt="TINT"
-                width={40}
-                height={40}
+                src="/images/logo_tig.png"
+                alt="TECHNO INDIA GROUP"
+                width={230}
+                height={230}
+                className="object-contain"
+                priority
+                loading="eager"
               />
             </div>
-            <div className="min-w-0 pt-0.5 text-center">
-              <h1 className="text-2xl font-black leading-none tracking-[-0.04em] text-transparent bg-gradient-to-r from-[#1d1a23] to-[#b91c1c] bg-clip-text md:text-4xl">
-                PREPJEE
-              </h1>
-              <p className="mt-1 text-[11px] font-medium tracking-normal text-slate-500 md:text-xs">
-                Complete your profile to continue.
-              </p>
-            </div>
-          </div>
-
-          {step === "details" && (
-            <form className="space-y-4 md:space-y-5" onSubmit={handleContinueToOtp}>
-              <div className="relative group">
-                <input
-                  className="peer w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm outline-none transition-all duration-300 placeholder-transparent hover:border-slate-300 hover:bg-white hover:shadow-md focus:-translate-y-1 focus:border-[#6b38d4] focus:bg-white focus:ring-4 focus:ring-[#6b38d4]/15 focus:shadow-[0_18px_34px_-18px_rgba(107,56,212,0.45)] md:px-5 md:py-4 md:text-base"
-                  id="fullname"
-                  name="fullname"
-                  placeholder=" "
-                  required
-                  type="text"
-                  value={formData.fullname}
-                  onChange={handleFieldChange}
-                />
-                <label
-                  className="pointer-events-none absolute left-4 top-3 origin-left text-xs font-medium text-slate-500 transition-all duration-300 peer-focus:-translate-y-7 peer-focus:scale-90 peer-focus:text-[#b91c1c] peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:scale-90 md:left-5 md:top-4 md:text-sm"
-                  htmlFor="fullname"
-                >
-                  Full Name
-                </label>
-              </div>
-
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-4">
-                <div className="relative">
-                  <input
-                    className="peer w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm outline-none transition-all duration-300 placeholder-transparent hover:border-slate-300 hover:bg-white hover:shadow-md focus:-translate-y-1 focus:border-[#6b38d4] focus:bg-white focus:ring-4 focus:ring-[#6b38d4]/15 focus:shadow-[0_18px_34px_-18px_rgba(107,56,212,0.45)] md:px-5 md:py-4 md:text-base"
-                    id="mobile"
-                    name="mobile"
-                    placeholder=" "
-                    required
-                    type="tel"
-                    value={formData.mobile}
-                    onChange={handleFieldChange}
-                  />
-                  <label
-                    className="pointer-events-none absolute left-4 top-3 origin-left text-xs font-medium text-slate-500 transition-all duration-300 peer-focus:-translate-y-7 peer-focus:scale-90 peer-focus:text-[#b91c1c] peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:scale-90 md:left-5 md:top-4 md:text-sm"
-                    htmlFor="mobile"
+            
+            {/* 2. Dark glass card */}
+            <div 
+              className="w-full p-[28px] md:p-[32px] flex flex-col gap-[28px]"
+              style={{
+                background: "rgba(10, 20, 40, 0.6)",
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
+                border: "1px solid rgba(255, 255, 255, 0.08)",
+                borderRadius: "28px", 
+                boxShadow: "0 20px 60px rgba(0,0,0,0.6)"
+              }}
+            >
+              {/* 3. Typography & iOS Squircle */}
+              <div className="flex flex-col mb-2">
+                <div className="flex items-center justify-center gap-6">
+                  
+                  {/* --- 120x120 Pure White iOS Squircle Container --- */}
+                  <div 
+                    className="w-[120px] h-[120px] bg-white flex items-center justify-center shrink-0"
+                    style={{ clipPath: "url(#ios-squircle)" }}
                   >
-                    Mobile Number
-                  </label>
-                </div>
-
-                <div className="relative">
-                  <input
-                    className="peer w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm outline-none transition-all duration-300 placeholder-transparent hover:border-slate-300 hover:bg-white hover:shadow-md focus:-translate-y-1 focus:border-[#6b38d4] focus:bg-white focus:ring-4 focus:ring-[#6b38d4]/15 focus:shadow-[0_18px_34px_-18px_rgba(107,56,212,0.45)] md:px-5 md:py-4 md:text-base"
-                    id="email"
-                    name="email"
-                    placeholder=" "
-                    required
-                    type="email"
-                    value={formData.email}
-                    onChange={handleFieldChange}
-                  />
-                  <label
-                    className="pointer-events-none absolute left-4 top-3 origin-left text-xs font-medium text-slate-500 transition-all duration-300 peer-focus:-translate-y-7 peer-focus:scale-90 peer-focus:text-[#b91c1c] peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:scale-90 md:left-5 md:top-4 md:text-sm"
-                    htmlFor="email"
-                  >
-                    Email Address
-                  </label>
+                    <Image 
+                      src="/images/tint_logo.webp" 
+                      alt="Logo" 
+                      width={48} 
+                      height={56} 
+                      className="object-contain" 
+                    />
+                  </div>
+                  
+                  <div className="flex flex-col text-left">
+                    <h1 className="text-[36px] md:text-[40px] font-bold leading-none tracking-tight">
+                      <span className="text-white">PREP</span>
+                      <span className="text-[#ff2e2e]">JEE</span>
+                    </h1>
+                    <p className="mt-2 text-[13px] md:text-[14px] text-white/70 font-medium">
+                      Complete your profile to continue.
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-4">
-                <div className="relative group">
-                  <select
-                    className="peer w-full appearance-none cursor-pointer rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm outline-none transition-all duration-300 hover:border-slate-300 hover:bg-white hover:shadow-md focus:-translate-y-1 focus:border-[#6b38d4] focus:bg-white focus:ring-4 focus:ring-[#6b38d4]/15 focus:shadow-[0_18px_34px_-18px_rgba(107,56,212,0.45)] md:px-5 md:py-4 md:text-base"
-                    id="class-status"
-                    name="classStatus"
-                    required
-                    value={formData.classStatus}
-                    onChange={handleFieldChange}
-                  >
-                    <option disabled value="" />
-                    <option value="passout">12th Passout</option>
-                    <option value="pursuing">Pursuing</option>
-                  </select>
-                  <label
-                    className="pointer-events-none absolute left-4 top-3 origin-left text-xs font-medium text-slate-500 transition-all duration-300 peer-focus:-translate-y-7 peer-focus:scale-90 peer-focus:text-[#b91c1c] peer-valid:-translate-y-7 peer-valid:scale-90 md:left-5 md:top-4 md:text-sm"
-                    htmlFor="class-status"
-                  >
-                    Class Status
-                  </label>
-                </div>
+              {step === "details" && (
+                <form className="flex flex-col gap-[16px]" onSubmit={handleContinueToOtp}>
+                  <div className="relative w-full">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                      <div className="text-white/40"><UserIcon /></div>
+                    </div>
+                    <input
+                      className={inputClasses}
+                      name="fullname"
+                      placeholder="Full Name"
+                      required
+                      type="text"
+                      value={formData.fullname}
+                      onChange={handleFieldChange}
+                    />
+                  </div>
 
-                <div className="relative group">
-                  <select
-                    className="peer w-full appearance-none cursor-pointer rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm outline-none transition-all duration-300 hover:border-slate-300 hover:bg-white hover:shadow-md focus:-translate-y-1 focus:border-[#6b38d4] focus:bg-white focus:ring-4 focus:ring-[#6b38d4]/15 focus:shadow-[0_18px_34px_-18px_rgba(107,56,212,0.45)] md:px-5 md:py-4 md:text-base"
-                    id="stream"
-                    name="stream"
-                    required
-                    value={formData.stream}
-                    onChange={handleFieldChange}
-                  >
-                    <option disabled value="" />
-                    <option value="science">PCM</option>
-                    <option value="commerce">PCMB</option>
-                    <option value="arts">PCB</option>
-                  </select>
-                  <label
-                    className="pointer-events-none absolute left-4 top-3 origin-left text-xs font-medium text-slate-500 transition-all duration-300 peer-focus:-translate-y-7 peer-focus:scale-90 peer-focus:text-[#b91c1c] peer-valid:-translate-y-7 peer-valid:scale-90 md:left-5 md:top-4 md:text-sm"
-                    htmlFor="stream"
-                  >
-                    Stream in Class 12
-                  </label>
-                </div>
-              </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px]">
+                    <div className="relative w-full">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <div className="text-white/40"><PhoneIcon /></div>
+                      </div>
+                      <input
+                        className={inputClasses}
+                        name="mobile"
+                        placeholder="Mobile Number"
+                        required
+                        type="tel"
+                        value={formData.mobile}
+                        onChange={handleFieldChange}
+                      />
+                    </div>
 
-              <div className="relative">
-                <input
-                  className="peer w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm outline-none transition-all duration-300 placeholder-transparent hover:border-slate-300 hover:bg-white hover:shadow-md focus:-translate-y-1 focus:border-[#6b38d4] focus:bg-white focus:ring-4 focus:ring-[#6b38d4]/15 focus:shadow-[0_18px_34px_-18px_rgba(107,56,212,0.45)] md:px-5 md:py-4 md:text-base"
-                  id="city"
-                  name="city"
-                  placeholder=" "
-                  required
-                  type="text"
-                  value={formData.city}
-                  onChange={handleFieldChange}
-                />
-                <label
-                  className="pointer-events-none absolute left-4 top-3 origin-left text-xs font-medium text-slate-500 transition-all duration-300 peer-focus:-translate-y-7 peer-focus:scale-90 peer-focus:text-[#b91c1c] peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:scale-90 md:left-5 md:top-4 md:text-sm"
-                  htmlFor="city"
-                >
-                  City
-                </label>
-              </div>
+                    <div className="relative w-full">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <div className="text-white/40"><MailIcon /></div>
+                      </div>
+                      <input
+                        className={inputClasses}
+                        name="email"
+                        placeholder="Email Address"
+                        required
+                        type="email"
+                        value={formData.email}
+                        onChange={handleFieldChange}
+                      />
+                    </div>
+                  </div>
 
-              <div className="relative pt-2">
-                <button
-                  className="relative w-full overflow-hidden rounded-[20px] border border-[#7c1d1d] bg-gradient-to-br from-[#dc2626] via-[#b91c1c] to-[#7f1d1d] py-3 text-lg font-black text-white shadow-[0_18px_36px_-14px_rgba(127,29,29,0.55)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_28px_56px_-16px_rgba(127,29,29,0.75)] focus:outline-none focus:ring-4 focus:ring-[#b91c1c]/20 active:scale-[0.97] md:py-4 md:text-xl"
-                  type="submit"
-                >
-                  <span className="relative z-10 tracking-tight">Verify Your Number</span>
-                  <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-1000 ease-in-out group-hover:translate-x-full" />
-                </button>
-              </div>
-            </form>
-          )}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px]">
+                    <div className="relative w-full">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <div className="text-white/40"><BookIcon /></div>
+                      </div>
+                      <select
+                        className={`${inputClasses} appearance-none cursor-pointer`}
+                        name="classStatus"
+                        required
+                        value={formData.classStatus}
+                        onChange={handleFieldChange}
+                      >
+                        <option value="" disabled className="bg-[#0a1428] text-white/50">Class Status</option>
+                        <option value="passout" className="bg-[#0a1428] text-white">12th Passout</option>
+                        <option value="pursuing" className="bg-[#0a1428] text-white">Pursuing</option>
+                      </select>
+                    </div>
 
-          {step === "otp" && (
-            <form className="space-y-4 md:space-y-5 pb-4 md:pb-6" onSubmit={handleVerifyOtp}>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-center text-xs font-semibold text-slate-600 md:text-sm">
-                Verify the OTP sent to {formData.mobile}
-              </div>
+                    <div className="relative w-full">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <div className="text-white/40"><LayersIcon /></div>
+                      </div>
+                      <select
+                        className={`${inputClasses} appearance-none cursor-pointer`}
+                        name="stream"
+                        required
+                        value={formData.stream}
+                        onChange={handleFieldChange}
+                      >
+                        <option value="" disabled className="bg-[#0a1428] text-white/50">Stream in Class 12</option>
+                        <option value="science" className="bg-[#0a1428] text-white">PCM</option>
+                        <option value="commerce" className="bg-[#0a1428] text-white">PCMB</option>
+                        <option value="arts" className="bg-[#0a1428] text-white">PCB</option>
+                      </select>
+                    </div>
+                  </div>
 
-              <div className="relative">
-                <input
-                  className="peer w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-center text-lg font-semibold tracking-[0.35em] text-slate-900 shadow-sm outline-none transition-all duration-300 placeholder-transparent hover:border-slate-300 hover:bg-white hover:shadow-md focus:-translate-y-1 focus:border-[#6b38d4] focus:bg-white focus:ring-4 focus:ring-[#6b38d4]/15 focus:shadow-[0_18px_34px_-18px_rgba(107,56,212,0.45)] md:px-5 md:py-4"
-                  id="otp"
-                  name="otp"
-                  placeholder=" "
-                  required
-                  maxLength={6}
-                  type="text"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-                />
-                <label
-                  className="pointer-events-none absolute left-4 top-3 origin-left text-xs font-medium text-slate-500 transition-all duration-300 peer-focus:-translate-y-7 peer-focus:scale-90 peer-focus:text-[#b91c1c] peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:scale-90 md:left-5 md:top-4 md:text-sm"
-                  htmlFor="otp"
-                >
-                  Enter OTP
-                </label>
-              </div>
+                  <div className="relative w-full">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                      <div className="text-white/40"><MapPinIcon /></div>
+                    </div>
+                    <input
+                      className={inputClasses}
+                      name="city"
+                      placeholder="City"
+                      required
+                      type="text"
+                      value={formData.city}
+                      onChange={handleFieldChange}
+                    />
+                  </div>
 
-              {statusMessage && (
-                <p className="text-center text-[11px] font-semibold text-on-surface-variant/80 md:text-xs">
-                  {statusMessage}
-                </p>
+                  {/* 5. Button */}
+                  <div className="pt-2 flex flex-col items-center">
+                    <button
+                      className="w-full relative flex items-center justify-center py-[14px] text-white font-bold text-[15px] transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                      style={{
+                        background: "linear-gradient(135deg, #ff2e2e, #c40000)",
+                        borderRadius: "12px",
+                        boxShadow: "0 10px 30px rgba(255, 50, 50, 0.35)",
+                      }}
+                      type="submit"
+                    >
+                      <span>Verify Your Number</span>
+                      <div className="absolute right-4 text-white/80">
+                        <ArrowRightIcon />
+                      </div>
+                    </button>
+
+                    {/* Progress Bar */}
+                    <div className="flex flex-col items-center mt-6">
+                      <span className="mb-3 text-[10px] font-bold tracking-[0.2em] text-[#ff2e2e] uppercase">
+                        Step 1 of 2
+                      </span>
+                      <div className="flex gap-2 w-28 h-[4px]">
+                        <div className="h-full rounded-full bg-[#ff2e2e] shadow-[0_0_8px_rgba(255,46,46,0.6)] w-1/2" />
+                        <div className="h-full rounded-full w-1/2 bg-white/10" />
+                      </div>
+                    </div>
+                  </div>
+                </form>
               )}
 
-              <div className="grid grid-cols-2 gap-3 pt-6 md:pt-8">
-                <button
-                  type="button"
-                  onClick={isOtpSent ? handleResendOtp : handleSendOtp}
-                  className="rounded-[16px] border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-sm transition-all duration-200 hover:border-[#b91c1c]/25 hover:bg-slate-50 hover:text-[#b91c1c] focus:outline-none focus:ring-4 focus:ring-[#b91c1c]/15"
-                >
-                  {isOtpSent ? "Resend OTP" : "Send OTP"}
-                </button>
-                <button
-                  type="submit"
-                  className="rounded-[16px] border border-[#7c1d1d] bg-gradient-to-br from-[#dc2626] via-[#b91c1c] to-[#7f1d1d] px-4 py-3 text-sm font-black text-white shadow-[0_16px_30px_-12px_rgba(127,29,29,0.5)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_22px_40px_-14px_rgba(127,29,29,0.7)] focus:outline-none focus:ring-4 focus:ring-[#b91c1c]/20"
-                >
-                  Verify OTP
-                </button>
-              </div>
-            </form>
-          )}
+              {step === "otp" && (
+                <form className="flex flex-col gap-[16px] pb-2" onSubmit={handleVerifyOtp}>
+                  <div className="text-center text-sm font-medium text-white/70 bg-white/5 py-3 rounded-xl border border-white/5">
+                    Verify the OTP sent to {formData.mobile}
+                  </div>
 
-          {step === "verified" && (
-            <form className="space-y-4 md:space-y-5" onSubmit={handleStartExam}>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-center text-xs font-semibold text-slate-600 md:text-sm">
-                Your number is verified. You can now start your exam.
-              </div>
+                  <div className="relative w-full mt-2">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                      <div className="text-white/40"><LockIcon /></div>
+                    </div>
+                    <input
+                      className={`${inputClasses} tracking-[0.35em] font-semibold text-center pl-4`}
+                      name="otp"
+                      placeholder="• • • • • •"
+                      required
+                      maxLength={6}
+                      type="text"
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
+                    />
+                  </div>
 
-              <div className="relative pt-2">
-                <button
-                  className="relative w-full overflow-hidden rounded-[20px] border border-[#7c1d1d] bg-gradient-to-br from-[#dc2626] via-[#b91c1c] to-[#7f1d1d] py-3 text-lg font-black text-white shadow-[0_18px_36px_-14px_rgba(127,29,29,0.55)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_28px_56px_-16px_rgba(127,29,29,0.75)] focus:outline-none focus:ring-4 focus:ring-[#b91c1c]/20 active:scale-[0.97] md:py-4 md:text-xl"
-                  type="submit"
-                >
-                  <span className="relative z-10 tracking-tight">Start Your Exam</span>
-                  <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-1000 ease-in-out group-hover:translate-x-full" />
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#4F46E5] via-[#8B5CF6] to-[#6b38d4] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                </button>
-              </div>
-            </form>
-          )}
+                  {statusMessage && (
+                    <p className="text-center text-xs font-semibold text-[#ff2e2e]/90">
+                      {statusMessage}
+                    </p>
+                  )}
 
-          <div className="mt-5 flex flex-col items-center pb-1 md:mt-6 md:pb-2">
-            <span className="mb-2 text-[9px] font-black tracking-[0.3em] text-[#b91c1c] uppercase">
-              {step === "details" ? "Step 1 of 2" : "Step 2 of 2"}
-            </span>
-            <div className="w-44 h-2.5 overflow-hidden rounded-full border border-slate-200 bg-slate-100 shadow-inner">
-              <div
-                className={`h-full rounded-full bg-gradient-to-r from-[#dc2626] via-[#b91c1c] to-[#7f1d1d] shadow-[0_0_16px_rgba(185,28,28,0.55)] ${
-                  step === "details" ? "w-1/2" : "w-full"
-                }`}
-              />
+                  <div className="grid grid-cols-2 gap-3 pt-4">
+                    <button
+                      type="button"
+                      onClick={isOtpSent ? handleResendOtp : handleSendOtp}
+                      className="w-full py-[14px] rounded-[12px] border border-white/10 bg-white/5 text-sm font-semibold text-white transition-all duration-300 hover:bg-white/10 hover:border-white/20"
+                    >
+                      {isOtpSent ? "Resend OTP" : "Send OTP"}
+                    </button>
+                    <button
+                      type="submit"
+                      className="w-full relative flex items-center justify-center py-[14px] text-white font-bold text-[15px] transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                      style={{
+                        background: "linear-gradient(135deg, #ff2e2e, #c40000)",
+                        borderRadius: "12px",
+                        boxShadow: "0 10px 30px rgba(255, 50, 50, 0.35)",
+                      }}
+                    >
+                      <span>Verify OTP</span>
+                      <div className="absolute right-4 text-white/80">
+                        <ArrowRightIcon />
+                      </div>
+                    </button>
+                  </div>
+                </form>
+              )}
+
+              {step === "verified" && (
+                <form className="flex flex-col gap-[16px]" onSubmit={handleStartExam}>
+                  <div className="text-center text-sm font-medium text-white/80 bg-green-500/10 py-4 rounded-xl border border-green-500/20 mb-2">
+                    Your number is verified. You can now start your exam.
+                  </div>
+
+                  <div className="pt-2 flex flex-col items-center">
+                    <button
+                      className="w-full relative flex items-center justify-center py-[14px] text-white font-bold text-[15px] transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                      style={{
+                        background: "linear-gradient(135deg, #ff2e2e, #c40000)",
+                        borderRadius: "12px",
+                        boxShadow: "0 10px 30px rgba(255, 50, 50, 0.35)",
+                      }}
+                      type="submit"
+                    >
+                      <span>Start Your Exam</span>
+                      <div className="absolute right-4 text-white/80">
+                        <ArrowRightIcon />
+                      </div>
+                    </button>
+
+                    {/* Progress Bar */}
+                    <div className="flex flex-col items-center mt-6">
+                      <span className="mb-3 text-[10px] font-bold tracking-[0.2em] text-[#ff2e2e] uppercase">
+                        Step 2 of 2
+                      </span>
+                      <div className="flex gap-2 w-28 h-[4px]">
+                        <div className="h-full rounded-full bg-[#ff2e2e] shadow-[0_0_8px_rgba(255,46,46,0.6)] w-1/2" />
+                        <div className="h-full rounded-full bg-[#ff2e2e] shadow-[0_0_8px_rgba(255,46,46,0.6)] w-1/2" />
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              )}
             </div>
           </div>
-
         </div>
       </div>
     </div>
