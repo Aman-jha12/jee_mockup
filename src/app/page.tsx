@@ -3,6 +3,7 @@
 import { useState, type ChangeEvent, type FormEvent } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
+import { registerUser } from "@/lib/api"
 
 const UserIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
@@ -79,8 +80,22 @@ export default function LoginPage() {
     setStatusMessage("Number verified successfully")
   }
 
-  const handleStartExam = (e: FormEvent<HTMLFormElement>) => {
+  const handleStartExam = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const id = crypto.randomUUID();
+
+    localStorage.setItem("userId", id);
+
+    await registerUser({
+      id,
+      name: formData.fullname,
+      number: formData.mobile,
+      city: formData.city,
+      class_status: formData.classStatus,
+      stream: formData.stream,
+      email: formData.email
+    });
+
     router.push("/instructions")
   }
 
