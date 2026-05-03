@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import { Header } from '@/components/Header';
 
 export default function InstructionsPage() {
   const router = useRouter();
@@ -35,29 +36,7 @@ export default function InstructionsPage() {
 
   return (
     <div className="bg-[#050a18] text-white min-h-screen font-sans selection:bg-red-500/30">
-      {/* Header */}
-      <header className="bg-[#050a18] border-b border-gray-800 sticky top-0 z-50">
-        <div className="flex justify-between items-center w-full px-4 md:px-8 py-4 max-w-[1400px] mx-auto">
-          {/* Logo Section */}
-          <div className="flex items-center gap-6">
-            <img 
-              src="/images/logo_tig.png" 
-              alt="TIG Logo" 
-              className="h-32 w-auto object-contain" 
-            />
-            <img 
-              src="/images/tint_logo.webp" 
-              alt="TINT Logo" 
-              className="h-10 w-auto object-contain"
-            />
-          </div>
-
-          {/* Apply Button (Kept as per the image design visual) */}
-          <button className="bg-[#cc2229] hover:bg-red-700 text-white px-6 py-2.5 rounded-full text-[12px] font-black uppercase tracking-widest transition-all">
-            Apply 2026
-          </button>
-        </div>
-      </header>
+      <Header />
 
       <main className="max-w-[1000px] mx-auto px-6 py-16">
         {/* Title Section */}
@@ -112,13 +91,13 @@ export default function InstructionsPage() {
         <div className="mt-16 flex flex-col sm:flex-row gap-6 justify-center">
           <button 
             onClick={() => router.push("/")}
-            className="px-12 py-4 rounded-xl border border-[#cc2229] text-[#cc2229] font-bold uppercase tracking-widest hover:bg-red-950/20 transition-all min-w-[200px]"
+            className="cursor-pointer px-12 py-4 rounded-xl border border-[#cc2229] text-[#cc2229] font-bold uppercase tracking-widest hover:bg-red-950/20 transition-all min-w-[200px]"
           >
             Go Back
           </button>
           <button 
             onClick={() => router.push("/exam")}
-            className="px-12 py-4 rounded-xl bg-[#cc2229] text-white font-bold uppercase tracking-widest hover:bg-red-700 shadow-lg shadow-red-900/20 transition-all min-w-[200px]"
+            className="cursor-pointer px-12 py-4 rounded-xl bg-[#cc2229] text-white font-bold uppercase tracking-widest hover:bg-red-700 shadow-lg shadow-red-900/20 transition-all min-w-[200px]"
           >
             Start Exam
           </button>
