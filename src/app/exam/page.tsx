@@ -870,6 +870,17 @@ export default function ExamInterface() {
                 </p>
               )}
 
+              <button 
+                onClick={() => window.print()} 
+                className="group relative w-full py-3 rounded-2xl font-bold tracking-wide text-[14px] transition-all duration-300 bg-slate-700 text-white shadow-lg hover:shadow-xl hover:shadow-slate-900/20 hover:bg-slate-600 active:scale-[0.98] flex items-center justify-center gap-2.5 border border-slate-600 overflow-hidden mb-3"
+                title="Download/Print Current Exam"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                <span>Download/Print Exam</span>
+              </button>
+
               <button onClick={handleSubmitExam} className="group relative w-full py-4 rounded-2xl font-bold tracking-wide text-[15px] transition-all duration-300 bg-slate-900 text-white shadow-lg hover:shadow-xl hover:shadow-slate-900/20 hover:bg-slate-800 active:scale-[0.98] flex items-center justify-center gap-2.5 border border-slate-700 overflow-hidden">
                 {/* Subtle top edge highlight */}
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />

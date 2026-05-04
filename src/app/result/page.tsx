@@ -45,9 +45,12 @@ export default function ResultPage() {
               </div>
             </div>
             
-            <button className="cursor-pointer mt-4 md:mt-0 flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest">
+            <button 
+              onClick={() => window.print()}
+              className="cursor-pointer mt-4 md:mt-0 flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest"
+              title="Download/Print Results"
+            >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-            
             </button>
           </div>
 
