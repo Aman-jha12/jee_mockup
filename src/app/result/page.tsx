@@ -1,16 +1,28 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Header } from '@/components/Header';
 
 export default function ResultPage() {
   const router = useRouter();
+  const [marks, setMarks] = useState({ mathematics: 70, physics: 60, chemistry: 50, total_marks: 180 });
+
+  useEffect(() => {
+    queueMicrotask(() => {
+      const saved = localStorage.getItem("examMarks");
+      if (saved) {
+        setMarks(JSON.parse(saved));
+      }
+    });
+  }, []);
+
+  const getStatus = (score: number) => score >= 75 ? 'Excellent' : score >= 60 ? 'Good' : 'Average';
 
   const subjects = [
-    { name: 'Mathematics', score: 70, total: 100, icon: 'grid_view', status: 'Good' },
-    { name: 'Physics', score: 60, total: 100, icon: 'science', status: 'Average' },
-    { name: 'Chemistry', score: 50, total: 100, icon: 'biotech', status: 'Average' },
+    { name: 'Mathematics', score: marks.mathematics, total: 100, icon: 'grid_view', status: getStatus(marks.mathematics) },
+    { name: 'Physics', score: marks.physics, total: 100, icon: 'science', status: getStatus(marks.physics) },
+    { name: 'Chemistry', score: marks.chemistry, total: 100, icon: 'biotech', status: getStatus(marks.chemistry) },
   ];
 
   return (
@@ -28,7 +40,7 @@ export default function ResultPage() {
               <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">Your Score</p>
               <div className="w-6 h-1 bg-red-600 mb-6"></div>
               <div className="flex items-baseline gap-2">
-                <span className="text-7xl md:text-8xl font-black tracking-tighter text-red-600">180</span>
+                <span className="text-7xl md:text-8xl font-black tracking-tighter text-red-600">{marks.total_marks}</span>
                 <span className="text-4xl md:text-5xl font-bold text-gray-500">/300</span>
               </div>
             </div>
@@ -41,14 +53,18 @@ export default function ResultPage() {
 
           {/* Main Progress Bar */}
           <div className="relative h-1 bg-gray-800 rounded-full mb-12">
-            <div className="absolute top-0 left-0 h-full bg-red-600 rounded-full shadow-[0_0_10px_rgba(220,38,38,0.8)]" style={{ width: '60%' }}>
+            <div className="absolute top-0 left-0 h-full bg-red-600 rounded-full shadow-[0_0_10px_rgba(220,38,38,0.8)]" style={{ width: `${(marks.total_marks / 300) * 100}%` }}>
               <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-red-500 rounded-full shadow-[0_0_15px_#ff0000]"></div>
             </div>
           </div>
 
           {/* Mini Subject Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4">
-            {[{l:'X', n:'Mathematics', s:'60/100'}, {l:'Y', n:'Physics', s:'70/100'}, {l:'Z', n:'Chemistry', s:'50/100'}].map((sub, i) => (
+            {[
+              {l:'M', n:'Mathematics', s:`${marks.mathematics}/100`}, 
+              {l:'P', n:'Physics', s:`${marks.physics}/100`}, 
+              {l:'C', n:'Chemistry', s:`${marks.chemistry}/100`}
+            ].map((sub, i) => (
               <div key={sub.n} className={`flex items-center gap-4 ${i !== 2 ? 'md:border-r border-gray-800' : ''}`}>
                 <div className="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center text-xs font-bold text-gray-400">
                   {sub.l}

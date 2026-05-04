@@ -82,21 +82,34 @@ export default function LoginPage() {
 
   const handleStartExam = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const id = crypto.randomUUID();
+    const id = crypto.randomUUID()
 
-    localStorage.setItem("userId", id);
+    localStorage.setItem("userId", id)
+    localStorage.setItem("userName", formData.fullname)
+    localStorage.removeItem("submitted")
+    localStorage.removeItem("submittedUserId")
+    localStorage.removeItem("examMarks")
+    setStatusMessage("Saving your details...")
 
-    await registerUser({
-      id,
-      name: formData.fullname,
-      number: formData.mobile,
-      city: formData.city,
-      class_status: formData.classStatus,
-      stream: formData.stream,
-      email: formData.email
-    });
+    try {
+      await registerUser({
+        id,
+        name: formData.fullname,
+        number: formData.mobile,
+        city: formData.city,
+        class_status: formData.classStatus,
+        stream: formData.stream,
+        email: formData.email,
+      })
 
-    router.push("/instructions")
+      setStatusMessage("Details saved. Redirecting...")
+      router.push("/instructions")
+    } catch (error) {
+      localStorage.removeItem("userId")
+      const message = error instanceof Error ? error.message : "Unknown error while saving details."
+      setStatusMessage(message)
+      setStep("verified")
+    }
   }
 
   const inputClasses = "w-full pl-11 pr-4 py-3.5 bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.08)] rounded-[12px] text-white focus:border-[rgba(255,50,50,0.6)] focus:ring-[2px] focus:ring-[rgba(255,50,50,0.15)] focus:outline-none placeholder-white/40 transition-all duration-300 text-sm"
@@ -215,12 +228,7 @@ export default function LoginPage() {
           }}
         />
 
-        {/* Ambient floating particles */}
-        <div className="absolute w-[4px] h-[4px] bg-[#ff2e2e] rounded-full top-[45%] left-[20%] shadow-[0_0_12px_#ff2e2e]" />
-        <div className="absolute w-[3px] h-[3px] bg-white rounded-full top-[52%] left-[28%] shadow-[0_0_8px_white]" />
-        <div className="absolute w-[2px] h-[2px] bg-[#ff2e2e] rounded-full top-[22%] left-[18%] shadow-[0_0_8px_#ff2e2e]" />
-        <div className="absolute w-[5px] h-[5px] bg-[#ff2e2e] rounded-full bottom-[35%] left-[32%] shadow-[0_0_15px_#ff2e2e]" />
-
+        
       </div>
 
       {/* Main Layout Content */}
@@ -240,6 +248,7 @@ export default function LoginPage() {
                 width={230}
                 height={230}
                 className="object-contain"
+                style={{ width: "auto", height: "auto" }}
                 priority
                 loading="eager"
               />
@@ -272,6 +281,7 @@ export default function LoginPage() {
                       width={32}
                       height={36}
                       className="object-contain"
+                      style={{ width: "auto", height: "auto" }}
                     />
                   </div>
 
@@ -342,7 +352,7 @@ export default function LoginPage() {
                         <div className="text-white/40"><BookIcon /></div>
                       </div>
                       <select
-                        className={`${inputClasses} appearance-none cursor-pointer`}
+                        className={`${inputClasses} appearance-none cursor-pointer ${formData.classStatus ? "text-white" : "text-white/40"}`}
                         name="classStatus"
                         required
                         value={formData.classStatus}
@@ -359,7 +369,7 @@ export default function LoginPage() {
                         <div className="text-white/40"><LayersIcon /></div>
                       </div>
                       <select
-                        className={`${inputClasses} appearance-none cursor-pointer`}
+                        className={`${inputClasses} appearance-none cursor-pointer ${formData.stream ? "text-white" : "text-white/40"}`}
                         name="stream"
                         required
                         value={formData.stream}
@@ -478,6 +488,12 @@ export default function LoginPage() {
                   <div className="text-center text-sm font-medium text-white/80 bg-green-500/10 py-4 rounded-xl border border-green-500/20 mb-2">
                     Your number is verified. You can now start your exam.
                   </div>
+
+                  {statusMessage && (
+                    <p className="text-center text-xs font-semibold text-[#ff8080] bg-red-500/10 py-2 rounded-lg border border-red-500/20">
+                      {statusMessage}
+                    </p>
+                  )}
 
                   <div className="pt-2 flex flex-col items-center">
                     <button

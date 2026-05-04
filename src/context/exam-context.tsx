@@ -9,7 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { calculateExamResult, EXAM_DURATION_SECONDS, QUESTIONS_PER_SUBJECT, SUBJECTS } from "@/lib/exam-utils";
+import { calculateExamResult, EXAM_DURATION_SECONDS, QUESTIONS_PER_SUBJECT } from "@/lib/exam-utils";
 import { ExamResult, Question, QuestionResponse, Subject } from "@/types/exam";
 
 const STORAGE_KEY = "jee_mock_exam_state";
@@ -84,7 +84,7 @@ export function ExamProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    hydrateFromStorage();
+    queueMicrotask(hydrateFromStorage);
   }, [hydrateFromStorage]);
 
   useEffect(() => {
@@ -140,13 +140,15 @@ export function ExamProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!currentQuestion) return;
-    setResponses((prev) => ({
-      ...prev,
-      [currentQuestion.id]: {
-        ...prev[currentQuestion.id],
-        visited: true,
-      },
-    }));
+    queueMicrotask(() => {
+      setResponses((prev) => ({
+        ...prev,
+        [currentQuestion.id]: {
+          ...prev[currentQuestion.id],
+          visited: true,
+        },
+      }));
+    });
   }, [currentQuestion]);
 
   const switchSubject = useCallback((subject: Subject) => {
@@ -234,15 +236,53 @@ export function ExamProvider({ children }: { children: React.ReactNode }) {
       localStorage.setItem(RESULT_KEY, JSON.stringify(finalResult));
       localStorage.removeItem(STORAGE_KEY);
     }
-    await fetch("/api/submit", {
+    const registrationDraft = typeof window !== "undefined"
+      ? localStorage.getItem("jee_mock_registration_draft")
+      : null;
+    const registrationData = registrationDraft ? JSON.parse(registrationDraft) as {
+      id: string;
+      name: string;
+      number: string;
+      city: string;
+      class_status: string;
+      stream: string;
+      email: string;
+    } : null;
+
+    const response = await fetch("/api/submit", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        submittedAt: finalResult.submittedAt,
-        result: finalResult,
-        responses,
+        ...(registrationData ?? {}),
+        id: registrationData?.id ?? "",
+        total_marks: finalResult.totalScore,
+        mathematics: finalResult.subjectWise.mathematics.score,
+        physics: finalResult.subjectWise.physics.score,
+        chemistry: finalResult.subjectWise.chemistry.score,
+        submitted_at: finalResult.submittedAt,
+        attempted: finalResult.attempted,
+        unattempted: finalResult.unattempted,
+        correct: finalResult.correct,
+        wrong: finalResult.wrong,
       }),
     });
+
+    if (!response.ok) {
+      let message = "Failed to submit exam results.";
+      try {
+        const payload = (await response.json()) as { message?: string };
+        if (payload.message) {
+          message = payload.message;
+        }
+      } catch {
+        // Keep the generic message when the response body is not JSON.
+      }
+      throw new Error(message);
+    }
+
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("jee_mock_registration_draft");
+    }
     return finalResult;
   }, [questions, responses]);
 

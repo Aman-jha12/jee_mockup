@@ -1,11 +1,18 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Header } from '@/components/Header';
 
 export default function InstructionsPage() {
   const router = useRouter();
+
+  useEffect(() => {
+    const id = localStorage.getItem("userId");
+    if (!id) {
+      router.push("/");
+    }
+  }, [router]);
 
   const instructions = [
     {

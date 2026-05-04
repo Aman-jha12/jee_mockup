@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 
 export function Header() {
   return (
@@ -14,9 +15,11 @@ export function Header() {
           >
             Apply 2026
           </button>
-          <img
+          <Image
             src="/images/tint_logo.webp"
             alt="TINT Logo"
+            width={160}
+            height={40}
             className="ml-10 h-10 w-auto object-contain"
           />
         </div>
