@@ -364,6 +364,8 @@ export default function ExamInterface() {
     if (typeof window === 'undefined') return 'Candidate';
     return localStorage.getItem('userName')?.trim() || 'Candidate';
   });
+  const [isLoadingQuestions, setIsLoadingQuestions] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const id = localStorage.getItem("userId");
@@ -372,6 +374,10 @@ export default function ExamInterface() {
       router.push("/");
       return;
     }
+
+    setTimeout(() => {
+      setIsLoadingQuestions(false);
+    }, 1500);
     const timer = setInterval(() => {
       setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
@@ -507,6 +513,8 @@ export default function ExamInterface() {
       return;
     }
 
+    setIsSubmitting(true);
+
     // Calculate marks dynamically
     let mathScore = 0;
     let physScore = 0;
@@ -573,11 +581,15 @@ export default function ExamInterface() {
     } catch (error) {
       console.error("Failed to submit exam:", error);
       setSubmitError(error instanceof Error ? error.message : 'Failed to submit exam results.');
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="h-screen bg-[#f8fafc] flex flex-col font-sans selection:bg-blue-200 selection:text-blue-900 relative overflow-hidden">
+    <div 
+      className="h-screen bg-[#f8fafc] flex flex-col font-sans selection:bg-blue-200 selection:text-blue-900 relative overflow-hidden"
+      style={{ zoom: 0.9 }}
+    >
       {/* Background ambient decorative shapes */}
       <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-blue-100/50 to-transparent pointer-events-none -z-10" />
       <div className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-blue-300/20 rounded-full blur-3xl pointer-events-none -z-10" />
@@ -638,6 +650,21 @@ export default function ExamInterface() {
           
           <div className="bg-white/90 backdrop-blur-md rounded-2xl flex-1 flex flex-col overflow-hidden border border-slate-200 shadow-xl shadow-slate-200/40 transition-all">
             
+            {isLoadingQuestions ? (
+               <div className="p-8 flex flex-col gap-6 w-full h-full animate-pulse">
+                  <div className="h-10 bg-slate-200 rounded-xl w-1/3 mb-4"></div>
+                  <div className="h-6 bg-slate-200 rounded-lg w-3/4"></div>
+                  <div className="h-6 bg-slate-200 rounded-lg w-2/3 mb-8"></div>
+                  
+                  <div className="flex flex-col gap-4">
+                    <div className="h-16 bg-slate-200 rounded-2xl w-full border-2 border-slate-100"></div>
+                    <div className="h-16 bg-slate-200 rounded-2xl w-full border-2 border-slate-100"></div>
+                    <div className="h-16 bg-slate-200 rounded-2xl w-full border-2 border-slate-100"></div>
+                    <div className="h-16 bg-slate-200 rounded-2xl w-full border-2 border-slate-100"></div>
+                  </div>
+               </div>
+            ) : (
+            <>
             {/* Question Header Metadata */}
             <div className="px-6 py-4 border-b-2 border-slate-400 flex items-center justify-between bg-white/60">
               <div className="flex items-center gap-4">
@@ -745,6 +772,8 @@ export default function ExamInterface() {
                 <ChevronRight className="w-5 h-5" />
               </button>
             </div>
+            </>
+            )}
           </div>
         </div>
 
@@ -753,6 +782,25 @@ export default function ExamInterface() {
           
           <div className="bg-white/90 backdrop-blur-md rounded-2xl flex-1 flex flex-col overflow-hidden border border-slate-200 shadow-xl shadow-slate-200/40">
             
+            {isLoadingQuestions ? (
+               <div className="p-5 flex flex-col gap-4 w-full h-full animate-pulse">
+                  <div className="h-12 bg-slate-200 rounded-xl w-full mb-2"></div>
+                  <div className="h-12 bg-slate-200 rounded-xl w-full mb-6"></div>
+                  <div className="grid grid-cols-2 gap-3 mb-6">
+                     <div className="h-8 bg-slate-200 rounded-md"></div>
+                     <div className="h-8 bg-slate-200 rounded-md"></div>
+                     <div className="h-8 bg-slate-200 rounded-md"></div>
+                     <div className="h-8 bg-slate-200 rounded-md"></div>
+                  </div>
+                  <div className="h-6 bg-slate-200 rounded-lg w-1/2 mb-4"></div>
+                  <div className="grid grid-cols-5 gap-2.5">
+                     {Array.from({length: 25}).map((_, i) => (
+                        <div key={i} className="aspect-square bg-slate-200 rounded-xl w-full"></div>
+                     ))}
+                  </div>
+               </div>
+            ) : (
+            <>
             {/* Subject Tabs Filter */}
             <div className="p-3 border-b border-slate-100 bg-slate-50/80 space-y-3">
               <div className="flex gap-1.5 bg-slate-200/60 p-1.5 rounded-2xl">
@@ -879,15 +927,24 @@ export default function ExamInterface() {
                 <span>Download/Print Exam</span>
               </button>
 
-              <button onClick={handleSubmitExam} className="group relative w-full py-4 rounded-2xl font-bold tracking-wide text-[15px] transition-all duration-300 bg-slate-900 text-white shadow-lg hover:shadow-xl hover:shadow-slate-900/20 hover:bg-slate-800 active:scale-[0.98] flex items-center justify-center gap-2.5 border border-slate-700 overflow-hidden">
+              <button disabled={isSubmitting} onClick={handleSubmitExam} className="group relative w-full py-4 rounded-2xl font-bold tracking-wide text-[15px] transition-all duration-300 bg-slate-900 text-white shadow-lg hover:shadow-xl hover:shadow-slate-900/20 hover:bg-slate-800 active:scale-[0.98] flex items-center justify-center gap-2.5 border border-slate-700 overflow-hidden disabled:opacity-80">
                 {/* Subtle top edge highlight */}
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                 {/* Bottom elegant emerald glow on hover */}
                 <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-emerald-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-[1px]" />
-                <AlertCircle className="w-5 h-5 text-emerald-400 group-hover:text-emerald-300 transition-colors" strokeWidth={2} />
-                <span>Submit Final Exam</span>
+                
+                {isSubmitting ? (
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                ) : (
+                  <>
+                    <AlertCircle className="w-5 h-5 text-emerald-400 group-hover:text-emerald-300 transition-colors" strokeWidth={2} />
+                    <span>Submit Final Exam</span>
+                  </>
+                )}
               </button>
             </div>
+            </>
+            )}
 
           </div>
         </div>

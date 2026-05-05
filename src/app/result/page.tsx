@@ -7,15 +7,24 @@ import { Header } from '@/components/Header';
 export default function ResultPage() {
   const router = useRouter();
   const [marks, setMarks] = useState({ mathematics: 70, physics: 60, chemistry: 50, total_marks: 180 });
+  const [isGoingBack, setIsGoingBack] = useState(false);
+  const [isViewingSolutions, setIsViewingSolutions] = useState(false);
 
   useEffect(() => {
+    const id = localStorage.getItem("userId");
+    const verified = localStorage.getItem("verified");
+    if (!id || verified !== "true") {
+      router.push("/");
+      return;
+    }
+
     queueMicrotask(() => {
       const saved = localStorage.getItem("examMarks");
       if (saved) {
         setMarks(JSON.parse(saved));
       }
     });
-  }, []);
+  }, [router]);
 
   const getStatus = (score: number) => score >= 75 ? 'Excellent' : score >= 60 ? 'Good' : 'Average';
 
@@ -26,22 +35,23 @@ export default function ResultPage() {
   ];
 
   return (
-    <div className="bg-[#050a18] text-white min-h-screen font-sans selection:bg-red-500/30">
+    <div className="bg-[#050a18] text-white h-screen overflow-hidden font-sans selection:bg-red-500/30">
       <Header />
 
-      <main className="max-w-[1100px] mx-auto px-6 py-12">
+      <main className="w-full h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 md:px-6">
+        <div className="w-full max-w-[1100px] transform scale-[0.88] origin-center flex flex-col">
         {/* Main Score Card */}
-        <div className="relative bg-[#0b1224] border border-gray-800 rounded-3xl p-8 md:p-12 mb-10 overflow-hidden shadow-2xl">
+        <div className="relative bg-[#0b1224] border border-gray-800 rounded-3xl p-6 md:p-8 mb-10 overflow-hidden shadow-2xl">
           {/* Glowing Red Border Accent */}
           <div className="absolute top-0 left-0 w-1 h-32 bg-red-600 shadow-[0_0_15px_rgba(220,38,38,0.5)]"></div>
           
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
             <div>
               <p className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">Your Score</p>
-              <div className="w-6 h-1 bg-red-600 mb-6"></div>
+              <div className="w-6 h-1 bg-red-600 mb-4"></div>
               <div className="flex items-baseline gap-2">
-                <span className="text-7xl md:text-8xl font-black tracking-tighter text-red-600">{marks.total_marks}</span>
-                <span className="text-4xl md:text-5xl font-bold text-gray-500">/300</span>
+                <span className="text-6xl md:text-7xl font-black tracking-tighter text-red-600">{marks.total_marks}</span>
+                <span className="text-3xl md:text-4xl font-bold text-gray-500">/300</span>
               </div>
             </div>
             
@@ -55,7 +65,7 @@ export default function ResultPage() {
           </div>
 
           {/* Main Progress Bar */}
-          <div className="relative h-1 bg-gray-800 rounded-full mb-12">
+          <div className="relative h-1 bg-gray-800 rounded-full mb-8">
             <div className="absolute top-0 left-0 h-full bg-red-600 rounded-full shadow-[0_0_10px_rgba(220,38,38,0.8)]" style={{ width: `${(marks.total_marks / 300) * 100}%` }}>
               <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-red-500 rounded-full shadow-[0_0_15px_#ff0000]"></div>
             </div>
@@ -85,15 +95,15 @@ export default function ResultPage() {
         </div>
 
         {/* Detailed Breakdown Section */}
-        <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400 mb-8 flex items-center gap-3">
+        <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400 mb-4 flex items-center gap-3">
           Detailed Breakdown <span className="w-6 h-0.5 bg-red-600 opacity-50"></span>
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mb-4">
           {subjects.map((subject) => (
-            <div key={subject.name} className="bg-[#0b1224] border border-gray-800 rounded-2xl p-6 hover:border-red-900/40 transition-all">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-[#161d2f] border border-gray-700 flex items-center justify-center">
+            <div key={subject.name} className="bg-[#0b1224] border border-gray-800 rounded-2xl p-5 hover:border-red-900/40 transition-all">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-10 h-10 rounded-xl bg-[#161d2f] border border-gray-700 flex items-center justify-center">
                    {/* Placeholder icons based on subject */}
                    <div className="text-red-600 opacity-80">
                       {subject.name === 'Mathematics' && '++'}
@@ -128,19 +138,36 @@ export default function ResultPage() {
         </div>
 
         {/* Footer Navigation */}
-        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <button 
-            onClick={() => router.push("/")}
-            className="cursor-pointer flex items-center gap-2 px-10 py-4 rounded-xl border border-gray-800 text-gray-400 font-bold uppercase tracking-widest hover:border-red-600 hover:text-white transition-all min-w-[220px] justify-center"
+            onClick={() => {
+              setIsGoingBack(true);
+              router.push("/");
+            }}
+            disabled={isGoingBack || isViewingSolutions}
+            className="cursor-pointer flex items-center gap-2 px-8 py-3 rounded-xl border border-gray-800 text-gray-400 font-bold uppercase tracking-widest hover:border-red-600 hover:text-white transition-all min-w-[200px] justify-center h-[48px] text-sm"
           >
-            Go Back <span>←</span>
+            {isGoingBack ? (
+              <div className="w-5 h-5 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
+            ) : (
+              <>Go Back <span>←</span></>
+            )}
           </button>
           <button 
-            onClick={() => router.push("/solutions")}
-            className="cursor-pointer flex items-center gap-2 px-10 py-4 rounded-xl bg-[#cc2229] text-white font-bold uppercase tracking-widest hover:bg-red-700 shadow-lg shadow-red-900/20 transition-all min-w-[220px] justify-center"
+            onClick={() => {
+              setIsViewingSolutions(true);
+              router.push("/solutions");
+            }}
+            disabled={isGoingBack || isViewingSolutions}
+            className="cursor-pointer flex items-center gap-2 px-8 py-3 rounded-xl bg-[#cc2229] text-white font-bold uppercase tracking-widest hover:bg-red-700 shadow-lg shadow-red-900/20 transition-all min-w-[200px] justify-center h-[48px] text-sm"
           >
-            View Solutions <span>→</span>
+            {isViewingSolutions ? (
+              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            ) : (
+              <>View Solutions <span>→</span></>
+            )}
           </button>
+        </div>
         </div>
       </main>
     </div>

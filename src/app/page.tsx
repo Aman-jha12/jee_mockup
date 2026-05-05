@@ -36,6 +36,7 @@ export default function LoginPage() {
   const [isOtpSent, setIsOtpSent] = useState(false)
   const [otp, setOtp] = useState("")
   const [statusMessage, setStatusMessage] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     fullname: "",
     mobile: "",
@@ -64,6 +65,7 @@ export default function LoginPage() {
     const date_time_initial = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })
     localStorage.setItem("date_time_initial", date_time_initial)
 
+    setIsLoading(true)
     setStatusMessage("Saving your details...")
 
     try {
@@ -86,6 +88,8 @@ export default function LoginPage() {
       localStorage.removeItem("userId")
       const message = error instanceof Error ? error.message : "Unknown error while saving details."
       setStatusMessage(message)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -110,13 +114,14 @@ export default function LoginPage() {
         await verifyUser({
           id,
           date_time_initial,
-          verified: false 
-        }).catch(() => {})
+          verified: false
+        }).catch(() => { })
       }
       setStatusMessage("Please enter a valid 6-digit OTP")
       return
     }
 
+    setIsLoading(true)
     setStatusMessage("Verifying...")
 
     try {
@@ -134,19 +139,22 @@ export default function LoginPage() {
     } catch (error) {
       const message = error instanceof Error ? error.message : "Unknown error while verifying details."
       setStatusMessage(message)
+    } finally {
+      setIsLoading(false)
     }
   }
 
   const handleStartExam = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setIsLoading(true)
     setStatusMessage("Redirecting...")
     router.push("/instructions")
   }
 
-  const inputClasses = "w-full pl-11 pr-4 py-3.5 bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.08)] rounded-[12px] text-white focus:border-[rgba(255,50,50,0.6)] focus:ring-[2px] focus:ring-[rgba(255,50,50,0.15)] focus:outline-none placeholder-white/40 transition-all duration-300 text-sm"
+  const inputClasses = "w-full pl-[2.75rem] pr-4 py-3 md:py-3.5 bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.08)] rounded-xl text-white focus:border-[rgba(255,50,50,0.6)] focus:ring-[2px] focus:ring-[rgba(255,50,50,0.15)] focus:outline-none placeholder-white/40 transition-all duration-300 text-xs md:text-sm"
 
   return (
-    <div className="min-h-screen relative overflow-hidden flex w-full">
+    <div className="h-screen relative overflow-hidden flex w-full justify-center">
       {/* --- Global Math Definition for iOS Squircle --- */}
       <svg width="0" height="0" className="absolute pointer-events-none">
         <defs>
@@ -183,145 +191,112 @@ export default function LoginPage() {
 
       {/* 3D BUBBLES VISUAL */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
-
         {/* Orbital lines / Particle Trails */}
         <div
-          className="absolute -top-[10%] -left-[20%] w-[1000px] h-[1000px] rounded-full"
-          style={{
-            border: "1px solid rgba(255,46,46,0.15)",
-            transform: "rotate(-15deg)",
-          }}
+          className="absolute -top-[10%] -left-[20%] w-[800px] h-[800px] rounded-full"
+          style={{ border: "1px solid rgba(255,46,46,0.15)", transform: "rotate(-15deg)" }}
         />
         <div
-          className="absolute top-[20%] -left-[30%] w-[1200px] h-[1200px] rounded-full"
-          style={{
-            border: "1px solid rgba(255,46,46,0.1)",
-            transform: "rotate(25deg)",
-          }}
+          className="absolute top-[20%] -left-[30%] w-[950px] h-[950px] rounded-full"
+          style={{ border: "1px solid rgba(255,46,46,0.1)", transform: "rotate(25deg)" }}
         />
 
-        {/* Bubble 1: Giant Bottom-Left */}
+        {/* Bubbles */}
         <div
           className="absolute rounded-full"
           style={{
-            width: "900px",
-            height: "900px",
-            bottom: "-40%",
-            left: "-25%",
+            width: "48rem", height: "48rem", bottom: "-40%", left: "-25%",
             background: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.08) 0%, rgba(20,5,5,0.2) 40%, rgba(255,46,46,0.1) 80%, rgba(255,46,46,0.25) 100%)",
             boxShadow: "inset 60px 60px 100px -20px rgba(255,46,46,0.9), inset 0 0 30px rgba(255,46,46,0.3), 0 0 50px rgba(255,46,46,0.2), 0 0 16px rgba(255,255,255,0.2)",
-            border: "1px solid rgba(255, 255, 255, 0.45)",
-            backdropFilter: "blur(5px)"
+            border: "1px solid rgba(255, 255, 255, 0.45)", backdropFilter: "blur(5px)"
           }}
         />
-
-        {/* Bubble 2: Medium Middle-Left */}
         <div
           className="absolute rounded-full"
           style={{
-            width: "350px",
-            height: "350px",
-            top: "35%",
-            left: "-12%",
+            width: "18rem", height: "18rem", top: "35%", left: "-12%",
             background: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.08) 0%, rgba(20,5,5,0.2) 30%, rgba(255,46,46,0.1) 70%, rgba(255,46,46,0.2) 100%)",
             boxShadow: "inset 30px 30px 60px -10px rgba(255,46,46,0.9), inset 0 0 20px rgba(255,46,46,0.3), 0 0 30px rgba(255,46,46,0.2), 0 0 12px rgba(255,255,255,0.2)",
-            border: "1px solid rgba(255, 255, 255, 0.45)",
-            backdropFilter: "blur(5px)"
+            border: "1px solid rgba(255, 255, 255, 0.45)", backdropFilter: "blur(5px)"
           }}
         />
-
-        {/* Bubble 3: Smaller Bottom-Center */}
         <div
           className="absolute rounded-full"
           style={{
-            width: "220px",
-            height: "220px",
-            bottom: "8%",
-            left: "14%",
+            width: "11rem", height: "11rem", bottom: "8%", left: "14%",
             background: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.08) 0%, rgba(20,5,5,0.2) 40%, rgba(255,46,46,0.1) 80%, rgba(255,46,46,0.25) 100%)",
             boxShadow: "inset 20px 20px 40px -5px rgba(255,46,46,0.9), inset 0 0 15px rgba(255,46,46,0.3), 0 0 25px rgba(255,46,46,0.2), 0 0 10px rgba(255,255,255,0.2)",
-            border: "1px solid rgba(255, 255, 255, 0.45)",
-            backdropFilter: "blur(5px)"
+            border: "1px solid rgba(255, 255, 255, 0.45)", backdropFilter: "blur(5px)"
           }}
         />
-
-        {/* Bubble 4: Small Top-Left */}
         <div
           className="absolute rounded-full"
           style={{
-            width: "80px",
-            height: "80px",
-            top: "28%",
-            left: "7%",
+            width: "4rem", height: "4rem", top: "28%", left: "7%",
             background: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.08) 0%, rgba(20,5,5,0.2) 30%, rgba(255,46,46,0.1) 70%, rgba(255,46,46,0.2) 100%)",
-            boxShadow: "inset 10px 10px 20px rgba(255,46,46,0.9), 0 0 8px rgba(255,255,255,0.2)",
-            border: "1px solid rgba(255, 255, 255, 0.45)"
+            boxShadow: "inset 10px 10px 20px rgba(255,46,46,0.9), 0 0 8px rgba(255,255,255,0.2)", border: "1px solid rgba(255, 255, 255, 0.45)"
           }}
         />
-
-        
       </div>
 
-      {/* Main Layout Content */}
-      <div className="relative z-20 w-full flex min-h-screen">
+      {/* Main Layout Content Container */}
+      <div className="relative z-20 w-full max-w-[1280px] flex h-screen">
         {/* Empty left side visual space */}
-        <div className="hidden lg:block lg:w-[40%]"></div>
+        <div className="hidden lg:block lg:w-[45%] h-full"></div>
 
-        {/* 1. Form Card on right side (60%) */}
-        <div className="w-full lg:w-[60%] flex flex-col items-center justify-center px-4 md:px-12 xl:px-20 py-10">
+        {/* 1. Form Card on right side (55%) */}
+        <div className="w-full lg:w-[55%] h-full flex flex-col items-center justify-center px-4 md:px-8 xl:px-12">
 
-          <div className="w-full max-w-[500px]">
-            {/* Centered Logo at top above the card - Position left identical */}
-            <div className="flex justify-center mt-2 mb-5 w-full relative z-10">
+          <div className="w-full max-w-[26rem] md:max-w-[28rem] transform scale-[0.85] sm:scale-90 md:scale-[0.85] lg:scale-90 origin-center flex flex-col">
+            {/* Centered Logo at top above the card */}
+            <div className="flex justify-center mt-2 mb-4 w-full relative z-10">
               <Image
                 src="/images/logo_tig.png"
                 alt="TECHNO INDIA GROUP"
-                width={230}
-                height={230}
-                className="object-contain"
-                style={{ width: "auto", height: "auto" }}
+                width={200}
+                height={200}
+                className="object-contain w-auto h-auto max-w-[11rem] md:max-w-[13rem]"
                 priority
                 loading="eager"
               />
             </div>
 
-            {/* 2. Dark glass card - Shifted up independently without moving the logo */}
+            {/* 2. Dark glass card */}
             <div
-              className="w-full p-[28px] md:p-[32px] flex flex-col gap-[28px] relative -translate-y-6"
+              className="w-full p-6 md:p-8 flex flex-col gap-5 md:gap-6 relative -translate-y-4"
               style={{
                 background: "rgba(10, 20, 40, 0.6)",
                 backdropFilter: "blur(20px)",
                 WebkitBackdropFilter: "blur(20px)",
                 border: "1px solid rgba(255, 255, 255, 0.08)",
-                borderRadius: "28px",
+                borderRadius: "1.5rem",
                 boxShadow: "0 20px 60px rgba(0,0,0,0.6)"
               }}
             >
               {/* 3. Typography & iOS Squircle */}
-              <div className="flex flex-col mb-2">
-                <div className="flex items-center justify-center gap-6">
+              <div className="flex flex-col mb-1">
+                <div className="flex items-center justify-center gap-4 md:gap-5">
 
-                  {/* --- 60x60 Pure White iOS Squircle Container --- */}
+                  {/* iOS Squircle Container */}
                   <div
-                    className="w-[60px] h-[60px] bg-white flex items-center justify-center shrink-0"
+                    className="w-12 h-12 md:w-14 md:h-14 bg-white flex items-center justify-center shrink-0"
                     style={{ clipPath: "url(#ios-squircle)" }}
                   >
                     <Image
                       src="/images/tint_logo.webp"
                       alt="Logo"
-                      width={32}
-                      height={36}
-                      className="object-contain"
-                      style={{ width: "auto", height: "auto" }}
+                      width={28}
+                      height={32}
+                      className="object-contain w-auto h-auto max-w-[1.5rem] md:max-w-[1.75rem]"
                     />
                   </div>
 
                   <div className="flex flex-col text-left">
-                    <h1 className="text-[36px] md:text-[40px] font-bold leading-none tracking-tight">
+                    <h1 className="text-2xl md:text-3xl font-bold leading-none tracking-tight">
                       <span className="text-white">PREP</span>
                       <span className="text-[#ff2e2e]">JEE</span>
                     </h1>
-                    <p className="mt-2 text-[13px] md:text-[14px] text-white/70 font-medium">
+                    <p className="mt-1 text-[11px] md:text-xs text-white/70 font-medium">
                       Complete your profile to continue.
                     </p>
                   </div>
@@ -329,10 +304,10 @@ export default function LoginPage() {
               </div>
 
               {step === "details" && (
-                <form className="flex flex-col gap-[16px]" onSubmit={handleContinueToOtp}>
+                <form className="flex flex-col gap-3 md:gap-4" onSubmit={handleContinueToOtp}>
                   <div className="relative w-full">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <div className="text-white/40"><UserIcon /></div>
+                    <div className="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none">
+                      <div className="text-white/40 scale-90 md:scale-100"><UserIcon /></div>
                     </div>
                     <input
                       className={inputClasses}
@@ -345,10 +320,10 @@ export default function LoginPage() {
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px]">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                     <div className="relative w-full">
-                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <div className="text-white/40"><PhoneIcon /></div>
+                      <div className="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none">
+                        <div className="text-white/40 scale-90 md:scale-100"><PhoneIcon /></div>
                       </div>
                       <input
                         className={inputClasses}
@@ -362,8 +337,8 @@ export default function LoginPage() {
                     </div>
 
                     <div className="relative w-full">
-                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <div className="text-white/40"><MapPinIcon /></div>
+                      <div className="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none">
+                        <div className="text-white/40 scale-90 md:scale-100"><MapPinIcon /></div>
                       </div>
                       <input
                         className={inputClasses}
@@ -377,10 +352,10 @@ export default function LoginPage() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px]">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                     <div className="relative w-full">
-                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <div className="text-white/40"><BookIcon /></div>
+                      <div className="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none">
+                        <div className="text-white/40 scale-90 md:scale-100"><BookIcon /></div>
                       </div>
                       <select
                         className={`${inputClasses} appearance-none cursor-pointer ${formData.classStatus ? "text-white" : "text-white/40"}`}
@@ -396,8 +371,8 @@ export default function LoginPage() {
                     </div>
 
                     <div className="relative w-full">
-                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <div className="text-white/40"><LayersIcon /></div>
+                      <div className="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none">
+                        <div className="text-white/40 scale-90 md:scale-100"><LayersIcon /></div>
                       </div>
                       <select
                         className={`${inputClasses} appearance-none cursor-pointer ${formData.stream ? "text-white" : "text-white/40"}`}
@@ -406,7 +381,7 @@ export default function LoginPage() {
                         value={formData.stream}
                         onChange={handleFieldChange}
                       >
-                        <option value="" disabled hidden className="bg-[#0a1428] text-white/50">Stream in Class 12</option>
+                        <option value="" disabled hidden className="bg-[#0a1428] text-white/50">Stream</option>
                         <option value="PCM" className="bg-[#0a1428] text-white">PCM</option>
                         <option value="PCMB" className="bg-[#0a1428] text-white">PCMB</option>
                         <option value="PCB" className="bg-[#0a1428] text-white">PCB</option>
@@ -415,8 +390,8 @@ export default function LoginPage() {
                   </div>
 
                   <div className="relative w-full">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <div className="text-white/40"><MailIcon /></div>
+                    <div className="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none">
+                      <div className="text-white/40 scale-90 md:scale-100"><MailIcon /></div>
                     </div>
                     <input
                       className={inputClasses}
@@ -430,7 +405,7 @@ export default function LoginPage() {
                   </div>
 
                   {statusMessage && (
-                    <p className="text-center text-xs font-semibold text-[#ff2e2e]/90 pb-2">
+                    <p className="text-center text-[11px] md:text-xs font-semibold text-[#ff2e2e]/90 pb-1">
                       {statusMessage}
                     </p>
                   )}
@@ -438,26 +413,33 @@ export default function LoginPage() {
                   {/* 5. Button */}
                   <div className="pt-2 flex flex-col items-center">
                     <button
-                      className="w-full relative flex items-center justify-center py-[14px] text-white font-bold text-[15px] transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                      className="w-full relative flex items-center justify-center py-3 md:py-3.5 text-white font-bold text-sm transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
                       style={{
                         background: "linear-gradient(135deg, #ff2e2e, #c40000)",
-                        borderRadius: "12px",
-                        boxShadow: "0 10px 30px rgba(255, 50, 50, 0.35)",
+                        borderRadius: "0.75rem",
+                        boxShadow: "0 8px 24px rgba(255, 50, 50, 0.35)",
                       }}
                       type="submit"
+                      disabled={isLoading}
                     >
-                      <span>Verify Your Number</span>
-                      <div className="absolute right-4 text-white/80">
-                        <ArrowRightIcon />
-                      </div>
+                      {isLoading ? (
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      ) : (
+                        <>
+                          <span>Verify Your Number</span>
+                          <div className="absolute right-4 text-white/80 scale-90 md:scale-100">
+                            <ArrowRightIcon />
+                          </div>
+                        </>
+                      )}
                     </button>
 
                     {/* Progress Bar */}
-                    <div className="flex flex-col items-center mt-6">
-                      <span className="mb-3 text-[10px] font-bold tracking-[0.2em] text-[#ff2e2e] uppercase">
+                    <div className="flex flex-col items-center mt-5">
+                      <span className="mb-2 text-[9px] md:text-[10px] font-bold tracking-[0.2em] text-[#ff2e2e] uppercase">
                         Step 1 of 2
                       </span>
-                      <div className="flex gap-2 w-28 h-[4px]">
+                      <div className="flex gap-2 w-24 h-1">
                         <div className="h-full rounded-full bg-[#ff2e2e] shadow-[0_0_8px_rgba(255,46,46,0.6)] w-1/2" />
                         <div className="h-full rounded-full w-1/2 bg-white/10" />
                       </div>
@@ -467,14 +449,14 @@ export default function LoginPage() {
               )}
 
               {step === "otp" && (
-                <form className="flex flex-col gap-[16px] pb-2" onSubmit={handleVerifyOtp}>
-                  <div className="text-center text-sm font-medium text-white/70 bg-white/5 py-3 rounded-xl border border-white/5">
+                <form className="flex flex-col gap-3 md:gap-4 pb-2" onSubmit={handleVerifyOtp}>
+                  <div className="text-center text-xs md:text-sm font-medium text-white/70 bg-white/5 py-3 rounded-xl border border-white/5">
                     Verify the OTP sent to {formData.mobile}
                   </div>
 
-                  <div className="relative w-full mt-2">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <div className="text-white/40"><LockIcon /></div>
+                  <div className="relative w-full mt-1">
+                    <div className="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none">
+                      <div className="text-white/40 scale-90 md:scale-100"><LockIcon /></div>
                     </div>
                     <input
                       className={`${inputClasses} tracking-[0.35em] font-semibold text-center pl-4`}
@@ -489,71 +471,85 @@ export default function LoginPage() {
                   </div>
 
                   {statusMessage && (
-                    <p className="text-center text-xs font-semibold text-[#ff2e2e]/90">
+                    <p className="text-center text-[11px] md:text-xs font-semibold text-[#ff2e2e]/90">
                       {statusMessage}
                     </p>
                   )}
 
-                  <div className="grid grid-cols-2 gap-3 pt-4">
+                  <div className="grid grid-cols-2 gap-3 pt-3">
                     <button
                       type="button"
                       onClick={isOtpSent ? handleResendOtp : handleSendOtp}
-                      className="w-full py-[14px] rounded-[12px] border border-white/10 bg-white/5 text-sm font-semibold text-white transition-all duration-300 hover:bg-white/10 hover:border-white/20"
+                      className="w-full py-3 md:py-3.5 rounded-xl border border-white/10 bg-white/5 text-xs md:text-sm font-semibold text-white transition-all duration-300 hover:bg-white/10 hover:border-white/20"
                     >
                       {isOtpSent ? "Resend OTP" : "Send OTP"}
                     </button>
                     <button
                       type="submit"
-                      className="w-full relative flex items-center justify-center py-[14px] text-white font-bold text-[15px] transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                      className="w-full relative flex items-center justify-center py-3 md:py-3.5 text-white font-bold text-xs md:text-sm transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
                       style={{
                         background: "linear-gradient(135deg, #ff2e2e, #c40000)",
-                        borderRadius: "12px",
-                        boxShadow: "0 10px 30px rgba(255, 50, 50, 0.35)",
+                        borderRadius: "0.75rem",
+                        boxShadow: "0 8px 24px rgba(255, 50, 50, 0.35)",
                       }}
+                      disabled={isLoading}
                     >
-                      <span>Verify OTP</span>
-                      <div className="absolute right-4 text-white/80">
-                        <ArrowRightIcon />
-                      </div>
+                      {isLoading ? (
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      ) : (
+                        <>
+                          <span>Verify OTP</span>
+                          <div className="absolute right-3 text-white/80 scale-90 md:scale-100">
+                            <ArrowRightIcon />
+                          </div>
+                        </>
+                      )}
                     </button>
                   </div>
                 </form>
               )}
 
               {step === "verified" && (
-                <form className="flex flex-col gap-[16px]" onSubmit={handleStartExam}>
-                  <div className="text-center text-sm font-medium text-white/80 bg-green-500/10 py-4 rounded-xl border border-green-500/20 mb-2">
+                <form className="flex flex-col gap-3 md:gap-4" onSubmit={handleStartExam}>
+                  <div className="text-center text-xs md:text-sm font-medium text-white/80 bg-green-500/10 py-4 rounded-xl border border-green-500/20 mb-1">
                     Your number is verified. You can now start your exam.
                   </div>
 
                   {statusMessage && (
-                    <p className="text-center text-xs font-semibold text-[#ff8080] bg-red-500/10 py-2 rounded-lg border border-red-500/20">
+                    <p className="text-center text-[11px] md:text-xs font-semibold text-[#ff8080] bg-red-500/10 py-2 rounded-lg border border-red-500/20">
                       {statusMessage}
                     </p>
                   )}
 
                   <div className="pt-2 flex flex-col items-center">
                     <button
-                      className="w-full relative flex items-center justify-center py-[14px] text-white font-bold text-[15px] transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                      className="w-full relative flex items-center justify-center py-3 md:py-3.5 text-white font-bold text-sm transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
                       style={{
                         background: "linear-gradient(135deg, #ff2e2e, #c40000)",
-                        borderRadius: "12px",
-                        boxShadow: "0 10px 30px rgba(255, 50, 50, 0.35)",
+                        borderRadius: "0.75rem",
+                        boxShadow: "0 8px 24px rgba(255, 50, 50, 0.35)",
                       }}
                       type="submit"
+                      disabled={isLoading}
                     >
-                      <span>Start Your Exam</span>
-                      <div className="absolute right-4 text-white/80">
-                        <ArrowRightIcon />
-                      </div>
+                      {isLoading ? (
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      ) : (
+                        <>
+                          <span>Start Your Exam</span>
+                          <div className="absolute right-4 text-white/80 scale-90 md:scale-100">
+                            <ArrowRightIcon />
+                          </div>
+                        </>
+                      )}
                     </button>
 
                     {/* Progress Bar */}
-                    <div className="flex flex-col items-center mt-6">
-                      <span className="mb-3 text-[10px] font-bold tracking-[0.2em] text-[#ff2e2e] uppercase">
+                    <div className="flex flex-col items-center mt-5">
+                      <span className="mb-2 text-[9px] md:text-[10px] font-bold tracking-[0.2em] text-[#ff2e2e] uppercase">
                         Step 2 of 2
                       </span>
-                      <div className="flex gap-2 w-28 h-[4px]">
+                      <div className="flex gap-2 w-24 h-1">
                         <div className="h-full rounded-full bg-[#ff2e2e] shadow-[0_0_8px_rgba(255,46,46,0.6)] w-1/2" />
                         <div className="h-full rounded-full bg-[#ff2e2e] shadow-[0_0_8px_rgba(255,46,46,0.6)] w-1/2" />
                       </div>
