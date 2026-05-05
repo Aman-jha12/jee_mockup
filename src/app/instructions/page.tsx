@@ -3,43 +3,20 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Header } from '@/components/Header';
+import { instructions } from '@/lib/instructions';
 
 export default function InstructionsPage() {
   const router = useRouter();
 
   useEffect(() => {
     const id = localStorage.getItem("userId");
-    if (!id) {
+    const verified = localStorage.getItem("verified");
+    if (!id || verified !== "true") {
       router.push("/");
     }
   }, [router]);
 
-  const instructions = [
-    {
-      id: "01",
-      text: (
-        <>
-          Any conduct by any student or students whether by words spoken or written or by an act which has the effect of <span className="font-bold">teasing, treating or handling with rudeness</span> a fresher or any other student.
-        </>
-      ),
-    },
-    {
-      id: "02",
-      text: (
-        <>
-          Any conduct by any student or students which <span className="font-bold">prevents, disrupts or disturbs</span> the regular academic activity of any other student or a fresher.
-        </>
-      ),
-    },
-    {
-      id: "03",
-      text: (
-        <>
-          Any conduct which affects the <span className="font-bold text-gray-300">mental health</span> and <span className="font-bold text-gray-300">self-confidence</span> of a fresher with or without an intent to derive a <span className="font-bold text-gray-300">sadistic pleasure</span> or showing off power, authority or superiority by a student over any fresher.
-        </>
-      ),
-    },
-  ];
+  // using structured instructions from src/lib/instructions.ts
 
   return (
     <div className="bg-[#050a18] text-white min-h-screen font-sans selection:bg-red-500/30">
@@ -84,9 +61,13 @@ export default function InstructionsPage() {
               </div>
 
               {/* Instruction Text */}
-              <p className="text-gray-400 text-base md:text-lg leading-relaxed flex-1 font-medium">
-                {item.text}
-              </p>
+                  <p className="text-gray-400 text-base md:text-lg leading-relaxed flex-1 font-medium whitespace-pre-line">
+                    {item.text.map((part, i) => (
+                      <span key={i} className={part.bold ? 'font-bold' : ''}>
+                        {part.content}
+                      </span>
+                    ))}
+                  </p>
 
               {/* Decorative Red Glow */}
               <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-10 transition-opacity bg-gradient-to-r from-red-600 to-transparent pointer-events-none"></div>

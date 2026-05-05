@@ -68,13 +68,14 @@ export async function POST(req: NextRequest) {
   const isExamPayload = ["total_marks", "mathematics", "physics", "chemistry"].some(
     (key) => typeof payload[key] === "number"
   );
+  const isVerificationPayload = typeof payload["verified"] === "boolean";
 
-  if (!isRegistrationPayload && !isExamPayload) {
+  if (!isRegistrationPayload && !isExamPayload && !isVerificationPayload) {
     return NextResponse.json(
       {
         success: false,
         message:
-          "Payload must include registration fields (name/number/city/class_status/stream/email) or exam fields (total_marks/mathematics/physics/chemistry).",
+          "Payload must include registration fields (name/number/city/class_status/stream/email) or exam fields (total_marks/mathematics/physics/chemistry) or verification field (verified).",
       },
       { status: 400 }
     );

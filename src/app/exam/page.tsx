@@ -367,7 +367,8 @@ export default function ExamInterface() {
 
   useEffect(() => {
     const id = localStorage.getItem("userId");
-    if (!id) {
+    const verified = localStorage.getItem("verified");
+    if (!id || verified !== "true") {
       router.push("/");
       return;
     }
@@ -496,14 +497,11 @@ export default function ExamInterface() {
   const handleSubmitExam = async () => {
     setSubmitError('');
 
-    const id = localStorage.getItem("userId");
-    const submittedUserId = localStorage.getItem("submittedUserId");
-
-    if (localStorage.getItem("submitted") && submittedUserId && submittedUserId === id) {
-      router.push('/result');
+    if (localStorage.getItem("submitted")) {
       return;
     }
 
+    const id = localStorage.getItem("userId");
     if (!id) {
       router.push("/");
       return;

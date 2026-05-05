@@ -3,7 +3,7 @@
 import { useState, type ChangeEvent, type FormEvent } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { registerUser } from "@/lib/api"
+import { insertUser, verifyUser } from "@/lib/api"
 
 const UserIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
@@ -50,12 +50,43 @@ export default function LoginPage() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleContinueToOtp = (e: FormEvent<HTMLFormElement>) => {
+  const handleContinueToOtp = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setStep("otp")
-    setIsOtpSent(false)
-    setOtp("")
-    setStatusMessage("")
+
+    const id = crypto.randomUUID()
+    localStorage.setItem("userId", id)
+    localStorage.setItem("userName", formData.fullname)
+    localStorage.removeItem("submitted")
+    localStorage.removeItem("submittedUserId")
+    localStorage.removeItem("examMarks")
+    localStorage.removeItem("verified")
+
+    const date_time_initial = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })
+    localStorage.setItem("date_time_initial", date_time_initial)
+
+    setStatusMessage("Saving your details...")
+
+    try {
+      await insertUser({
+        id,
+        name: formData.fullname,
+        number: formData.mobile,
+        city: formData.city,
+        class_status: formData.classStatus,
+        stream: formData.stream,
+        email: formData.email,
+        date_time_initial,
+      })
+
+      setStep("otp")
+      setIsOtpSent(false)
+      setOtp("")
+      setStatusMessage("")
+    } catch (error) {
+      localStorage.removeItem("userId")
+      const message = error instanceof Error ? error.message : "Unknown error while saving details."
+      setStatusMessage(message)
+    }
   }
 
   const handleSendOtp = () => {
@@ -68,48 +99,48 @@ export default function LoginPage() {
     setStatusMessage(`OTP resent to ${formData.mobile}`)
   }
 
-  const handleVerifyOtp = (e: FormEvent<HTMLFormElement>) => {
+  const handleVerifyOtp = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
+    const id = localStorage.getItem("userId")
+    const date_time_initial = localStorage.getItem("date_time_initial") || new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })
+
     if (otp.trim().length !== 6) {
+      if (id) {
+        await verifyUser({
+          id,
+          date_time_initial,
+          verified: false 
+        }).catch(() => {})
+      }
       setStatusMessage("Please enter a valid 6-digit OTP")
       return
     }
 
-    setStep("verified")
-    setStatusMessage("Number verified successfully")
-  }
-
-  const handleStartExam = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const id = crypto.randomUUID()
-
-    localStorage.setItem("userId", id)
-    localStorage.setItem("userName", formData.fullname)
-    localStorage.removeItem("submitted")
-    localStorage.removeItem("submittedUserId")
-    localStorage.removeItem("examMarks")
-    setStatusMessage("Saving your details...")
+    setStatusMessage("Verifying...")
 
     try {
-      await registerUser({
-        id,
-        name: formData.fullname,
-        number: formData.mobile,
-        city: formData.city,
-        class_status: formData.classStatus,
-        stream: formData.stream,
-        email: formData.email,
-      })
+      if (id) {
+        await verifyUser({
+          id,
+          date_time_initial,
+          verified: true,
+        })
+        localStorage.setItem("verified", "true")
+      }
 
-      setStatusMessage("Details saved. Redirecting...")
-      router.push("/instructions")
-    } catch (error) {
-      localStorage.removeItem("userId")
-      const message = error instanceof Error ? error.message : "Unknown error while saving details."
-      setStatusMessage(message)
       setStep("verified")
+      setStatusMessage("Number verified successfully")
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unknown error while verifying details."
+      setStatusMessage(message)
     }
+  }
+
+  const handleStartExam = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setStatusMessage("Redirecting...")
+    router.push("/instructions")
   }
 
   const inputClasses = "w-full pl-11 pr-4 py-3.5 bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.08)] rounded-[12px] text-white focus:border-[rgba(255,50,50,0.6)] focus:ring-[2px] focus:ring-[rgba(255,50,50,0.15)] focus:outline-none placeholder-white/40 transition-all duration-300 text-sm"
@@ -138,7 +169,7 @@ export default function LoginPage() {
       <div
         className="absolute inset-0 -z-20"
         style={{
-          background: "linear-gradient(to right, rgba(3,8,20,0.85) 0%, rgba(3,8,20,0.7) 25%, rgba(3,8,20,0.7) 50%, rgba(3,8,20,0.95) 65%, rgba(3,8,20,1) 100%)",
+          background: "linear-gradient(to right, rgba(3,8,20,0.85) 55%, rgba(3,8,20,0.7) 40%, rgba(3,8,20,0.7) 50%, rgba(3,8,20,0.95) 70%, rgba(3,8,20,1) 100%)",
         }}
       />
 
@@ -376,9 +407,9 @@ export default function LoginPage() {
                         onChange={handleFieldChange}
                       >
                         <option value="" disabled hidden className="bg-[#0a1428] text-white/50">Stream in Class 12</option>
-                        <option value="science" className="bg-[#0a1428] text-white">PCM</option>
-                        <option value="commerce" className="bg-[#0a1428] text-white">PCMB</option>
-                        <option value="arts" className="bg-[#0a1428] text-white">PCB</option>
+                        <option value="PCM" className="bg-[#0a1428] text-white">PCM</option>
+                        <option value="PCMB" className="bg-[#0a1428] text-white">PCMB</option>
+                        <option value="PCB" className="bg-[#0a1428] text-white">PCB</option>
                       </select>
                     </div>
                   </div>
@@ -397,6 +428,12 @@ export default function LoginPage() {
                       onChange={handleFieldChange}
                     />
                   </div>
+
+                  {statusMessage && (
+                    <p className="text-center text-xs font-semibold text-[#ff2e2e]/90 pb-2">
+                      {statusMessage}
+                    </p>
+                  )}
 
                   {/* 5. Button */}
                   <div className="pt-2 flex flex-col items-center">

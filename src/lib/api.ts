@@ -1,57 +1,30 @@
-const REGISTRATION_DRAFT_KEY = "jee_mock_registration_draft";
+const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 
-type RegistrationDraft = {
-  id: string;
-  name: string;
-  number: string;
-  city: string;
-  class_status: string;
-  stream: string;
-  email: string;
-};
-
-function storeRegistrationDraft(data: RegistrationDraft) {
-  if (typeof window === "undefined") return;
-  localStorage.setItem(REGISTRATION_DRAFT_KEY, JSON.stringify(data));
-}
-
-function readRegistrationDraft(): RegistrationDraft | null {
-  if (typeof window === "undefined") return null;
-  const raw = localStorage.getItem(REGISTRATION_DRAFT_KEY);
-  if (!raw) return null;
-
-  try {
-    return JSON.parse(raw) as RegistrationDraft;
-  } catch {
-    return null;
-  }
-}
-
-async function postToSubmissionApi(data: Record<string, string | number>) {
-  const response = await fetch("/api/submit", {
+async function postToApi(data: Record<string, any>) {
+  const res = await fetch(API_URL, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8",
+    },
     body: JSON.stringify(data),
   });
 
-  if (!response.ok) {
-    let message = "Failed to save submission.";
-    try {
-      const payload = (await response.json()) as { message?: string; details?: string };
-      if (payload.message) {
-        message = payload.message;
-      }
-      if (payload.details) {
-        message = `${message} (${payload.details})`;
-      }
-    } catch {
-      // Keep the generic message when the response body is not JSON.
-    }
-    throw new Error(message);
+  if (!res.ok) {
+    throw new Error("API request failed");
   }
+
+  const text = await res.text();
+  if (text.toLowerCase().includes("not found") || text.toLowerCase().includes("error")) {
+    throw new Error(`Apps Script Error: ${text}`);
+  }
+
+  return text;
 }
 
-export async function registerUser(data: {
+// =========================
+// INSERT USER
+// =========================
+export async function insertUser(data: {
   id: string;
   name: string;
   number: string;
@@ -59,11 +32,25 @@ export async function registerUser(data: {
   class_status: string;
   stream: string;
   email: string;
+  date_time_initial: string;
 }) {
-  storeRegistrationDraft(data);
-  await postToSubmissionApi(data);
+  return postToApi(data);
 }
 
+// =========================
+// VERIFY USER
+// =========================
+export async function verifyUser(data: {
+  id: string;
+  verified: boolean;
+  date_time_initial: string;
+}) {
+  return postToApi(data);
+}
+
+// =========================
+// SUBMIT EXAM
+// =========================
 export async function submitExam(data: {
   id: string;
   total_marks: number;
@@ -71,16 +58,5 @@ export async function submitExam(data: {
   physics: number;
   chemistry: number;
 }) {
-  const registrationDraft = readRegistrationDraft();
-  const payload = {
-    ...(registrationDraft ?? {}),
-    ...data,
-    id: data.id,
-  };
-
-  await postToSubmissionApi(payload);
-
-  if (typeof window !== "undefined") {
-    localStorage.removeItem(REGISTRATION_DRAFT_KEY);
-  }
+  return postToApi(data);
 }

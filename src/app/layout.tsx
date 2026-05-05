@@ -13,6 +13,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+import { DeviceGuard } from "@/components/DeviceGuard";
+
 export const metadata: Metadata = {
   title: "JEE Mock Test",
   description: "JEE-style full-stack mock test web application",
@@ -29,7 +31,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-slate-100">
-        <Providers>{children}</Providers>
+        <DeviceGuard>
+          <Providers>{children}</Providers>
+        </DeviceGuard>
       </body>
     </html>
   );
