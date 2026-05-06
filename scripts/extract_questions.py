@@ -2,127 +2,365 @@ import os
 import re
 import json
 import pdfplumber
-from pdf2image import convert_from_path
-import pytesseract
+
+# =====================================
+# CONFIG
+# =====================================
 
 BASE_DIR = "../public"
 PDF_DIR = os.path.join(BASE_DIR, "questionbanks")
 OUTPUT_JSON_BASE = os.path.join(BASE_DIR, "questions", "json")
-OUTPUT_IMG_BASE = os.path.join(BASE_DIR, "questions", "images")
 
+# =====================================
+# SUBJECT DETECTION
+# =====================================
 
-# --------------------------
-# Detect subject from filename
-# --------------------------
 def detect_subject(filename):
     name = filename.lower()
+
     if "math" in name:
         return "maths"
     elif "physics" in name:
         return "physics"
     elif "chem" in name:
         return "chemistry"
+
     return "unknown"
 
+# =====================================
+# CLEAN LINE
+# =====================================
 
-# --------------------------
-# Extract text
-# --------------------------
-def extract_text(pdf_path):
-    text = ""
+def clean_line(line):
+    line = re.sub(r'\(cid:\d+\)', ' ', line)
+    line = re.sub(r'\s+', ' ', line)
+    return line.strip()
+
+# =====================================
+# CATEGORY EXTRACTION
+# =====================================
+
+def extract_category(line):
+
+    match = re.search(
+        r'Category\s*:\s*(I{1,3})',
+        line,
+        re.IGNORECASE
+    )
+
+    if match:
+        return match.group(1).upper()
+
+    return None
+
+# =====================================
+# ANSWER EXTRACTION
+# =====================================
+
+def extract_answer(text):
+
+    match = re.search(
+        r'Ans:\s*\(?([A-D,\s]+)\)?',
+        text,
+        re.IGNORECASE
+    )
+
+    if not match:
+        return text.strip(), None
+
+    raw = match.group(1)
+
+    answers = [
+        x.strip().upper()
+        for x in raw.split(",")
+        if x.strip()
+    ]
+
+    cleaned_text = re.sub(
+        r'Ans:\s*\(?[A-D,\s]+\)?',
+        '',
+        text,
+        flags=re.IGNORECASE
+    )
+
+    if len(answers) == 1:
+        return cleaned_text.strip(), answers[0]
+
+    return cleaned_text.strip(), answers
+
+# =====================================
+# VALID QUESTION FILTER
+# =====================================
+
+def is_valid_question(q):
+
+    if len(q["options"]) < 2:
+        return False
+
+    bad_phrases = [
+        "this paper contains",
+        "negative marking",
+        "partial marks",
+        "only one option correct",
+        "only one option is correct",
+        "one or more options may be correct"
+    ]
+
+    q_text = q["question"].lower()
+
+    for phrase in bad_phrases:
+        if phrase in q_text:
+            return False
+
+    return True
+
+# =====================================
+# PDF EXTRACTION
+# =====================================
+
+def extract_lines(pdf_path):
+
+    lines = []
+
     with pdfplumber.open(pdf_path) as pdf:
+
         for page in pdf.pages:
-            page_text = page.extract_text()
-            if page_text:
-                text += page_text + "\n"
-    return text
 
+            text = page.extract_text(
+                x_tolerance=2,
+                y_tolerance=2
+            )
 
-# --------------------------
-# OCR fallback
-# --------------------------
-def ocr_pdf(pdf_path):
-    pages = convert_from_path(pdf_path)
-    text = ""
-    for page in pages:
-        text += pytesseract.image_to_string(page) + "\n"
-    return text
+            if not text:
+                continue
 
+            page_lines = text.split("\n")
 
-# --------------------------
-# Parse questions
-# --------------------------
-def parse_questions(text, subject):
+            for line in page_lines:
+
+                cleaned = clean_line(line)
+
+                if cleaned:
+                    lines.append(cleaned)
+
+    return lines
+
+# =====================================
+# PARSER
+# =====================================
+
+def parse_questions(lines, subject):
+
     questions = []
-    blocks = re.split(r"\n\d+\.", text)
 
-    q_id = 1
+    current_question = None
+    current_category = None
 
-    for block in blocks:
-        if len(block.strip()) < 30:
+    parsing_started = False
+
+    for line in lines:
+
+        # -----------------------------
+        # CATEGORY
+        # -----------------------------
+
+        category = extract_category(line)
+
+        if category:
+            current_category = category
             continue
 
-        # remove Bengali / non-ascii
-        block = re.sub(r"[^\x00-\x7F]+", " ", block)
+        # -----------------------------
+        # QUESTION START
+        # -----------------------------
 
-        options = re.findall(r"[a-dA-D]\)\s*(.*)", block)
+        q_match = re.match(
+            r'^(\d+)\.\s*(.+)',
+            line
+        )
 
-        question_text = block.split("a)")[0].strip()
+        if q_match:
 
-        questions.append({
-            "id": q_id,
-            "subject": subject,
-            "question": question_text,
-            "options": options,
-            "answer": None,
-            "image": None
-        })
+            parsing_started = True
 
-        q_id += 1
+            if current_question and is_valid_question(current_question):
+                questions.append(current_question)
+
+            q_id = int(q_match.group(1))
+
+            q_text = q_match.group(2)
+
+            q_text, answer = extract_answer(q_text)
+
+            current_question = {
+                "id": q_id,
+                "subject": subject,
+                "category": current_category,
+                "question": q_text,
+                "options": [],
+                "answer": answer,
+                "image": None
+            }
+
+            continue
+
+        if not parsing_started:
+            continue
+
+        if not current_question:
+            continue
+
+        # -----------------------------
+        # ANSWER LINE
+        # -----------------------------
+
+        if line.lower().startswith("ans:"):
+
+            _, ans = extract_answer(line)
+
+            if ans:
+                current_question["answer"] = ans
+
+            continue
+
+        # -----------------------------
+        # INLINE OPTIONS
+        # -----------------------------
+
+        inline_options = re.findall(
+            r'\(([A-D])\)\s*([^()]+)',
+            line
+        )
+
+        if inline_options:
+
+            for label, option_text in inline_options:
+
+                option_text, ans = extract_answer(option_text)
+
+                current_question["options"].append(
+                    option_text.strip()
+                )
+
+                if ans:
+                    current_question["answer"] = ans
+
+            continue
+
+        # -----------------------------
+        # NORMAL OPTIONS
+        # -----------------------------
+
+        option_match = re.match(
+            r'^\(([A-D])\)\s*(.+)',
+            line
+        )
+
+        if option_match:
+
+            option_text = option_match.group(2)
+
+            option_text, ans = extract_answer(option_text)
+
+            current_question["options"].append(
+                option_text.strip()
+            )
+
+            if ans:
+                current_question["answer"] = ans
+
+            continue
+
+        # -----------------------------
+        # QUESTION CONTINUATION
+        # -----------------------------
+
+        text, ans = extract_answer(line)
+
+        current_question["question"] += " " + text
+
+        if ans:
+            current_question["answer"] = ans
+
+    # -----------------------------
+    # LAST QUESTION
+    # -----------------------------
+
+    if current_question and is_valid_question(current_question):
+        questions.append(current_question)
 
     return questions
 
+# =====================================
+# SAVE
+# =====================================
 
-# --------------------------
-# Save JSON per question
-# --------------------------
-def save_questions(questions, subject):
-    subject_json_dir = os.path.join(OUTPUT_JSON_BASE, subject)
-    os.makedirs(subject_json_dir, exist_ok=True)
+def save_questions(subject, questions):
 
-    for q in questions:
-        path = os.path.join(subject_json_dir, f"q_{q['id']}.json")
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump(q, f, indent=2)
+    subject_dir = os.path.join(
+        OUTPUT_JSON_BASE,
+        subject
+    )
 
+    os.makedirs(subject_dir, exist_ok=True)
 
-# --------------------------
-# Process all PDFs
-# --------------------------
-def process_all_pdfs():
-    for file in os.listdir(PDF_DIR):
-        if not file.endswith(".pdf"):
-            continue
+    output_path = os.path.join(
+        subject_dir,
+        f"{subject}.json"
+    )
 
-        pdf_path = os.path.join(PDF_DIR, file)
-        subject = detect_subject(file)
+    with open(
+        output_path,
+        "w",
+        encoding="utf-8"
+    ) as f:
 
-        print(f"Processing: {file} → {subject}")
+        json.dump(
+            questions,
+            f,
+            indent=2,
+            ensure_ascii=False
+        )
 
-        text = extract_text(pdf_path)
+# =====================================
+# MAIN
+# =====================================
 
-        if len(text.strip()) < 100:
-            print("Using OCR fallback...")
-            text = ocr_pdf(pdf_path)
+def main():
 
-        questions = parse_questions(text, subject)
-        save_questions(questions, subject)
+    pdf_files = [
+        f for f in os.listdir(PDF_DIR)
+        if f.endswith(".pdf")
+    ]
 
-        print(f"Saved {len(questions)} questions\n")
+    for pdf_file in pdf_files:
 
+        subject = detect_subject(pdf_file)
 
-# --------------------------
-# Run
-# --------------------------
+        pdf_path = os.path.join(
+            PDF_DIR,
+            pdf_file
+        )
+
+        print(f"\nProcessing: {pdf_file}")
+
+        lines = extract_lines(pdf_path)
+
+        questions = parse_questions(
+            lines,
+            subject
+        )
+
+        save_questions(
+            subject,
+            questions
+        )
+
+        print(
+            f"Saved {len(questions)} questions for {subject}"
+        )
+
+# =====================================
+
 if __name__ == "__main__":
-    process_all_pdfs()
+    main()

@@ -1,0 +1,1064 @@
+[
+  {
+    "id": 1,
+    "subject": "physics",
+    "category": "I",
+    "question": "The dimensional formula for Planck's constant is identical to that of:",
+    "options": [
+      "Linear momentum",
+      "Angular momentum",
+      "Energy",
+      "Power"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 2,
+    "subject": "physics",
+    "category": "I",
+    "question": "A block of mass m is placed on a smooth inclined plane of inclination θ. The inclined plane is given an acceleration a horizontally so that the block does not slide down. The value of a is: Page 1",
+    "options": [
+      "g tanθ",
+      "g sinθ",
+      "g cosθ",
+      "g cotθ"
+    ],
+    "answer": "A",
+    "image": null
+  },
+  {
+    "id": 3,
+    "subject": "physics",
+    "category": "I",
+    "question": "In a thermodynamic process, the pressure of a fixed mass of gas is changed such that the gas releases 20 J of heat and 8 J of work is done on the gas. If the initial internal energy was 30 J, the final internal energy is:",
+    "options": [
+      "18 J",
+      "42 J",
+      "58 J",
+      "2 J"
+    ],
+    "answer": "A",
+    "image": null
+  },
+  {
+    "id": 4,
+    "subject": "physics",
+    "category": "I",
+    "question": "Two point charges +q and -q are placed at a distance 2l apart. The electric potential at a point on the equatorial line at a distance r from the center of the dipole is:",
+    "options": [
+      "Zero",
+      "p /",
+      "p /",
+      "2p /"
+    ],
+    "answer": "A",
+    "image": null
+  },
+  {
+    "id": 5,
+    "subject": "physics",
+    "category": "I",
+    "question": "A ray of light passes through an equilateral glass prism such that the angle of incidence equals the angle of emergence. If the angle of emergence is 3/4 times the angle of the prism, the refractive index of the glass is:",
+    "options": [
+      "√2",
+      "√3",
+      "1.5",
+      "1.33"
+    ],
+    "answer": "A",
+    "image": null
+  },
+  {
+    "id": 6,
+    "subject": "physics",
+    "category": "I",
+    "question": "The half-life of a radioactive substance is 20 minutes. The time taken between 20% and 80% decay will be: Page 2",
+    "options": [
+      "20 minutes",
+      "30 minutes",
+      "40 minutes",
+      "60 minutes"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 7,
+    "subject": "physics",
+    "category": "I",
+    "question": "The ratio of the radii of gyration of a circular disc about a tangential axis in its plane and of a circular ring of the same radius about a tangential axis in its plane is:",
+    "options": [
+      "√5 : √6",
+      "2 : 3",
+      "√2 : √3",
+      "1 : √2"
+    ],
+    "answer": "A",
+    "image": null
+  },
+  {
+    "id": 8,
+    "subject": "physics",
+    "category": "I",
+    "question": "An electromagnetic wave is propagating along the +z axis. The direction of the electric field",
+    "options": [
+      "can be represented by:",
+      "E along +x, B along +y",
+      "E along +y, B along +x",
+      "E along +z, B along +x",
+      "E along +x, B along +z"
+    ],
+    "answer": "A",
+    "image": null
+  },
+  {
+    "id": 9,
+    "subject": "physics",
+    "category": "I",
+    "question": "A particle is projected with a velocity u making an angle θ with the horizontal. The magnitude of its velocity at the highest point of its trajectory is:",
+    "options": [
+      "u sinθ",
+      "u cosθ",
+      "u",
+      "Zero"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 10,
+    "subject": "physics",
+    "category": "I",
+    "question": "A car of mass m is moving on an unbanked circular track of radius R. If the coefficient of static friction is μ, the maximum safe speed is: Page 3",
+    "options": [
+      "√",
+      "μ R g",
+      "√",
+      "μ g / R"
+    ],
+    "answer": "A",
+    "image": null
+  },
+  {
+    "id": 11,
+    "subject": "physics",
+    "category": "I",
+    "question": "A spring of force constant k is cut into two equal halves. The force constant of each half is:",
+    "options": [
+      "k/2",
+      "k",
+      "2k",
+      "4k"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 12,
+    "subject": "physics",
+    "category": "I",
+    "question": "The escape velocity from the Earth is ve. If a planet has twice the radius and twice the mean density of Earth, its escape velocity will be:",
+    "options": [
+      "ve",
+      "2 ve",
+      "2√2 ve",
+      "4 ve"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 13,
+    "subject": "physics",
+    "category": "I",
+    "question": "The ratio of specific heats γ = Cp/Cv for a diatomic gas at normal temperature is:",
+    "options": [
+      "1.67",
+      "1.40",
+      "1.33",
+      "1.28"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 14,
+    "subject": "physics",
+    "category": "I",
+    "question": "Water rises in a vertical capillary tube up to a height h. If the tube is inclined at an angle of 45° with the vertical, the length of the water column will be: Page 4",
+    "options": [
+      "h",
+      "h / √2",
+      "h √2",
+      "2h"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 15,
+    "subject": "physics",
+    "category": "I",
+    "question": "The magnetic flux linked with a coil varies with time t as φ = 3t2 + 4t + 9 Wb. The magnitude of the induced emf at t = 2 s is:",
+    "options": [
+      "8 V",
+      "16 V",
+      "22 V",
+      "32 V"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 16,
+    "subject": "physics",
+    "category": "I",
+    "question": "An ideal gas undergoes an isothermal expansion at temperature T. The work done by n moles of the gas in expanding from V1 to V2 is:",
+    "options": [
+      "nRT ln",
+      "nRT ln",
+      "nRT",
+      ""
+    ],
+    "answer": "A",
+    "image": null
+  },
+  {
+    "id": 17,
+    "subject": "physics",
+    "category": "I",
+    "question": "The efficiency of a Carnot engine working between temperatures of 127°C and 27°C is:",
+    "options": [
+      "25%",
+      "50%",
+      "75%",
+      "100%"
+    ],
+    "answer": "A",
+    "image": null
+  },
+  {
+    "id": 18,
+    "subject": "physics",
+    "category": "I",
+    "question": "The distance between two consecutive nodes in a stationary wave is: Page 5",
+    "options": [
+      "λ",
+      "λ/2",
+      "λ/4",
+      "2λ"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 19,
+    "subject": "physics",
+    "category": "I",
+    "question": "According to Stokes' law, the terminal velocity of a small spherical body of radius r falling through a viscous medium is proportional to:",
+    "options": [
+      "r",
+      "r2",
+      "r3",
+      "1/r"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 20,
+    "subject": "physics",
+    "category": "I",
+    "question": "The dimensions of Young's modulus of elasticity are the same as those of:",
+    "options": [
+      "Force",
+      "Pressure",
+      "Strain",
+      "Work"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 21,
+    "subject": "physics",
+    "category": "I",
+    "question": "The moment of inertia of a solid sphere of mass M and radius R about its diameter is:",
+    "options": [
+      "",
+      "",
+      "",
+      "MR2"
+    ],
+    "answer": "A",
+    "image": null
+  },
+  {
+    "id": 22,
+    "subject": "physics",
+    "category": "I",
+    "question": "According to Kepler's third law, the square of the time period of revolution of a planet is proportional to the: Page 6",
+    "options": [
+      "semi-major axis",
+      "square of the semi-major axis",
+      "cube of the semi-major axis",
+      "inverse square of the semi-major axis"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 23,
+    "subject": "physics",
+    "category": "I",
+    "question": "The electric field outside an infinite thin uniformly charged planar sheet with surface charge density σ is:",
+    "options": [
+      "σ / ε0",
+      "σ /",
+      "2σ / ε0",
+      "Zero"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 24,
+    "subject": "physics",
+    "category": "I",
+    "question": "The equivalent capacitance of two capacitors C1 and C2 connected in series is:",
+    "options": [
+      "C1 + C2",
+      "",
+      "",
+      "|C1 - C2|"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 25,
+    "subject": "physics",
+    "category": "I",
+    "question": "The drift velocity of free electrons is vd when current I flows. If both the radius and the current are doubled, the drift velocity will be:",
+    "options": [
+      "vd / 4",
+      "vd / 2",
+      "vd",
+      "2 vd"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 26,
+    "subject": "physics",
+    "category": "I",
+    "question": "Kirchhoff's voltage law (KVL) is a consequence of the law of conservation of: Page 7",
+    "options": [
+      "Charge",
+      "Momentum",
+      "Energy",
+      "Angular momentum"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 27,
+    "subject": "physics",
+    "category": "I",
+    "question": "The magnetic field B at a distance r from a long straight wire carrying current I is proportional to:",
+    "options": [
+      "I · r",
+      "I / r2",
+      "I2 / r",
+      "I / r"
+    ],
+    "answer": "D",
+    "image": null
+  },
+  {
+    "id": 28,
+    "subject": "physics",
+    "category": "I",
+    "question": "The force experienced by a charge q moving with velocity v in a uniform magnetic field B is:",
+    "options": [
+      "q",
+      "q",
+      "q",
+      ""
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 29,
+    "subject": "physics",
+    "category": "I",
+    "question": "The resonant frequency fr of a series LCR circuit is:",
+    "options": [
+      "1 /",
+      "1 / √",
+      "2π√",
+      ""
+    ],
+    "answer": "A",
+    "image": null
+  },
+  {
+    "id": 30,
+    "subject": "physics",
+    "category": "I",
+    "question": "The core of a transformer is laminated to reduce energy loss due to: Page 8",
+    "options": [
+      "Eddy currents",
+      "Hysteresis",
+      "Flux leakage",
+      "Copper loss"
+    ],
+    "answer": "A",
+    "image": null
+  },
+  {
+    "id": 31,
+    "subject": "physics",
+    "category": "I",
+    "question": "Which of the following electromagnetic waves has the longest wavelength?",
+    "options": [
+      "X-rays",
+      "Ultraviolet rays",
+      "Microwaves",
+      "Radio waves"
+    ],
+    "answer": "D",
+    "image": null
+  },
+  {
+    "id": 32,
+    "subject": "physics",
+    "category": "I",
+    "question": "A convex mirror always produces an image that is:",
+    "options": [
+      "Real, inverted, and magnified",
+      "Virtual, erect, and magnified",
+      "Virtual, erect, and diminished",
+      "Real, erect, and diminished"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 33,
+    "subject": "physics",
+    "category": "I",
+    "question": "In Young's Double Slit Experiment, the fringe width β is given by:",
+    "options": [
+      "λd / D",
+      "λD / d",
+      "D /",
+      "d /"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 34,
+    "subject": "physics",
+    "category": "I",
+    "question": "According to Brewster's law, the refractive index μ of a medium is related to the polarizing angle ip by:",
+    "options": [
+      "μ = sin",
+      "μ = cos",
+      "μ = tan",
+      "μ = cot"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 35,
+    "subject": "physics",
+    "category": "I",
+    "question": "The energy E of a photon of momentum p is given by (c = speed of light): Page 9",
+    "options": [
+      "E = pc",
+      "E = p/c",
+      "E = pc2",
+      "E = p2/"
+    ],
+    "answer": "A",
+    "image": null
+  },
+  {
+    "id": 36,
+    "subject": "physics",
+    "category": "I",
+    "question": "The de Broglie wavelength of an electron accelerated through V volts is approximately:",
+    "options": [
+      "12.27 / √V Å",
+      "1.227 / √V Å",
+      "12.27 √V Å",
+      "12.27 / V Å"
+    ],
+    "answer": "A",
+    "image": null
+  },
+  {
+    "id": 37,
+    "subject": "physics",
+    "category": "I",
+    "question": "In the Bohr model of the hydrogen atom, the radius of the nth orbit is proportional to:",
+    "options": [
+      "n",
+      "n2",
+      "1/n",
+      "1/n2"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 38,
+    "subject": "physics",
+    "category": "I",
+    "question": "The half-life T1/2 of a radioactive substance is related to its decay constant λ by:",
+    "options": [
+      "T1/2 = λ ln",
+      "T1/2 = ln",
+      "T1/2 = λ / ln",
+      "T1/2 = 1 / λ"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 39,
+    "subject": "physics",
+    "category": "I",
+    "question": "The maximum binding energy per nucleon occurs for the nucleus of:",
+    "options": [
+      "Helium",
+      "Oxygen",
+      "Iron",
+      "Uranium"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 40,
+    "subject": "physics",
+    "category": "I",
+    "question": "In a reverse-biased p-n junction, the width of the depletion layer: Page 10",
+    "options": [
+      "Decreases",
+      "Increases",
+      "Remains the same",
+      "First increases then decreases"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 41,
+    "subject": "physics",
+    "category": "I",
+    "question": "The logic gate that produces a high (1) output only when all its inputs are high (1) is:",
+    "options": [
+      "OR gate",
+      "AND gate",
+      "NOR gate",
+      "NAND gate"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 42,
+    "subject": "physics",
+    "category": "I",
+    "question": "A Zener diode is primarily used as:",
+    "options": [
+      "An amplifier",
+      "A voltage regulator",
+      "A rectifier",
+      "An oscillator"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 43,
+    "subject": "physics",
+    "category": "I",
+    "question": "If the percentage error in measuring the radius of a sphere is 2%, the percentage error in its volume is:",
+    "options": [
+      "2%",
+      "4%",
+      "6%",
+      "8%"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 44,
+    "subject": "physics",
+    "category": "I",
+    "question": "The magnitude of the cross product of two parallel vectors is:",
+    "options": [
+      "Product of their magnitudes",
+      "Zero",
+      "One",
+      "Infinity"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 45,
+    "subject": "physics",
+    "category": "I",
+    "question": "The angle of repose on a rough inclined plane is equal to the: Page 11",
+    "options": [
+      "Angle of incidence",
+      "Angle of friction",
+      "Critical angle",
+      "Angle of deviation"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 46,
+    "subject": "physics",
+    "category": "I",
+    "question": "When a gas undergoes an adiabatic expansion, its temperature:",
+    "options": [
+      "Increases",
+      "Decreases",
+      "Remains constant",
+      "Depends on the specific heat"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 47,
+    "subject": "physics",
+    "category": "I",
+    "question": "The SI unit of magnetic dipole moment is:",
+    "options": [
+      "A m",
+      "A m2",
+      "T m A-1",
+      "Wb m2"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 48,
+    "subject": "physics",
+    "category": "I",
+    "question": "A particle performs SHM with amplitude A. Its kinetic energy equals its potential energy when its displacement from the mean position is:",
+    "options": [
+      "A/2",
+      "A/√2",
+      "A",
+      "Zero"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 49,
+    "subject": "physics",
+    "category": "I",
+    "question": "The power factor of a purely resistive AC circuit is:",
+    "options": [
+      "Zero",
+      "0.5",
+      "1",
+      "Infinity"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 51,
+    "subject": "physics",
+    "category": "II",
+    "question": "A solid sphere rolls down two different inclined planes of the same height but different angles of inclination. In both cases, the sphere:",
+    "options": [
+      "reaches the bottom with the same speed and in the same time.",
+      "reaches the bottom with the same speed but different times.",
+      "reaches the bottom with different speeds but the same time.",
+      "reaches the bottom with different speeds and different times."
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 52,
+    "subject": "physics",
+    "category": "II",
+    "question": "A simple pendulum has a time period T1 on the earth's surface and T2 at a height R above the earth's surface, where R is earth's radius. The ratio T2/T1 is:",
+    "options": [
+      "1",
+      "√2",
+      "2",
+      "4"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 53,
+    "subject": "physics",
+    "category": "II",
+    "question": "A parallel plate capacitor is charged by a battery which is then disconnected. A dielectric slab is now inserted between the plates. Which quantity remains constant?",
+    "options": [
+      "Capacitance",
+      "Potential difference",
+      "Electric field",
+      "Charge"
+    ],
+    "answer": "D",
+    "image": null
+  },
+  {
+    "id": 54,
+    "subject": "physics",
+    "category": "II",
+    "question": "A particle of mass m and charge q is projected with velocity v perpendicular to a uniform magnetic field B. The work done by the magnetic force after one revolution is: Page 13",
+    "options": [
+      "mv2/r",
+      "qvB",
+      "Zero",
+      ""
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 55,
+    "subject": "physics",
+    "category": "II",
+    "question": "In a Young's double-slit experiment, the intensity of light where the path difference is λ is K. The intensity where the path difference is λ/4 will be:",
+    "options": [
+      "K",
+      "K/2",
+      "K/4",
+      "Zero"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 56,
+    "subject": "physics",
+    "category": "II",
+    "question": "A block of mass m is pulled along a horizontal frictionless surface by a thick rope of mass m/2. If a force F is applied at the free end of the rope, the force exerted by the rope on the block is:",
+    "options": [
+      "F",
+      "2F/3",
+      "F/3",
+      "3F/2"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 57,
+    "subject": "physics",
+    "category": "II",
+    "question": "Two spheres of the same material have radii R and 2R. If they are heated to the same temperature and left in identical surroundings, the ratio of their initial rates of cooling is:",
+    "options": [
+      "1:1",
+      "2:1",
+      "1:2",
+      "4:1"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 58,
+    "subject": "physics",
+    "category": "II",
+    "question": "An ideal gas heat engine operates in a Carnot cycle between 227°C and 127°C. It absorbs 600 kcal at the higher temperature. The amount of heat converted into work is: Page 14",
+    "options": [
+      "120 kcal",
+      "240 kcal",
+      "480 kcal",
+      "600 kcal"
+    ],
+    "answer": "A",
+    "image": null
+  },
+  {
+    "id": 59,
+    "subject": "physics",
+    "category": "II",
+    "question": "The equivalent resistance between diagonally opposite corners of a wire cube of resistance R on each edge is:",
+    "options": [
+      "5R/6",
+      "7R/12",
+      "3R/4",
+      "R"
+    ],
+    "answer": "A",
+    "image": null
+  },
+  {
+    "id": 60,
+    "subject": "physics",
+    "category": "II",
+    "question": "The magnetic susceptibility of a paramagnetic substance at -73°C is 0.0060. Its susceptibility at -173°C will be:",
+    "options": [
+      "0.0030",
+      "0.0120",
+      "0.0180",
+      "0.0045"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 61,
+    "subject": "physics",
+    "category": "II",
+    "question": "In a series LCR circuit connected to an AC source, the voltage across R, L, and C is 10 V each. If the capacitor is short-circuited, the new voltage across the inductor will be:",
+    "options": [
+      "10 V",
+      "10/√2 V",
+      "10/3 V",
+      "0"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 62,
+    "subject": "physics",
+    "category": "II",
+    "question": "If the momentum of an electron is changed by p, the de Broglie wavelength associated with it changes by 0.5%. The initial momentum of the electron is: Page 15",
+    "options": [
+      "100 p",
+      "200 p",
+      "400 p",
+      "p/200"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 63,
+    "subject": "physics",
+    "category": "II",
+    "question": "A radioactive sample with half-life T contains N0 active nuclei at t=0. The number of nuclei decayed in time t = T/2 is:",
+    "options": [
+      "N0 / √2",
+      "N0",
+      "N0 / 2",
+      "N0 / 4"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 64,
+    "subject": "physics",
+    "category": "II",
+    "question": "Two thin lenses of focal lengths f1 and f2 are in contact and coaxial. The power of the combination is:",
+    "options": [
+      "f1 + f2",
+      "",
+      "1/f1 + 1/f2",
+      "f1 / f2"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 66,
+    "subject": "physics",
+    "category": "III",
+    "question": "A satellite is orbiting the earth in a circular orbit. If its mass is suddenly doubled without changing its orbital speed or radius, which statements are correct? Page 16",
+    "options": [
+      "Its time period will remain unchanged.",
+      "Its kinetic energy will be doubled.",
+      "Its potential energy will remain unchanged.",
+      "Its angular momentum will be doubled."
+    ],
+    "answer": [
+      "A",
+      "B",
+      "D"
+    ],
+    "image": null
+  },
+  {
+    "id": 67,
+    "subject": "physics",
+    "category": "III",
+    "question": "Which of the following equations represent a traveling wave?",
+    "options": [
+      "y = A sin",
+      "y = A cos",
+      "y = A sin",
+      "y = A e-"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "D"
+    ],
+    "image": null
+  },
+  {
+    "id": 68,
+    "subject": "physics",
+    "category": "III",
+    "question": "For a photoelectric effect experiment, which of the following statements are true?",
+    "options": [
+      "The stopping potential depends on the intensity of incident light.",
+      "The stopping potential depends on the frequency of incident light.",
+      "The saturation current depends on the intensity of incident light.",
+      "The photoelectric emission is an instantaneous process."
+    ],
+    "answer": [
+      "B",
+      "C",
+      "D"
+    ],
+    "image": null
+  },
+  {
+    "id": 69,
+    "subject": "physics",
+    "category": "III",
+    "question": "In an LCR series circuit connected to an AC source at resonance:",
+    "options": [
+      "The impedance of the circuit is minimum.",
+      "The current in the circuit is maximum.",
+      "The voltage across the inductor and capacitor are equal and opposite in phase.",
+      "The power factor of the circuit is zero."
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "image": null
+  },
+  {
+    "id": 70,
+    "subject": "physics",
+    "category": "III",
+    "question": "Let V and E denote the gravitational potential and field at a point, respectively. It is possible that: Page 17",
+    "options": [
+      "V = 0 and E = 0",
+      "V = 0 and E ≠ 0",
+      "V ≠ 0 and E = 0",
+      "V ≠ 0 and E ≠ 0"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "image": null
+  },
+  {
+    "id": 71,
+    "subject": "physics",
+    "category": "III",
+    "question": "A particle moves in a circular path with continuously increasing speed. Which of the following are correct?",
+    "options": [
+      "Its acceleration vector is strictly perpendicular to its velocity vector.",
+      "Its acceleration vector is not perpendicular to its velocity vector.",
+      "The work done by the net force is positive.",
+      "Its angular momentum about the center is conserved."
+    ],
+    "answer": [
+      "B",
+      "C"
+    ],
+    "image": null
+  },
+  {
+    "id": 72,
+    "subject": "physics",
+    "category": "III",
+    "question": "In an isolated charged capacitor with a dielectric:",
+    "options": [
+      "If the dielectric is removed, the potential difference increases.",
+      "If the dielectric is removed, the energy stored increases.",
+      "If the dielectric is removed, the charge increases.",
+      "If the dielectric is removed, the electric field decreases."
+    ],
+    "answer": [
+      "A",
+      "B"
+    ],
+    "image": null
+  },
+  {
+    "id": 73,
+    "subject": "physics",
+    "category": "III",
+    "question": "Which of the following quantities are quantized in Bohr's model of a hydrogen atom?",
+    "options": [
+      "Linear momentum",
+      "Angular momentum",
+      "Kinetic energy",
+      "Total energy"
+    ],
+    "answer": [
+      "B",
+      "C",
+      "D"
+    ],
+    "image": null
+  },
+  {
+    "id": 74,
+    "subject": "physics",
+    "category": "III",
+    "question": "A ray of light is incident from a denser medium to a rarer medium. The critical angle is θc.",
+    "options": [
+      "If angle of incidence i > θc, total internal reflection occurs.",
+      "If i < θc, the ray is partially reflected and partially refracted.",
+      "The refractive index of denser medium with respect to rarer medium is 1/sin",
+      "Total internal reflection can occur when light travels from rarer to denser medium."
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "image": null
+  },
+  {
+    "id": 75,
+    "subject": "physics",
+    "category": "III",
+    "question": "In the decay process: A → B + α, B → C + β-: Page 18",
+    "options": [
+      "Mass number of A is 4 more than that of C.",
+      "Atomic number of A is 1 more than that of C.",
+      "A and C are isotopes.",
+      "B and C are isobars."
+    ],
+    "answer": [
+      "A",
+      "B",
+      "D"
+    ],
+    "image": null
+  }
+]

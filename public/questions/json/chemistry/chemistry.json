@@ -1,0 +1,1133 @@
+[
+  {
+    "id": 1,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "In SO2, NO2-, and N3-, the hybridizations at the central atom are respectively",
+    "options": [
+      "sp2, sp2 and sp",
+      "sp2, sp and sp",
+      "sp2, sp2 and sp2",
+      "sp, sp2 and sp"
+    ],
+    "answer": "A",
+    "image": null
+  },
+  {
+    "id": 2,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "The type of hybridization and the magnetic property of [MnCl6]3- are",
+    "options": [
+      "d2sp3, paramagnetic",
+      "sp3d2, paramagnetic",
+      "d2sp3, paramagnetic",
+      "sp3d2, paramagnetic"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 3,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Which of the following species is diamagnetic according to Molecular Orbital Theory? Page 1",
+    "options": [
+      "O2",
+      "B2",
+      "C2",
+      "N2+"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 4,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "The SI unit of molar conductivity is",
+    "options": [
+      "S cm² mol-¹",
+      "S m² mol-¹",
+      "cm² mol-¹",
+      "Ω m mol-¹"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 5,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "The entropy of a perfect crystal at 0 K is",
+    "options": [
+      "Maximum",
+      "Minimum but not zero",
+      "Zero",
+      "Infinite"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 6,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "The pH of pure water at 25°C is",
+    "options": [
+      "0",
+      "14",
+      "7",
+      "1"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 7,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Rate of diffusion of gases is governed by",
+    "options": [
+      "Boyle's law",
+      "Charles' law",
+      "Graham's law",
+      "Dalton's law"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 8,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "The Bond Order of He2 is: Page 2",
+    "options": [
+      "0",
+      "0.5",
+      "1",
+      "1.5"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 9,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Which of the following molecules has a square pyramidal geometry?",
+    "options": [
+      "PCl5",
+      "BrF5",
+      "XeF2",
+      "SF6"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 10,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "The increasing order of dipole moment for the following is:",
+    "options": [
+      "CH4 < NH3 < H2O",
+      "H2O < NH3 < CH4",
+      "NH3 < CH4 < H2O",
+      "CH4 < H2O < NH3"
+    ],
+    "answer": "A",
+    "image": null
+  },
+  {
+    "id": 11,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "A reaction whose rate is independent of concentration is of",
+    "options": [
+      "First order",
+      "Second order",
+      "Zero order",
+      "Third order"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 12,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "For the cell: Mg | Mg2+ (1M) || Ag+ (1M) | Ag. E°(Mg2+/Mg)=-2.37 V, E°(Ag+/Ag)=+0.80 V. The standard EMF is:",
+    "options": [
+      "1.57 V",
+      "2.37 V",
+      "3.17 V",
+      "-3.17 V"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 13,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Which of the following is a state function? Page 3",
+    "options": [
+      "Heat",
+      "Work",
+      "Internal energy",
+      "Path length"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 14,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "22.4 L of an ideal gas at STP contains",
+    "options": [
+      "6.022 x 10^23 molecules",
+      "1 gram",
+      "0.5 mole",
+      "2 moles"
+    ],
+    "answer": "A",
+    "image": null
+  },
+  {
+    "id": 15,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "One mole of real gas (a=3.6, b=0.04, T=300K, V=10L, R=0.0821). The pressure is",
+    "options": [
+      "2.36 atm",
+      "2.46 atm",
+      "2.56 atm",
+      "2.66 atm"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 16,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Standard enthalpy of formation of an element in its standard state is",
+    "options": [
+      "1",
+      "Zero",
+      "-1",
+      "100 kJ"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 17,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "A process is spontaneous if",
+    "options": [
+      "ΔH > 0",
+      "ΔS < 0",
+      "ΔG < 0",
+      "ΔG > 0"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 18,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Hybridization of carbon in CO2 is Page 4",
+    "options": [
+      "sp3",
+      "sp2",
+      "sp",
+      "dsp2"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 19,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "SI unit of surface tension is",
+    "options": [
+      "N m-2",
+      "N m-1",
+      "J m-1",
+      "Pa"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 20,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "The Arrhenius equation relates rate constant with",
+    "options": [
+      "Pressure",
+      "Volume",
+      "Temperature",
+      "Concentration"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 21,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Which molecule involves sp3d hybridization and has different bond lengths?",
+    "options": [
+      "XeF4",
+      "BF3",
+      "SF4",
+      "CH4"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 22,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "According to VSEPR theory, the geometry of XeOF4 is:",
+    "options": [
+      "Octahedral",
+      "Square Pyramidal",
+      "Trigonal Bipyramidal",
+      "Square Planar"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 23,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Which gas shows maximum deviation from ideal behaviour at high pressure? Page 5",
+    "options": [
+      "H2",
+      "He",
+      "SO2",
+      "N2"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 24,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "The atomic number of the element with configuration [Ne] 3s2 3p3 is",
+    "options": [
+      "14",
+      "15",
+      "16",
+      "13"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 25,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Which of the following is diamagnetic?",
+    "options": [
+      "O2",
+      "B2",
+      "C2",
+      "NO"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 26,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Which pair of ions has the same number of unpaired electrons?",
+    "options": [
+      "Ti3+ and V3+",
+      "V3+ and Ni2+",
+      "Fe3+ and Mn2+",
+      "Both B and C"
+    ],
+    "answer": "D",
+    "image": null
+  },
+  {
+    "id": 27,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "The hybridization of Nickel in [Ni(CN)4]2- is:",
+    "options": [
+      "sp3",
+      "dsp2",
+      "sp3d2",
+      "d2sp3"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 28,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "The most electronegative element is Page 6",
+    "options": [
+      "Oxygen",
+      "Nitrogen",
+      "Fluorine",
+      "Chlorine"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 29,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Oxidation state of Cr in K2Cr2O7 is",
+    "options": [
+      "+3",
+      "+6",
+      "+2",
+      "+7"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 30,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Which species has maximum number of unpaired electrons?",
+    "options": [
+      "O2",
+      "O2+",
+      "O2-",
+      "N2"
+    ],
+    "answer": "A",
+    "image": null
+  },
+  {
+    "id": 31,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Shape of NH3 molecule is",
+    "options": [
+      "Trigonal planar",
+      "Tetrahedral",
+      "Trigonal pyramidal",
+      "Linear"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 32,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Noble gas with lowest ionization energy is",
+    "options": [
+      "He",
+      "Ne",
+      "Ar",
+      "Rn"
+    ],
+    "answer": "D",
+    "image": null
+  },
+  {
+    "id": 33,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Chief ore of aluminium is Page 7",
+    "options": [
+      "Hematite",
+      "Galena",
+      "Bauxite",
+      "Magnetite"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 34,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Which complex is most likely to be high spin?",
+    "options": [
+      "[Fe",
+      "[Fe",
+      "[Co",
+      "[Cr"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 35,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Central metal ion present in hemoglobin is",
+    "options": [
+      "Mg2+",
+      "Fe2+",
+      "Cu2+",
+      "Zn2+"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 36,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Electrolyte used in lead storage battery is",
+    "options": [
+      "HCI",
+      "HNO3",
+      "H2SO4",
+      "H3PO4"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 37,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Highest first ionization energy in second period is of:",
+    "options": [
+      "F",
+      "N",
+      "O",
+      "Ne"
+    ],
+    "answer": "D",
+    "image": null
+  },
+  {
+    "id": 38,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Coordination number of sulfur in SF6 is: Page 8",
+    "options": [
+      "4",
+      "5",
+      "6",
+      "2"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 39,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "The correct order of bond length is:",
+    "options": [
+      "O2+ < O2 < O2-",
+      "O2 < O2+ < O2-",
+      "O2- < O2 < O2+",
+      "O2 < O2- < O2+"
+    ],
+    "answer": "A",
+    "image": null
+  },
+  {
+    "id": 40,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "The correct order of electron affinity is",
+    "options": [
+      "F > CI > Br > I",
+      "CI > F > Br > I",
+      "CI > Br > F > I",
+      "F > CI > I > Br"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 41,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "The standard electrode potential of a half-cell depends on:",
+    "options": [
+      "Nature of electrode",
+      "Concentration of ions",
+      "Temperature",
+      "All of these"
+    ],
+    "answer": "D",
+    "image": null
+  },
+  {
+    "id": 42,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Hybridization of carbon in ethene is",
+    "options": [
+      "sp",
+      "sp2",
+      "sp3",
+      "dsp2"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 43,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Alkene reacts with cold alkaline KMnO4 to form Page 9",
+    "options": [
+      "Alcohol",
+      "Ketone",
+      "Vicinal diol",
+      "Alkane"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 44,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Which hydrocarbon burns with a sooty flame?",
+    "options": [
+      "Alkane",
+      "Alkene",
+      "Alkyne",
+      "Aromatic hydrocarbon"
+    ],
+    "answer": "D",
+    "image": null
+  },
+  {
+    "id": 45,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Monomer of PVC is",
+    "options": [
+      "Ethene",
+      "Vinyl chloride",
+      "Styrene",
+      "Tetrafluoroethylene"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 46,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Reaction of alkyl halide with Na in dry ether gives alkane. This is called",
+    "options": [
+      "Fittig reaction",
+      "Wurtz reaction",
+      "Kolbe reaction",
+      "Sandmeyer reaction"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 47,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Which functional group undergoes nucleophilic addition?",
+    "options": [
+      "Alkene",
+      "Alkane",
+      "Carbonyl",
+      "Ether"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 48,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Which pair represents enantiomers? Page 10",
+    "options": [
+      "",
+      "cis-2-butene & trans-2-butene",
+      "1-butanol & 2-butanol",
+      "meso-tartaric acid & d-tartaric acid"
+    ],
+    "answer": "A",
+    "image": null
+  },
+  {
+    "id": 49,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Glucose is a",
+    "options": [
+      "Protein",
+      "Lipid",
+      "Carbohydrate",
+      "Vitamin"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 50,
+    "subject": "chemistry",
+    "category": "I",
+    "question": "Polymer used in non-stick cookware is 2 Marks Each. Ground truth based on provided keys.",
+    "options": [
+      "PVC",
+      "Nylon",
+      "Bakelite",
+      "Teflon"
+    ],
+    "answer": "D",
+    "image": null
+  },
+  {
+    "id": 51,
+    "subject": "chemistry",
+    "category": "II",
+    "question": "Which isomerism is shown by Diethyl ether and Methyl propyl ether?",
+    "options": [
+      "Chain isomerism",
+      "Metamerism",
+      "Functional isomerism",
+      "Geometrical isomerism"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 52,
+    "subject": "chemistry",
+    "category": "II",
+    "question": "Among the following, the extensive variables are Page 11",
+    "options": [
+      "V",
+      "P",
+      "E",
+      "H"
+    ],
+    "answer": [
+      "A",
+      "C",
+      "D"
+    ],
+    "image": null
+  },
+  {
+    "id": 53,
+    "subject": "chemistry",
+    "category": "II",
+    "question": "X is an extensive property, and x is an intensive property of a thermodynamic system. Which of the following statement(s) is (are) correct?",
+    "options": [
+      "xX is extensive",
+      "x/X is intensive",
+      "X/x is extensive",
+      "dX/dX is intensive"
+    ],
+    "answer": [
+      "A",
+      "C"
+    ],
+    "image": null
+  },
+  {
+    "id": 54,
+    "subject": "chemistry",
+    "category": "II",
+    "question": "For spontaneous polymerization, which of the following is (are) correct?",
+    "options": [
+      "ΔG is negative",
+      "ΔH is negative",
+      "ΔS is positive",
+      "ΔS is negative"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "D"
+    ],
+    "image": null
+  },
+  {
+    "id": 55,
+    "subject": "chemistry",
+    "category": "II",
+    "question": "Which of the following compounds will show a positive result with Tollen's reagent?",
+    "options": [
+      "Glucose",
+      "Fructose",
+      "Benzaldehyde",
+      "Acetone"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "image": null
+  },
+  {
+    "id": 56,
+    "subject": "chemistry",
+    "category": "II",
+    "question": "Which of the following will undergo a Cannizzaro reaction when treated with concentrated NaOH? Page 12",
+    "options": [
+      "Formaldehyde",
+      "Benzaldehyde",
+      "Acetaldehyde",
+      "Trimethyl acetaldehyde"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "D"
+    ],
+    "image": null
+  },
+  {
+    "id": 57,
+    "subject": "chemistry",
+    "category": "II",
+    "question": "Which of the following statements about SN¹ reactions are correct?",
+    "options": [
+      "It follows first-order kinetics",
+      "It involves the formation of a carbocation intermediate",
+      "It is favoured by polar protic solvents",
+      "It results in complete inversion of configuration"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "image": null
+  },
+  {
+    "id": 58,
+    "subject": "chemistry",
+    "category": "II",
+    "question": "Which of the following are examples of addition polymers?",
+    "options": [
+      "Polyethylene",
+      "PVC",
+      "Nylon-6,6",
+      "Teflon"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "D"
+    ],
+    "image": null
+  },
+  {
+    "id": 59,
+    "subject": "chemistry",
+    "category": "II",
+    "question": "Which of the following compounds will give a yellow precipitate with Iodine and NaOH (Iodoform test)?",
+    "options": [
+      "Ethanol",
+      "Acetophenone",
+      "Benzophenone",
+      "Isopropyl alcohol"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "D"
+    ],
+    "image": null
+  },
+  {
+    "id": 60,
+    "subject": "chemistry",
+    "category": "II",
+    "question": "Which of the following reagents can be used to distinguish between Ethene and Ethyne? Page 13",
+    "options": [
+      "Bromine water",
+      "Ammoniacal Cuprous Chloride",
+      "Ammoniacal Silver Nitrate",
+      "Alkaline KMnO4"
+    ],
+    "answer": [
+      "B",
+      "C"
+    ],
+    "image": null
+  },
+  {
+    "id": 61,
+    "subject": "chemistry",
+    "category": "II",
+    "question": "Which of the following are periodic properties that generally decrease down a group in the periodic table?",
+    "options": [
+      "Atomic radius",
+      "Electronegativity",
+      "Ionization enthalpy",
+      "Electron gain enthalpy"
+    ],
+    "answer": [
+      "B",
+      "C",
+      "D"
+    ],
+    "image": null
+  },
+  {
+    "id": 62,
+    "subject": "chemistry",
+    "category": "II",
+    "question": "Which of the following undergo nucleophilic substitution (SN1) faster than Ethyl Chloride?",
+    "options": [
+      "Benzyl Chloride",
+      "Tert-butyl Chloride",
+      "Allyl Chloride",
+      "Chlorobenzene"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "image": null
+  },
+  {
+    "id": 63,
+    "subject": "chemistry",
+    "category": "II",
+    "question": "Which of the following are examples of intensive properties?",
+    "options": [
+      "Temperature",
+      "Density",
+      "Molar Heat Capacity",
+      "Volume"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "image": null
+  },
+  {
+    "id": 64,
+    "subject": "chemistry",
+    "category": "II",
+    "question": "Which of the following properties are characteristic of transition elements? Page 14",
+    "options": [
+      "Formation of coloured ions",
+      "Variable oxidation states",
+      "Paramagnetic behaviour",
+      "Formation of interstitial compounds"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "image": null
+  },
+  {
+    "id": 65,
+    "subject": "chemistry",
+    "category": "II",
+    "question": "Which of the following compounds are aromatic in nature? 2 Marks Each. Multiple correct options.",
+    "options": [
+      "Benzene",
+      "Naphthalene",
+      "Anthracene",
+      "Cyclooctatetraene"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "image": null
+  },
+  {
+    "id": 66,
+    "subject": "chemistry",
+    "category": "III",
+    "question": "In which of the following reactions is the major product formed according to Saytzeff's rule?",
+    "options": [
+      "Dehydration of 2-Butanol",
+      "Dehydrohalogenation of 2-Bromobutane with Alc. KOH",
+      "Dehydrohalogenation of 2-Bromobutane with t-BuOK",
+      "Pyrolysis of quaternary ammonium hydroxides"
+    ],
+    "answer": [
+      "A",
+      "B"
+    ],
+    "image": null
+  },
+  {
+    "id": 67,
+    "subject": "chemistry",
+    "category": "III",
+    "question": "Which of the following statements about Enzymes are correct?",
+    "options": [
+      "Highly specific in nature",
+      "Proteinaceous in nature",
+      "Lose activity at very high temperatures",
+      "Act as biocatalysts"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "image": null
+  },
+  {
+    "id": 68,
+    "subject": "chemistry",
+    "category": "III",
+    "question": "Which of the following properties of Alkali metals increase as the atomic number increases? Page 15",
+    "options": [
+      "Atomic radius",
+      "Ionic radius",
+      "Density",
+      "First Ionization Enthalpy"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "image": null
+  },
+  {
+    "id": 69,
+    "subject": "chemistry",
+    "category": "III",
+    "question": "Which of the following statements about the 'Inert Pair Effect' are true?",
+    "options": [
+      "Prominent in heavier p-block elements",
+      "Reluctance of s-electrons to bond",
+      "Stability of lower oxidation states in Gr 14/15",
+      "Caused by poor shielding of d and f orbitals"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "image": null
+  },
+  {
+    "id": 70,
+    "subject": "chemistry",
+    "category": "III",
+    "question": "Which of the following statements regarding KMnO4 are correct?",
+    "options": [
+      "Oxidizing agent in all media",
+      "Reduced to Mn2+ in acidic medium",
+      "Color due to d-d transitions",
+      "Volumetric reagent in redox titrations"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "D"
+    ],
+    "image": null
+  },
+  {
+    "id": 71,
+    "subject": "chemistry",
+    "category": "III",
+    "question": "Which of the following statements are correct for the Group 15 elements (Nitrogen family)?",
+    "options": [
+      "Stability of +3 increases down group",
+      "Stability of +5 decreases down group",
+      "Nitrogen can form pπ-pπ multiple bonds",
+      "Bismuth is strong oxidizing agent in +5"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "image": null
+  },
+  {
+    "id": 72,
+    "subject": "chemistry",
+    "category": "III",
+    "question": "Which compound shows geometrical isomerism?",
+    "options": [
+      "CH2=CH2",
+      "CH3-CH3",
+      "CH3-CH=CH-CH3",
+      "CH3-C≡C-CH3"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 73,
+    "subject": "chemistry",
+    "category": "III",
+    "question": "The IUPAC name of CH3-CH(OH)-CH3 is Page 16",
+    "options": [
+      "Propan-1-ol",
+      "Propan-2-ol",
+      "Isopropyl alcohol",
+      "Ethanol"
+    ],
+    "answer": "B",
+    "image": null
+  },
+  {
+    "id": 74,
+    "subject": "chemistry",
+    "category": "III",
+    "question": "Which reaction forms an ether from an alkyl halide?",
+    "options": [
+      "Wurtz reaction",
+      "Cannizzaro reaction",
+      "Williamson synthesis",
+      "Kolbe reaction"
+    ],
+    "answer": "C",
+    "image": null
+  },
+  {
+    "id": 75,
+    "subject": "chemistry",
+    "category": "III",
+    "question": "The configuration of a chiral carbon is determined using: Page 17",
+    "options": [
+      "Huckel rule",
+      "CIP priority rules",
+      "VSEPR theory",
+      "MOT"
+    ],
+    "answer": "B",
+    "image": null
+  }
+]
