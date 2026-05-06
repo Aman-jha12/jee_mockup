@@ -413,7 +413,7 @@ export default function LoginPage() {
                         onChange={handleFieldChange}
                       >
                         <option value="" disabled hidden className="bg-[#0a1428] text-white/50">Class Status</option>
-                        <option value="12th pursuing" className="bg-[#0a1428] text-white">12th Pursuing</option>
+                        <option value="12th Pursuing" className="bg-[#0a1428] text-white">12th Pursuing</option>
                         <option value="passout" className="bg-[#0a1428] text-white">Passout</option>
                       </select>
                       {getFieldError(formErrors, "classStatus") && (
