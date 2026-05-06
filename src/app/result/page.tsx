@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Header } from '@/components/Header';
+import { isExamSubmitted, isSessionValidForExam } from '@/lib/exam-session';
 
 export default function ResultPage() {
   const router = useRouter();
@@ -11,10 +12,13 @@ export default function ResultPage() {
   const [isViewingSolutions, setIsViewingSolutions] = useState(false);
 
   useEffect(() => {
-    const id = localStorage.getItem("userId");
-    const verified = localStorage.getItem("verified");
-    if (!id || verified !== "true") {
+    if (!isSessionValidForExam()) {
       router.push("/");
+      return;
+    }
+
+    if (!isExamSubmitted()) {
+      router.push("/exam");
       return;
     }
 

@@ -3,7 +3,10 @@
 import { useState, type ChangeEvent, type FormEvent } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { insertUser, verifyUser } from "@/lib/api"
+import { checkAttempts, verifyUser, createUser } from "@/lib/sheets-api"
+import { validateForm, getFieldError } from "@/lib/validation"
+import { clearAllExamData, saveVerifiedUser } from "@/lib/exam-session"
+import type { ValidationError } from "@/lib/validation"
 
 const UserIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
@@ -32,14 +35,16 @@ const ArrowRightIcon = () => (
 
 export default function LoginPage() {
   const router = useRouter()
-  const [step, setStep] = useState<"details" | "otp" | "verified">("details")
+  const [step, setStep] = useState<"details" | "otp" | "verified" | "blocked">("details")
   const [isOtpSent, setIsOtpSent] = useState(false)
   const [otp, setOtp] = useState("")
   const [statusMessage, setStatusMessage] = useState("")
+  const [formErrors, setFormErrors] = useState<ValidationError[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const [apiError, setApiError] = useState<string | null>(null)
   const [formData, setFormData] = useState({
-    fullname: "",
-    mobile: "",
+    name: "",
+    number: "",
     email: "",
     classStatus: "",
     stream: "",
@@ -49,45 +54,62 @@ export default function LoginPage() {
   const handleFieldChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+    // Clear field error when user starts typing
+    setFormErrors((prev) => prev.filter((err) => err.field !== name))
   }
 
   const handleContinueToOtp = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setFormErrors([])
+    setStatusMessage("")
+    setApiError(null)
 
-    const id = crypto.randomUUID()
-    localStorage.setItem("userId", id)
-    localStorage.setItem("userName", formData.fullname)
-    localStorage.removeItem("submitted")
-    localStorage.removeItem("submittedUserId")
-    localStorage.removeItem("examMarks")
-    localStorage.removeItem("verified")
-
-    const date_time_initial = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })
-    localStorage.setItem("date_time_initial", date_time_initial)
+    // Validate form
+    const validation = validateForm(formData)
+    if (!validation.valid) {
+      setFormErrors(validation.errors)
+      return
+    }
 
     setIsLoading(true)
-    setStatusMessage("Saving your details...")
+    setStatusMessage("Checking attempts...")
 
     try {
-      await insertUser({
-        id,
-        name: formData.fullname,
-        number: formData.mobile,
-        city: formData.city,
-        class_status: formData.classStatus,
-        stream: formData.stream,
-        email: formData.email,
-        date_time_initial,
-      })
+      // Step 1: Create or update user
+      setStatusMessage("Creating user profile...")
+      const createResult = await createUser(formData)
+      if (!createResult.success) {
+        setApiError(createResult.error?.message || "Failed to create user profile.")
+        setIsLoading(false)
+        return
+      }
 
+      setStatusMessage("Checking attempts...")
+      // Step 1: Check if user has attempts remaining
+      const checkResult = await checkAttempts(formData.number)
+
+      if (!checkResult.success) {
+        setApiError(checkResult.error?.message || "Failed to check attempts. Please try again.")
+        setIsLoading(false)
+        return
+      }
+
+      // Step 2: If not allowed, block user
+      if (!checkResult.allowed) {
+        setStep("blocked")
+        setStatusMessage("You have already used your maximum 2 attempts.")
+        setIsLoading(false)
+        return
+      }
+
+      // Step 3: Proceed to OTP
       setStep("otp")
       setIsOtpSent(false)
       setOtp("")
       setStatusMessage("")
     } catch (error) {
-      localStorage.removeItem("userId")
-      const message = error instanceof Error ? error.message : "Unknown error while saving details."
-      setStatusMessage(message)
+      const message = error instanceof Error ? error.message : "Unknown error occurred"
+      setApiError(message)
     } finally {
       setIsLoading(false)
     }
@@ -95,50 +117,67 @@ export default function LoginPage() {
 
   const handleSendOtp = () => {
     setIsOtpSent(true)
-    setStatusMessage(`OTP sent to ${formData.mobile}`)
+    setStatusMessage(`OTP sent to ${formData.number}`)
   }
 
   const handleResendOtp = () => {
     setIsOtpSent(true)
-    setStatusMessage(`OTP resent to ${formData.mobile}`)
+    setStatusMessage(`OTP resent to ${formData.number}`)
   }
 
   const handleVerifyOtp = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
-    const id = localStorage.getItem("userId")
-    const date_time_initial = localStorage.getItem("date_time_initial") || new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })
+    setApiError(null)
+    setStatusMessage("")
 
     if (otp.trim().length !== 6) {
-      if (id) {
-        await verifyUser({
-          id,
-          date_time_initial,
-          verified: false
-        }).catch(() => { })
-      }
       setStatusMessage("Please enter a valid 6-digit OTP")
       return
     }
 
     setIsLoading(true)
-    setStatusMessage("Verifying...")
+    setStatusMessage("Verifying OTP...")
 
     try {
-      if (id) {
-        await verifyUser({
-          id,
-          date_time_initial,
-          verified: true,
-        })
-        localStorage.setItem("verified", "true")
+      // Call verifyUser with all user details
+      // Backend will create new user or update existing user, mark verified=true, increment attempts
+      const verifyResult = await verifyUser({
+        number: formData.number,
+        name: formData.name,
+        city: formData.city,
+        classStatus: formData.classStatus,
+        stream: formData.stream,
+        email: formData.email,
+      })
+
+      if (!verifyResult.success) {
+        setApiError(verifyResult.error?.message || "OTP verification failed. Please try again.")
+        setIsLoading(false)
+        return
       }
 
+      // Clear any previous exam submission state for a fresh attempt
+      clearAllExamData()
+
+      // Save verified user to session storage
+      const verifiedUserData = {
+        name: formData.name,
+        number: formData.number,
+        city: formData.city,
+        classStatus: formData.classStatus,
+        stream: formData.stream,
+        email: formData.email,
+        attempts: verifyResult.attempts,
+        verifiedAt: Date.now(),
+      }
+
+      saveVerifiedUser(verifiedUserData)
+
       setStep("verified")
-      setStatusMessage("Number verified successfully")
+      setStatusMessage("Number verified successfully!")
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Unknown error while verifying details."
-      setStatusMessage(message)
+      const message = error instanceof Error ? error.message : "Unknown error while verifying OTP"
+      setApiError(message)
     } finally {
       setIsLoading(false)
     }
@@ -311,13 +350,16 @@ export default function LoginPage() {
                     </div>
                     <input
                       className={inputClasses}
-                      name="fullname"
+                      name="name"
                       placeholder="Full Name"
                       required
                       type="text"
-                      value={formData.fullname}
+                      value={formData.name}
                       onChange={handleFieldChange}
                     />
+                    {getFieldError(formErrors, "name") && (
+                      <p className="text-[10px] md:text-xs text-red-400/80 mt-1">{getFieldError(formErrors, "name")}</p>
+                    )}
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
@@ -327,13 +369,16 @@ export default function LoginPage() {
                       </div>
                       <input
                         className={inputClasses}
-                        name="mobile"
+                        name="number"
                         placeholder="Mobile Number"
                         required
                         type="tel"
-                        value={formData.mobile}
+                        value={formData.number}
                         onChange={handleFieldChange}
                       />
+                      {getFieldError(formErrors, "number") && (
+                        <p className="text-[10px] md:text-xs text-red-400/80 mt-1">{getFieldError(formErrors, "number")}</p>
+                      )}
                     </div>
 
                     <div className="relative w-full">
@@ -349,6 +394,9 @@ export default function LoginPage() {
                         value={formData.city}
                         onChange={handleFieldChange}
                       />
+                      {getFieldError(formErrors, "city") && (
+                        <p className="text-[10px] md:text-xs text-red-400/80 mt-1">{getFieldError(formErrors, "city")}</p>
+                      )}
                     </div>
                   </div>
 
@@ -365,9 +413,12 @@ export default function LoginPage() {
                         onChange={handleFieldChange}
                       >
                         <option value="" disabled hidden className="bg-[#0a1428] text-white/50">Class Status</option>
-                        <option value="passout" className="bg-[#0a1428] text-white">12th Passout</option>
-                        <option value="pursuing" className="bg-[#0a1428] text-white">Pursuing</option>
+                        <option value="student" className="bg-[#0a1428] text-white">Student</option>
+                        <option value="other" className="bg-[#0a1428] text-white">Other</option>
                       </select>
+                      {getFieldError(formErrors, "classStatus") && (
+                        <p className="text-[10px] md:text-xs text-red-400/80 mt-1">{getFieldError(formErrors, "classStatus")}</p>
+                      )}
                     </div>
 
                     <div className="relative w-full">
@@ -383,9 +434,12 @@ export default function LoginPage() {
                       >
                         <option value="" disabled hidden className="bg-[#0a1428] text-white/50">Stream</option>
                         <option value="PCM" className="bg-[#0a1428] text-white">PCM</option>
-                        <option value="PCMB" className="bg-[#0a1428] text-white">PCMB</option>
                         <option value="PCB" className="bg-[#0a1428] text-white">PCB</option>
+                        <option value="BOTH" className="bg-[#0a1428] text-white">BOTH</option>
                       </select>
+                      {getFieldError(formErrors, "stream") && (
+                        <p className="text-[10px] md:text-xs text-red-400/80 mt-1">{getFieldError(formErrors, "stream")}</p>
+                      )}
                     </div>
                   </div>
 
@@ -402,10 +456,19 @@ export default function LoginPage() {
                       value={formData.email}
                       onChange={handleFieldChange}
                     />
+                    {getFieldError(formErrors, "email") && (
+                      <p className="text-[10px] md:text-xs text-red-400/80 mt-1">{getFieldError(formErrors, "email")}</p>
+                    )}
                   </div>
 
+                  {apiError && (
+                    <p className="text-center text-[11px] md:text-xs font-semibold text-red-400/90 bg-red-500/10 py-2 rounded-lg border border-red-500/20">
+                      {apiError}
+                    </p>
+                  )}
+
                   {statusMessage && (
-                    <p className="text-center text-[11px] md:text-xs font-semibold text-[#ff2e2e]/90 pb-1">
+                    <p className="text-center text-[11px] md:text-xs font-semibold text-blue-400/90 pb-1">
                       {statusMessage}
                     </p>
                   )}
@@ -413,7 +476,7 @@ export default function LoginPage() {
                   {/* 5. Button */}
                   <div className="pt-2 flex flex-col items-center">
                     <button
-                      className="w-full relative flex items-center justify-center py-3 md:py-3.5 text-white font-bold text-sm transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                      className="w-full relative flex items-center justify-center py-3 md:py-3.5 text-white font-bold text-sm transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:scale-100"
                       style={{
                         background: "linear-gradient(135deg, #ff2e2e, #c40000)",
                         borderRadius: "0.75rem",
@@ -426,7 +489,7 @@ export default function LoginPage() {
                         <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                       ) : (
                         <>
-                          <span>Verify Your Number</span>
+                          <span>continue</span>
                           <div className="absolute right-4 text-white/80 scale-90 md:scale-100">
                             <ArrowRightIcon />
                           </div>
@@ -451,7 +514,7 @@ export default function LoginPage() {
               {step === "otp" && (
                 <form className="flex flex-col gap-3 md:gap-4 pb-2" onSubmit={handleVerifyOtp}>
                   <div className="text-center text-xs md:text-sm font-medium text-white/70 bg-white/5 py-3 rounded-xl border border-white/5">
-                    Verify the OTP sent to {formData.mobile}
+                    Verify the OTP sent to {formData.number}
                   </div>
 
                   <div className="relative w-full mt-1">
@@ -470,8 +533,14 @@ export default function LoginPage() {
                     />
                   </div>
 
+                  {apiError && (
+                    <p className="text-center text-[11px] md:text-xs font-semibold text-red-400/90 bg-red-500/10 py-2 rounded-lg border border-red-500/20">
+                      {apiError}
+                    </p>
+                  )}
+
                   {statusMessage && (
-                    <p className="text-center text-[11px] md:text-xs font-semibold text-[#ff2e2e]/90">
+                    <p className="text-center text-[11px] md:text-xs font-semibold text-blue-400/90">
                       {statusMessage}
                     </p>
                   )}
@@ -480,13 +549,14 @@ export default function LoginPage() {
                     <button
                       type="button"
                       onClick={isOtpSent ? handleResendOtp : handleSendOtp}
-                      className="w-full py-3 md:py-3.5 rounded-xl border border-white/10 bg-white/5 text-xs md:text-sm font-semibold text-white transition-all duration-300 hover:bg-white/10 hover:border-white/20"
+                      className="w-full py-3 md:py-3.5 rounded-xl border border-white/10 bg-white/5 text-xs md:text-sm font-semibold text-white transition-all duration-300 hover:bg-white/10 hover:border-white/20 disabled:opacity-50"
+                      disabled={isLoading}
                     >
                       {isOtpSent ? "Resend OTP" : "Send OTP"}
                     </button>
                     <button
                       type="submit"
-                      className="w-full relative flex items-center justify-center py-3 md:py-3.5 text-white font-bold text-xs md:text-sm transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                      className="w-full relative flex items-center justify-center py-3 md:py-3.5 text-white font-bold text-xs md:text-sm transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:scale-100"
                       style={{
                         background: "linear-gradient(135deg, #ff2e2e, #c40000)",
                         borderRadius: "0.75rem",
@@ -516,14 +586,14 @@ export default function LoginPage() {
                   </div>
 
                   {statusMessage && (
-                    <p className="text-center text-[11px] md:text-xs font-semibold text-[#ff8080] bg-red-500/10 py-2 rounded-lg border border-red-500/20">
+                    <p className="text-center text-[11px] md:text-xs font-semibold text-blue-400/90">
                       {statusMessage}
                     </p>
                   )}
 
                   <div className="pt-2 flex flex-col items-center">
                     <button
-                      className="w-full relative flex items-center justify-center py-3 md:py-3.5 text-white font-bold text-sm transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                      className="w-full relative flex items-center justify-center py-3 md:py-3.5 text-white font-bold text-sm transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:scale-100"
                       style={{
                         background: "linear-gradient(135deg, #ff2e2e, #c40000)",
                         borderRadius: "0.75rem",
@@ -556,6 +626,55 @@ export default function LoginPage() {
                     </div>
                   </div>
                 </form>
+              )}
+
+              {step === "blocked" && (
+                <div className="flex flex-col gap-4 md:gap-6">
+                  <div className="flex flex-col items-center justify-center py-8">
+                    <div
+                      className="w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center mb-4"
+                      style={{ background: "rgba(220, 38, 38, 0.15)" }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="32"
+                        height="32"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="text-red-500"
+                      >
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                      </svg>
+                    </div>
+
+                    <h2 className="text-center text-xl md:text-2xl font-bold text-white mb-3">
+                      Exam Attempts Exhausted
+                    </h2>
+
+                    <p className="text-center text-sm md:text-base text-white/80 leading-relaxed">
+                      You have already used your maximum 2 attempts for this examination.
+                    </p>
+
+                    <p className="text-center text-xs md:text-sm text-white/60 mt-4">
+                      Please contact support if you believe this is an error.
+                    </p>
+                  </div>
+
+                  <div
+                    className="p-4 rounded-lg border"
+                    style={{ background: "rgba(220, 38, 38, 0.05)", borderColor: "rgba(220, 38, 38, 0.2)" }}
+                  >
+                    <p className="text-xs md:text-sm text-white/70 text-center">
+                      For assistance, contact the examination authority.
+                    </p>
+                  </div>
+                </div>
               )}
             </div>
           </div>

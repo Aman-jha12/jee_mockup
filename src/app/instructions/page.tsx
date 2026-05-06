@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Header } from '@/components/Header';
 import { instructions } from '@/lib/instructions';
+import { isSessionValidForExam, markExamStarted } from '@/lib/exam-session';
 
 export default function InstructionsPage() {
   const router = useRouter();
@@ -11,9 +12,7 @@ export default function InstructionsPage() {
   const [isStartingExam, setIsStartingExam] = useState(false);
 
   useEffect(() => {
-    const id = localStorage.getItem("userId");
-    const verified = localStorage.getItem("verified");
-    if (!id || verified !== "true") {
+    if (!isSessionValidForExam()) {
       router.push("/");
     }
   }, [router]);
@@ -123,6 +122,7 @@ export default function InstructionsPage() {
             <button
               onClick={() => {
                 setIsStartingExam(true);
+                markExamStarted();
                 router.push("/exam");
               }}
               disabled={isGoingBack || isStartingExam}

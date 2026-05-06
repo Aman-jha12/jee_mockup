@@ -13,6 +13,8 @@ import {
 } from '@/lib/generateTest';
 import { evaluateExam } from '@/lib/evaluate';
 import { clearExamSession, loadExamSession, saveExamSession } from '@/lib/storage';
+import { isExamSubmitted, isSessionValidForExam, loadVerifiedUser, markExamSubmitted } from '@/lib/exam-session';
+import { submitExam } from '@/lib/sheets-api';
 import {
   ExamPaper,
   ExamQuestionView,
@@ -123,17 +125,20 @@ export default function ExamInterface() {
     let mounted = true;
 
     const bootstrap = async () => {
-      const userId = localStorage.getItem('userId');
-      const verified = localStorage.getItem('verified');
-      const submittedUserId = localStorage.getItem('submittedUserId');
-
-      if (!userId || verified !== 'true') {
+      if (!isSessionValidForExam()) {
         router.push('/');
         return;
       }
 
-      if (localStorage.getItem('submitted') === 'true' && submittedUserId === userId) {
+      if (isExamSubmitted()) {
         router.push('/result');
+        return;
+      }
+
+      const verifiedUser = loadVerifiedUser();
+      const userId = verifiedUser?.number;
+      if (!userId) {
+        router.push('/');
         return;
       }
 
@@ -390,19 +395,21 @@ export default function ExamInterface() {
 
     setSubmitError('');
 
-    if (localStorage.getItem('submitted') === 'true') {
-      return;
-    }
-
-    const id = localStorage.getItem('userId');
-    if (!id) {
-      router.push('/');
+    if (isExamSubmitted()) {
       return;
     }
 
     setIsSubmitting(true);
 
     try {
+      // Get verified user phone number
+      const verifiedUser = loadVerifiedUser();
+      if (!verifiedUser || !verifiedUser.number) {
+        setSubmitError('User verification data not found. Please start the exam again.');
+        setIsSubmitting(false);
+        return;
+      }
+
       const userAnswers: UserAnswer[] = questions.map((question) => ({
         questionKey: question.questionKey,
         selectedOptionIndexes: question.selectedOptionIndexes,
@@ -410,24 +417,42 @@ export default function ExamInterface() {
 
       const evaluation = evaluateExam(paper, userAnswers);
 
-      const mathematics = Number(evaluation.subjectMarks.maths.toFixed(2));
+      const maths = Number(evaluation.subjectMarks.maths.toFixed(2));
       const physics = Number(evaluation.subjectMarks.physics.toFixed(2));
       const chemistry = Number(evaluation.subjectMarks.chemistry.toFixed(2));
-      const total_marks = Number(evaluation.totalMarks.toFixed(2));
+      const totalMarks = Number(evaluation.totalMarks.toFixed(2));
 
-      localStorage.setItem('submitted', 'true');
-      localStorage.setItem('submittedUserId', id);
+      // Submit to Google Apps Script via sheets-api
+      const submitResult = await submitExam({
+        number: verifiedUser.number,
+        totalMarks,
+        maths,
+        physics,
+        chemistry,
+        attempt: verifiedUser.attempts,
+      });
+
+      if (!submitResult.success) {
+        setSubmitError(
+          submitResult.error?.message ||
+            'Failed to submit exam results. Please try again.'
+        );
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Mark as submitted
+      markExamSubmitted();
       localStorage.setItem(
         'examMarks',
         JSON.stringify({
-          total_marks,
-          mathematics,
+          total_marks: totalMarks,
+          mathematics: maths,
           physics,
           chemistry,
         })
       );
       localStorage.setItem('examResultDetails', JSON.stringify(evaluation));
-      clearExamSession();
 
       router.push('/result');
     } catch (error) {
