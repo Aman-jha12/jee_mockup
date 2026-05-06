@@ -11,7 +11,8 @@
       "Power"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 2,
@@ -25,7 +26,8 @@
       "g cotθ"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 3,
@@ -39,7 +41,8 @@
       "2 J"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 4,
@@ -53,7 +56,8 @@
       "2p /"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 5,
@@ -67,7 +71,8 @@
       "1.33"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 6,
@@ -81,7 +86,8 @@
       "60 minutes"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 7,
@@ -95,7 +101,8 @@
       "1 : √2"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 8,
@@ -110,7 +117,8 @@
       "E along +x, B along +z"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 9,
@@ -124,7 +132,8 @@
       "Zero"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 10,
@@ -138,7 +147,8 @@
       "μ g / R"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 11,
@@ -152,7 +162,8 @@
       "4k"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 12,
@@ -166,7 +177,8 @@
       "4 ve"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 13,
@@ -180,7 +192,8 @@
       "1.28"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 14,
@@ -194,7 +207,8 @@
       "2h"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 15,
@@ -208,7 +222,8 @@
       "32 V"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 16,
@@ -218,11 +233,11 @@
     "options": [
       "nRT ln",
       "nRT ln",
-      "nRT",
-      ""
+      "nRT"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 17,
@@ -236,7 +251,8 @@
       "100%"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 18,
@@ -250,7 +266,8 @@
       "2λ"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 19,
@@ -264,7 +281,8 @@
       "1/r"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 20,
@@ -278,21 +296,8 @@
       "Work"
     ],
     "answer": "B",
-    "image": null
-  },
-  {
-    "id": 21,
-    "subject": "physics",
-    "category": "I",
-    "question": "The moment of inertia of a solid sphere of mass M and radius R about its diameter is:",
-    "options": [
-      "",
-      "",
-      "",
-      "MR2"
-    ],
-    "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 22,
@@ -306,7 +311,8 @@
       "inverse square of the semi-major axis"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 23,
@@ -320,7 +326,8 @@
       "Zero"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 24,
@@ -329,12 +336,11 @@
     "question": "The equivalent capacitance of two capacitors C1 and C2 connected in series is:",
     "options": [
       "C1 + C2",
-      "",
-      "",
       "|C1 - C2|"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 25,
@@ -348,7 +354,8 @@
       "2 vd"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 26,
@@ -362,7 +369,8 @@
       "Angular momentum"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 27,
@@ -376,7 +384,8 @@
       "I / r"
     ],
     "answer": "D",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 28,
@@ -386,11 +395,11 @@
     "options": [
       "q",
       "q",
-      "q",
-      ""
+      "q"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 29,
@@ -400,11 +409,11 @@
     "options": [
       "1 /",
       "1 / √",
-      "2π√",
-      ""
+      "2π√"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 30,
@@ -418,7 +427,8 @@
       "Copper loss"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 31,
@@ -432,7 +442,8 @@
       "Radio waves"
     ],
     "answer": "D",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 32,
@@ -446,7 +457,8 @@
       "Real, erect, and diminished"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 33,
@@ -460,7 +472,8 @@
       "d /"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 34,
@@ -474,7 +487,8 @@
       "μ = cot"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 35,
@@ -488,7 +502,8 @@
       "E = p2/"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 36,
@@ -502,7 +517,8 @@
       "12.27 / V Å"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 37,
@@ -516,7 +532,8 @@
       "1/n2"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 38,
@@ -530,7 +547,8 @@
       "T1/2 = 1 / λ"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 39,
@@ -544,7 +562,8 @@
       "Uranium"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 40,
@@ -558,7 +577,8 @@
       "First increases then decreases"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 41,
@@ -572,7 +592,8 @@
       "NAND gate"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 42,
@@ -586,7 +607,8 @@
       "An oscillator"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 43,
@@ -600,7 +622,8 @@
       "8%"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 44,
@@ -614,7 +637,8 @@
       "Infinity"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 45,
@@ -628,7 +652,8 @@
       "Angle of deviation"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 46,
@@ -642,7 +667,8 @@
       "Depends on the specific heat"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 47,
@@ -656,7 +682,8 @@
       "Wb m2"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 48,
@@ -670,7 +697,8 @@
       "Zero"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 49,
@@ -684,7 +712,8 @@
       "Infinity"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 51,
@@ -698,7 +727,8 @@
       "reaches the bottom with different speeds and different times."
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 52,
@@ -712,7 +742,8 @@
       "4"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 53,
@@ -726,7 +757,8 @@
       "Charge"
     ],
     "answer": "D",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 54,
@@ -736,11 +768,11 @@
     "options": [
       "mv2/r",
       "qvB",
-      "Zero",
-      ""
+      "Zero"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 55,
@@ -754,7 +786,8 @@
       "Zero"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 56,
@@ -768,7 +801,8 @@
       "3F/2"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 57,
@@ -782,7 +816,8 @@
       "4:1"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 58,
@@ -796,7 +831,8 @@
       "600 kcal"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 59,
@@ -810,7 +846,8 @@
       "R"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 60,
@@ -824,7 +861,8 @@
       "0.0045"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 61,
@@ -838,7 +876,8 @@
       "0"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 62,
@@ -852,7 +891,8 @@
       "p/200"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 63,
@@ -866,7 +906,8 @@
       "N0 / 4"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 64,
@@ -875,12 +916,12 @@
     "question": "Two thin lenses of focal lengths f1 and f2 are in contact and coaxial. The power of the combination is:",
     "options": [
       "f1 + f2",
-      "",
       "1/f1 + 1/f2",
       "f1 / f2"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 66,
@@ -898,7 +939,8 @@
       "B",
       "D"
     ],
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 67,
@@ -916,7 +958,8 @@
       "B",
       "D"
     ],
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 68,
@@ -934,7 +977,8 @@
       "C",
       "D"
     ],
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 69,
@@ -952,7 +996,8 @@
       "B",
       "C"
     ],
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 70,
@@ -971,7 +1016,8 @@
       "C",
       "D"
     ],
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 71,
@@ -988,7 +1034,8 @@
       "B",
       "C"
     ],
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 72,
@@ -1005,7 +1052,8 @@
       "A",
       "B"
     ],
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 73,
@@ -1023,7 +1071,8 @@
       "C",
       "D"
     ],
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 74,
@@ -1041,7 +1090,8 @@
       "B",
       "C"
     ],
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
     "id": 75,
@@ -1059,6 +1109,7 @@
       "B",
       "D"
     ],
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
   }
 ]

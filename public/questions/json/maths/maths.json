@@ -11,7 +11,8 @@
       "[-∞, -1] U [1, ∞]"
     ],
     "answer": "D",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 2,
@@ -25,7 +26,8 @@
       "nπ - π/4"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 3,
@@ -39,7 +41,8 @@
       "-2, 6"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 4,
@@ -53,7 +56,8 @@
       "a<0, c<0"
     ],
     "answer": "D",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 5,
@@ -67,7 +71,8 @@
       "none"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 6,
@@ -81,7 +86,8 @@
       "Re z < 3"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 7,
@@ -95,7 +101,8 @@
       "3π/5"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 8,
@@ -109,7 +116,8 @@
       "10C3"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 9,
@@ -123,7 +131,8 @@
       "-π/4 ≤ x ≤ π/4"
     ],
     "answer": "D",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 10,
@@ -137,7 +146,8 @@
       "e"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 11,
@@ -151,7 +161,8 @@
       "2"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 12,
@@ -165,7 +176,8 @@
       "1"
     ],
     "answer": "D",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 13,
@@ -179,7 +191,8 @@
       "1/3["
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 14,
@@ -193,7 +206,8 @@
       "A=-5/2, B=31/36, C=3/2 log 3 + c"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 15,
@@ -207,7 +221,8 @@
       "x cos α - sin α log sin"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 16,
@@ -221,7 +236,8 @@
       "2"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 17,
@@ -235,7 +251,8 @@
       "47/2"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 18,
@@ -249,7 +266,8 @@
       "undefined"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 19,
@@ -263,7 +281,8 @@
       "4"
     ],
     "answer": "D",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 20,
@@ -277,7 +296,8 @@
       "xe^x - x^2 = c"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 21,
@@ -291,7 +311,8 @@
       "π - 3 cos^-1 x"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 22,
@@ -305,7 +326,8 @@
       "4Δ"
     ],
     "answer": "D",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 23,
@@ -319,7 +341,8 @@
       "π/4"
     ],
     "answer": "D",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 24,
@@ -333,7 +356,8 @@
       "4Δ"
     ],
     "answer": "D",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 25,
@@ -347,7 +371,8 @@
       "-1"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 26,
@@ -356,12 +381,11 @@
     "question": "If tan 25 = a, then (tan 155 - tan 115) / (1 + tan 155 tan 115) is Page 6",
     "options": [
       "2a/",
-      "2a/",
-      "",
-      ""
+      "2a/"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 27,
@@ -374,7 +398,8 @@
       "1/sqrt"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 28,
@@ -388,7 +413,8 @@
       "0"
     ],
     "answer": "D",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 29,
@@ -402,35 +428,8 @@
       "x^2+y^2=2sqrt"
     ],
     "answer": "C",
-    "image": null
-  },
-  {
-    "id": 30,
-    "subject": "maths",
-    "category": "I",
-    "question": "Q is image of P(1,5) about y=x. R is image of Q about y=-x. Circumcentre of PQR is",
-    "options": [
-      "",
-      "",
-      "",
-      ""
-    ],
-    "answer": "D",
-    "image": null
-  },
-  {
-    "id": 31,
-    "subject": "maths",
-    "category": "I",
-    "question": "Foot of perpendicular from (1,8,4) on line joining (0,-11,4) and (2,-3,1) is Page 7",
-    "options": [
-      "",
-      "",
-      "",
-      ""
-    ],
-    "answer": "D",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 32,
@@ -444,7 +443,8 @@
       "3:2"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 33,
@@ -458,7 +458,8 @@
       "P"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 34,
@@ -467,26 +468,11 @@
     "question": "If sum of 5th and 6th terms of (a-b)^n is 0, a/b is",
     "options": [
       "5/",
-      "1/5",
-      "",
-      ""
+      "1/5"
     ],
     "answer": "D",
-    "image": null
-  },
-  {
-    "id": 35,
-    "subject": "maths",
-    "category": "I",
-    "question": "The coefficient of x^3 in expansion of 3^x is",
-    "options": [
-      "",
-      "",
-      "log_e 3 / 6",
-      ""
-    ],
-    "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 36,
@@ -500,7 +486,8 @@
       "AB+BA is skew-symmetric"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 37,
@@ -514,7 +501,8 @@
       "92"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 38,
@@ -528,7 +516,8 @@
       "-3,-1"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 39,
@@ -542,7 +531,8 @@
       "rectangular matrix"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 40,
@@ -556,7 +546,8 @@
       "3/16"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 41,
@@ -570,7 +561,8 @@
       "None"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 42,
@@ -584,7 +576,8 @@
       "None"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 43,
@@ -598,7 +591,8 @@
       "12"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 44,
@@ -612,7 +606,8 @@
       "symmetric if"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 45,
@@ -626,7 +621,8 @@
       "Equivalence relation"
     ],
     "answer": "D",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 46,
@@ -640,7 +636,8 @@
       "1, -2"
     ],
     "answer": "D",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 47,
@@ -654,7 +651,8 @@
       "a/sqrt"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 48,
@@ -668,7 +666,8 @@
       "k<1/2"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 49,
@@ -682,7 +681,8 @@
       "increasing in"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 50,
@@ -696,21 +696,8 @@
       "None"
     ],
     "answer": "B",
-    "image": null
-  },
-  {
-    "id": 51,
-    "subject": "maths",
-    "category": "II",
-    "question": "If x, y, z are positive in A.P. then",
-    "options": [
-      "",
-      "",
-      "y^2 <= zx",
-      ""
-    ],
-    "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 52,
@@ -724,7 +711,8 @@
       "none"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 53,
@@ -738,7 +726,8 @@
       "17"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 54,
@@ -752,7 +741,8 @@
       "23"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 55,
@@ -766,7 +756,8 @@
       "x in R-{1}"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 56,
@@ -780,7 +771,8 @@
       "2/3"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 57,
@@ -794,7 +786,8 @@
       "1, 2"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 58,
@@ -808,7 +801,8 @@
       "y + ye^"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 59,
@@ -822,7 +816,8 @@
       "+- 2"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 60,
@@ -836,7 +831,8 @@
       "P <= 1/3"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 61,
@@ -850,7 +846,8 @@
       "4a cosec^2 theta"
     ],
     "answer": "B",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 62,
@@ -864,7 +861,8 @@
       "0"
     ],
     "answer": "D",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 63,
@@ -878,7 +876,8 @@
       "130"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 64,
@@ -892,7 +891,8 @@
       "none"
     ],
     "answer": "C",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 65,
@@ -906,7 +906,8 @@
       "none"
     ],
     "answer": "A",
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 66,
@@ -924,7 +925,8 @@
       "C",
       "D"
     ],
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 67,
@@ -942,7 +944,8 @@
       "C",
       "D"
     ],
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 68,
@@ -960,7 +963,8 @@
       "B",
       "D"
     ],
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 69,
@@ -968,16 +972,15 @@
     "category": "III",
     "question": "Number of ways to select 3 numbers in A.P from 1,2,...,n",
     "options": [
-      "",
       "n",
-      "",
       "none"
     ],
     "answer": [
       "B",
       "C"
     ],
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 70,
@@ -994,7 +997,8 @@
       "A",
       "D"
     ],
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 71,
@@ -1011,7 +1015,8 @@
       "B",
       "D"
     ],
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 72,
@@ -1029,24 +1034,8 @@
       "B",
       "C"
     ],
-    "image": null
-  },
-  {
-    "id": 73,
-    "subject": "maths",
-    "category": "III",
-    "question": "Line through (a, b) and (-a, -b) passes through Page 16",
-    "options": [
-      "",
-      "",
-      "",
-      ""
-    ],
-    "answer": [
-      "C",
-      "D"
-    ],
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 74,
@@ -1064,7 +1053,8 @@
       "B",
       "D"
     ],
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
     "id": 75,
@@ -1082,6 +1072,7 @@
       "B",
       "C"
     ],
-    "image": null
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   }
 ]

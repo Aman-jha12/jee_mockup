@@ -8,32 +8,27 @@ import pdfplumber
 # =====================================
 
 BASE_DIR = "../public"
-PDF_DIR = os.path.join(BASE_DIR, "questionbanks")
-OUTPUT_JSON_BASE = os.path.join(BASE_DIR, "questions", "json")
 
-# =====================================
-# SUBJECT DETECTION
-# =====================================
+QUESTIONBANK_DIR = os.path.join(
+    BASE_DIR,
+    "questionbanks"
+)
 
-def detect_subject(filename):
-    name = filename.lower()
-
-    if "math" in name:
-        return "maths"
-    elif "physics" in name:
-        return "physics"
-    elif "chem" in name:
-        return "chemistry"
-
-    return "unknown"
+OUTPUT_JSON_DIR = os.path.join(
+    BASE_DIR,
+    "questions",
+    "json"
+)
 
 # =====================================
 # CLEAN LINE
 # =====================================
 
 def clean_line(line):
+
     line = re.sub(r'\(cid:\d+\)', ' ', line)
     line = re.sub(r'\s+', ' ', line)
+
     return line.strip()
 
 # =====================================
@@ -43,7 +38,7 @@ def clean_line(line):
 def extract_category(line):
 
     match = re.search(
-        r'Category\s*:\s*(I{1,3})',
+        r'Category\s*[:\-]?\s*(I{1,3})',
         line,
         re.IGNORECASE
     )
@@ -58,6 +53,12 @@ def extract_category(line):
 # =====================================
 
 def extract_answer(text):
+
+    # Supports:
+    # Ans: A
+    # Ans: (A)
+    # Ans: (A, B)
+    # Ans: d)
 
     match = re.search(
         r'Ans:\s*\(?([A-D,\s]+)\)?',
@@ -101,9 +102,8 @@ def is_valid_question(q):
         "this paper contains",
         "negative marking",
         "partial marks",
-        "only one option correct",
-        "only one option is correct",
-        "one or more options may be correct"
+        "only one option",
+        "one or more options may"
     ]
 
     q_text = q["question"].lower()
@@ -149,12 +149,19 @@ def extract_lines(pdf_path):
 # PARSER
 # =====================================
 
-def parse_questions(lines, subject):
+def parse_questions(
+    lines,
+    subject,
+    source_pdf,
+    starting_id
+):
 
     questions = []
 
     current_question = None
     current_category = None
+
+    global_id = starting_id
 
     parsing_started = False
 
@@ -186,21 +193,22 @@ def parse_questions(lines, subject):
             if current_question and is_valid_question(current_question):
                 questions.append(current_question)
 
-            q_id = int(q_match.group(1))
-
             q_text = q_match.group(2)
 
             q_text, answer = extract_answer(q_text)
 
             current_question = {
-                "id": q_id,
+                "id": global_id,
                 "subject": subject,
                 "category": current_category,
                 "question": q_text,
                 "options": [],
                 "answer": answer,
-                "image": None
+                "image": None,
+                "source_pdf": source_pdf
             }
+
+            global_id += 1
 
             continue
 
@@ -225,6 +233,8 @@ def parse_questions(lines, subject):
 
         # -----------------------------
         # INLINE OPTIONS
+        # Example:
+        # (A) option
         # -----------------------------
 
         inline_options = re.findall(
@@ -236,11 +246,16 @@ def parse_questions(lines, subject):
 
             for label, option_text in inline_options:
 
-                option_text, ans = extract_answer(option_text)
-
-                current_question["options"].append(
-                    option_text.strip()
+                option_text, ans = extract_answer(
+                    option_text
                 )
+
+                cleaned_option = option_text.strip()
+
+                if cleaned_option:
+                    current_question["options"].append(
+                        cleaned_option
+                    )
 
                 if ans:
                     current_question["answer"] = ans
@@ -249,10 +264,12 @@ def parse_questions(lines, subject):
 
         # -----------------------------
         # NORMAL OPTIONS
+        # Example:
+        # A) option
         # -----------------------------
 
         option_match = re.match(
-            r'^\(([A-D])\)\s*(.+)',
+            r'^\(?([A-D])\)?[\).\s]+(.+)',
             line
         )
 
@@ -260,11 +277,16 @@ def parse_questions(lines, subject):
 
             option_text = option_match.group(2)
 
-            option_text, ans = extract_answer(option_text)
-
-            current_question["options"].append(
-                option_text.strip()
+            option_text, ans = extract_answer(
+                option_text
             )
+
+            cleaned_option = option_text.strip()
+
+            if cleaned_option:
+                current_question["options"].append(
+                    cleaned_option
+                )
 
             if ans:
                 current_question["answer"] = ans
@@ -282,9 +304,9 @@ def parse_questions(lines, subject):
         if ans:
             current_question["answer"] = ans
 
-    # -----------------------------
+    # ---------------------------------
     # LAST QUESTION
-    # -----------------------------
+    # ---------------------------------
 
     if current_question and is_valid_question(current_question):
         questions.append(current_question)
@@ -292,17 +314,29 @@ def parse_questions(lines, subject):
     return questions
 
 # =====================================
-# SAVE
+# SAVE JSON
 # =====================================
 
 def save_questions(subject, questions):
 
+    # Creates:
+    # questions/json/physics/
+    # questions/json/chemistry/
+    # questions/json/maths/
+
     subject_dir = os.path.join(
-        OUTPUT_JSON_BASE,
+        OUTPUT_JSON_DIR,
         subject
     )
 
-    os.makedirs(subject_dir, exist_ok=True)
+    os.makedirs(
+        subject_dir,
+        exist_ok=True
+    )
+
+    # Saves:
+    # physics/physics.json
+    # chemistry/chemistry.json
 
     output_path = os.path.join(
         subject_dir,
@@ -328,36 +362,60 @@ def save_questions(subject, questions):
 
 def main():
 
-    pdf_files = [
-        f for f in os.listdir(PDF_DIR)
-        if f.endswith(".pdf")
-    ]
+    subject_folders = os.listdir(
+        QUESTIONBANK_DIR
+    )
 
-    for pdf_file in pdf_files:
+    for subject in subject_folders:
 
-        subject = detect_subject(pdf_file)
-
-        pdf_path = os.path.join(
-            PDF_DIR,
-            pdf_file
-        )
-
-        print(f"\nProcessing: {pdf_file}")
-
-        lines = extract_lines(pdf_path)
-
-        questions = parse_questions(
-            lines,
+        subject_path = os.path.join(
+            QUESTIONBANK_DIR,
             subject
         )
 
+        if not os.path.isdir(subject_path):
+            continue
+
+        print(f"\nProcessing {subject}")
+
+        all_questions = []
+
+        global_id = 1
+
+        pdf_files = [
+            f for f in os.listdir(subject_path)
+            if f.endswith(".pdf")
+        ]
+
+        for pdf_file in pdf_files:
+
+            pdf_path = os.path.join(
+                subject_path,
+                pdf_file
+            )
+
+            print(f"  Reading {pdf_file}")
+
+            lines = extract_lines(pdf_path)
+
+            questions = parse_questions(
+                lines,
+                subject,
+                pdf_file,
+                global_id
+            )
+
+            global_id += len(questions)
+
+            all_questions.extend(questions)
+
         save_questions(
             subject,
-            questions
+            all_questions
         )
 
         print(
-            f"Saved {len(questions)} questions for {subject}"
+            f"Saved {len(all_questions)} questions for {subject}"
         )
 
 # =====================================
