@@ -413,8 +413,8 @@ export default function LoginPage() {
                         onChange={handleFieldChange}
                       >
                         <option value="" disabled hidden className="bg-[#0a1428] text-white/50">Class Status</option>
-                        <option value="student" className="bg-[#0a1428] text-white">Student</option>
-                        <option value="other" className="bg-[#0a1428] text-white">Other</option>
+                        <option value="12th pursuing" className="bg-[#0a1428] text-white">12th Pursuing</option>
+                        <option value="passout" className="bg-[#0a1428] text-white">Passout</option>
                       </select>
                       {getFieldError(formErrors, "classStatus") && (
                         <p className="text-[10px] md:text-xs text-red-400/80 mt-1">{getFieldError(formErrors, "classStatus")}</p>
@@ -435,7 +435,7 @@ export default function LoginPage() {
                         <option value="" disabled hidden className="bg-[#0a1428] text-white/50">Stream</option>
                         <option value="PCM" className="bg-[#0a1428] text-white">PCM</option>
                         <option value="PCB" className="bg-[#0a1428] text-white">PCB</option>
-                        <option value="BOTH" className="bg-[#0a1428] text-white">BOTH</option>
+                        <option value="PCMB" className="bg-[#0a1428] text-white">PCMB</option>
                       </select>
                       {getFieldError(formErrors, "stream") && (
                         <p className="text-[10px] md:text-xs text-red-400/80 mt-1">{getFieldError(formErrors, "stream")}</p>
@@ -670,8 +670,19 @@ export default function LoginPage() {
                     className="p-4 rounded-lg border"
                     style={{ background: "rgba(220, 38, 38, 0.05)", borderColor: "rgba(220, 38, 38, 0.2)" }}
                   >
-                    <p className="text-xs md:text-sm text-white/70 text-center">
-                      For assistance, contact the examination authority.
+                    <p className="text-xs md:text-sm text-white/70 text-center flex items-center justify-center gap-2 group">
+                      <span className="text-white/60 transition group-hover:text-white group-hover:drop-shadow-[0_0_6px_rgba(255,255,255,0.5)]">
+                        <MailIcon />
+                      </span>
+                      <span>
+                        For assistance, contact the examination authority.
+                        <a
+                          href="mailto:kallol.bhattacharya@tint.edu.in"
+                          className="ml-1 text-white/80 underline underline-offset-2 transition group-hover:text-white"
+                        >
+                          kallol.bhattacharya@tint.edu.in
+                        </a>
+                      </span>
                     </p>
                   </div>
                 </div>
