@@ -69,9 +69,9 @@ export function validateRequired(
  * Validate class status
  */
 export function validateClassStatus(value: string): { valid: boolean; error?: string } {
-  const validStatuses = ['12th Pursuing', 'Passout'];
+  const validStatuses = ['12th pursuing', 'passout'];
 
-  if (!value || !validStatuses.includes(value.toLowerCase())) {
+  if (!value || !validStatuses.includes(value.trim().toLowerCase())) {
     return { valid: false, error: 'Please select a valid class status' };
   }
 
@@ -84,7 +84,7 @@ export function validateClassStatus(value: string): { valid: boolean; error?: st
 export function validateStream(value: string): { valid: boolean; error?: string } {
   const validStreams = ['PCM', 'PCB', 'PCMB'];
 
-  if (!value || !validStreams.includes(value.toUpperCase())) {
+  if (!value || !validStreams.includes(value.trim().toUpperCase())) {
     return { valid: false, error: 'Please select a valid stream' };
   }
 
