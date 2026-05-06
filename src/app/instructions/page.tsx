@@ -50,8 +50,8 @@ export default function InstructionsPage() {
         <Header />
       </div>
 
-      <main className="relative z-10 w-full min-h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 md:px-8 py-8 md:py-12">
-        <div className="w-full max-w-[1000px] flex flex-col">
+      <main className="relative z-10 w-full h-[calc(100vh-110px)] flex flex-col justify-start items-center px-4 md:px-8 pt-4 pb-4 overflow-hidden">
+        <div className="w-full max-w-[1000px] flex flex-col h-full">
           {/* Title Section */}
           <div className="text-center mb-6">
             <h2 className="text-xl md:text-2xl font-light italic tracking-[0.2em] uppercase text-white mb-1">
@@ -63,23 +63,23 @@ export default function InstructionsPage() {
             <div className="w-12 h-0.5 bg-[#cc2229] mx-auto mt-2 opacity-50"></div>
           </div>
 
-          {/* Instructions List */}
-          <div className="space-y-3 md:space-y-4">
+          {/* Instructions List - Compact Grid Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
             {instructions.map((item) => (
               <div
                 key={item.id}
-                className="group relative bg-[#0b1224] border border-gray-800 rounded-xl p-4 md:p-5 flex flex-col md:flex-row gap-4 items-center transition-all hover:border-red-900/50"
+                className="group relative bg-[#0b1224] border border-gray-800 rounded-lg p-3 md:p-4 flex flex-col gap-2 transition-all hover:border-red-900/50"
                 style={{
-                  boxShadow: 'inset 0 0 15px rgba(0,0,0,0.5)',
+                  boxShadow: 'inset 0 0 10px rgba(0,0,0,0.5)',
                   borderLeft: '2px solid #cc2229'
                 }}
               >
                 {/* ID and Icon */}
-                <div className="flex items-center gap-4">
-                  <span className="text-xl font-black text-[#cc2229] opacity-80">{item.id}</span>
-                  <div className="w-10 h-10 rounded-xl bg-[#161d2f] border border-gray-700 flex items-center justify-center group-hover:border-red-600 transition-colors">
+                <div className="flex items-center gap-3">
+                  <span className="text-lg font-black text-[#cc2229] opacity-80">{item.id}</span>
+                  <div className="w-8 h-8 rounded-lg bg-[#161d2f] border border-gray-700 flex items-center justify-center group-hover:border-red-600 transition-colors shrink-0">
                     <svg
-                      className="w-5 h-5 text-[#cc2229]"
+                      className="w-4 h-4 text-[#cc2229]"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -90,29 +90,29 @@ export default function InstructionsPage() {
                 </div>
 
                 {/* Instruction Text */}
-                <p className="text-gray-400 text-sm md:text-[15px] leading-snug flex-1 font-medium whitespace-pre-line">
+                <div className="text-gray-400 text-[13px] md:text-[14px] leading-relaxed flex-1 font-medium whitespace-pre-line overflow-y-auto max-h-[80px] scrollbar-hide">
                   {item.text.map((part, i) => (
-                    <span key={i} className={part.bold ? 'font-bold' : ''}>
+                    <span key={i} className={part.bold ? 'font-bold text-gray-200' : ''}>
                       {part.content}
                     </span>
                   ))}
-                </p>
+                </div>
 
                 {/* Decorative Red Glow */}
-                <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-10 transition-opacity bg-gradient-to-r from-red-600 to-transparent pointer-events-none"></div>
+                <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-10 transition-opacity bg-gradient-to-r from-red-600 to-transparent pointer-events-none"></div>
               </div>
             ))}
           </div>
 
           {/* Footer Buttons */}
-          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-auto mb-4">
             <button
               onClick={() => {
                 setIsGoingBack(true);
                 router.push("/");
               }}
               disabled={isGoingBack || isStartingExam}
-              className="cursor-pointer px-8 py-3 rounded-xl border border-[#cc2229] text-[#cc2229] font-bold text-sm uppercase tracking-widest hover:bg-red-950/20 transition-all min-w-[180px] flex justify-center items-center h-[48px]"
+              className="cursor-pointer px-6 py-2 rounded-lg border border-[#cc2229] text-[#cc2229] font-bold text-[12px] uppercase tracking-widest hover:bg-red-950/20 transition-all min-w-[150px] flex justify-center items-center h-[42px]"
             >
               {isGoingBack ? (
                 <div className="w-4 h-4 border-2 border-[#cc2229] border-t-transparent rounded-full animate-spin"></div>
@@ -126,7 +126,7 @@ export default function InstructionsPage() {
                 router.push("/exam");
               }}
               disabled={isGoingBack || isStartingExam}
-              className="cursor-pointer px-8 py-3 rounded-xl bg-[#cc2229] text-white font-bold text-sm uppercase tracking-widest hover:bg-red-700 shadow-lg shadow-red-900/20 transition-all min-w-[180px] flex justify-center items-center h-[48px]"
+              className="cursor-pointer px-6 py-2 rounded-lg bg-[#cc2229] text-white font-bold text-[12px] uppercase tracking-widest hover:bg-red-700 shadow-lg shadow-red-900/20 transition-all min-w-[150px] flex justify-center items-center h-[42px]"
             >
               {isStartingExam ? (
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>

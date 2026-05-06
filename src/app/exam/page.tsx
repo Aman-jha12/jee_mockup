@@ -1,66 +1,190 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Clock, ChevronRight, Flag, XCircle, AlertCircle, Maximize2 } from 'lucide-react';
-import { submitExam } from '@/lib/api';
+import { AlertCircle, ChevronRight, Clock, Flag, Maximize2, XCircle } from 'lucide-react';
 import {
   CATEGORY_RULES,
   PAPER_SUBJECTS,
-  ExamQuestion,
-  loadExamQuestions,
-  subjectLabel,
+  SUBJECT_LABELS as subjectLabel,
+  generateExamPaper,
   subjectToPaper,
-  SubjectKey,
+} from '@/lib/generateTest';
+import { evaluateExam } from '@/lib/evaluate';
+import { clearExamSession, loadExamSession, saveExamSession } from '@/lib/storage';
+import {
+  ExamPaper,
+  ExamQuestionView,
+  ExamSessionState,
   PaperKey,
-} from '@/lib/exam-questions';
+  QuestionStatus,
+  SubjectKey,
+  UserAnswer,
+} from '@/lib/types';
 
-type Question = ExamQuestion;
+type Question = ExamQuestionView;
+
+const DEFAULT_TIME_LEFT = 4 * 60 * 60;
+
+function deriveQuestionStatus(
+  questionKey: string,
+  selectedOptionIndexes: number[],
+  markedQuestionKeys: Set<string>,
+  visitedQuestionKeys: Set<string>
+): QuestionStatus {
+  if (markedQuestionKeys.has(questionKey)) {
+    return 'marked';
+  }
+
+  if (selectedOptionIndexes.length > 0) {
+    return 'answered';
+  }
+
+  return visitedQuestionKeys.has(questionKey) ? 'not-answered' : 'not-visited';
+}
+
+function buildQuestionViews(
+  paper: ExamPaper,
+  selectedAnswersByQuestionKey: Record<string, number[]>,
+  markedQuestionKeys: Set<string>,
+  visitedQuestionKeys: Set<string>
+): Question[] {
+  return paper.questions.map((question) => {
+    const selectedOptionIndexes = selectedAnswersByQuestionKey[question.questionKey] ?? [];
+    return {
+      ...question,
+      selectedOptionIndexes,
+      status: deriveQuestionStatus(
+        question.questionKey,
+        selectedOptionIndexes,
+        markedQuestionKeys,
+        visitedQuestionKeys
+      ),
+    };
+  });
+}
+
+function sanitizeSelectedAnswers(
+  paper: ExamPaper,
+  selectedAnswersByQuestionKey: Record<string, number[]>
+): Record<string, number[]> {
+  const validQuestionKeys = new Set(paper.questions.map((question) => question.questionKey));
+  const sanitized: Record<string, number[]> = {};
+
+  Object.entries(selectedAnswersByQuestionKey).forEach(([questionKey, selectedOptionIndexes]) => {
+    if (!validQuestionKeys.has(questionKey)) {
+      return;
+    }
+
+    sanitized[questionKey] = [...new Set(selectedOptionIndexes)].filter(
+      (index) => Number.isInteger(index) && index >= 0
+    );
+  });
+
+  return sanitized;
+}
+
+function sanitizeQuestionKeySet(paper: ExamPaper, questionKeys: string[]): Set<string> {
+  const validQuestionKeys = new Set(paper.questions.map((question) => question.questionKey));
+  return new Set(questionKeys.filter((questionKey) => validQuestionKeys.has(questionKey)));
+}
+
+function getSelectedAnswersMap(questions: Question[]): Record<string, number[]> {
+  return questions.reduce<Record<string, number[]>>((accumulator, question) => {
+    accumulator[question.questionKey] = [...question.selectedOptionIndexes];
+    return accumulator;
+  }, {});
+}
 
 export default function ExamInterface() {
   const router = useRouter();
+  const [paper, setPaper] = useState<ExamPaper | null>(null);
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<number[]>([]);
-  const [timeLeft, setTimeLeft] = useState(4 * 60 * 60);
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [marked, setMarked] = useState<Set<number>>(new Set());
+  const [timeLeft, setTimeLeft] = useState(DEFAULT_TIME_LEFT);
+  const [marked, setMarked] = useState<Set<string>>(new Set());
+  const [visited, setVisited] = useState<Set<string>>(new Set());
   const [avatarSeed] = useState(() => Math.random().toString(36).substring(7));
   const [submitError, setSubmitError] = useState('');
   const [activePaper, setActivePaper] = useState<PaperKey>('paper1');
-  const [activeSubject, setActiveSubject] = useState<SubjectKey>('mathematics');
+  const [activeSubject, setActiveSubject] = useState<SubjectKey>('maths');
   const [candidateName] = useState(() => {
     if (typeof window === 'undefined') return 'Candidate';
     return localStorage.getItem('userName')?.trim() || 'Candidate';
   });
   const [isLoadingQuestions, setIsLoadingQuestions] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const currentUserIdRef = useRef<string | null>(null);
+  const hasHydratedRef = useRef(false);
 
   useEffect(() => {
     let mounted = true;
 
     const bootstrap = async () => {
-      const id = localStorage.getItem('userId');
+      const userId = localStorage.getItem('userId');
       const verified = localStorage.getItem('verified');
+      const submittedUserId = localStorage.getItem('submittedUserId');
 
-      if (!id || verified !== 'true') {
+      if (!userId || verified !== 'true') {
         router.push('/');
         return;
       }
 
+      if (localStorage.getItem('submitted') === 'true' && submittedUserId === userId) {
+        router.push('/result');
+        return;
+      }
+
+      currentUserIdRef.current = userId;
+
       try {
-        const loadedQuestions = await loadExamQuestions();
+        const generatedPaper = await generateExamPaper(userId);
         if (!mounted) return;
 
-        setQuestions(loadedQuestions);
+        const storedSession = loadExamSession();
+        const sessionMatchesUser = storedSession?.userId === userId;
 
-        const firstQuestion = loadedQuestions[0];
-        if (firstQuestion) {
-          setCurrentQuestion(0);
-          setActivePaper(firstQuestion.paper);
-          setActiveSubject(firstQuestion.subjectKey);
-          setSelectedAnswers([]);
+        const selectedAnswersByQuestionKey = sessionMatchesUser
+          ? sanitizeSelectedAnswers(generatedPaper, storedSession.selectedAnswersByQuestionKey)
+          : {};
+        const markedQuestionKeys = sessionMatchesUser
+          ? sanitizeQuestionKeySet(generatedPaper, storedSession.markedQuestionKeys)
+          : new Set<string>();
+        const visitedQuestionKeys = sessionMatchesUser
+          ? sanitizeQuestionKeySet(generatedPaper, storedSession.visitedQuestionKeys)
+          : new Set<string>();
+
+        const initialQuestionIndex =
+          sessionMatchesUser &&
+          typeof storedSession.currentQuestionIndex === 'number' &&
+          storedSession.currentQuestionIndex >= 0 &&
+          storedSession.currentQuestionIndex < generatedPaper.questions.length
+            ? storedSession.currentQuestionIndex
+            : 0;
+
+        const initialQuestion = generatedPaper.questions[initialQuestionIndex] ?? generatedPaper.questions[0];
+        if (initialQuestion) {
+          visitedQuestionKeys.add(initialQuestion.questionKey);
         }
+
+        const hydratedQuestions = buildQuestionViews(
+          generatedPaper,
+          selectedAnswersByQuestionKey,
+          markedQuestionKeys,
+          visitedQuestionKeys
+        );
+
+        setPaper(generatedPaper);
+        setQuestions(hydratedQuestions);
+        setCurrentQuestion(initialQuestionIndex);
+        setSelectedAnswers(initialQuestion ? selectedAnswersByQuestionKey[initialQuestion.questionKey] ?? [] : []);
+        setMarked(markedQuestionKeys);
+        setVisited(visitedQuestionKeys);
+        setActivePaper(sessionMatchesUser ? storedSession.activePaper : initialQuestion?.paper ?? 'paper1');
+        setActiveSubject(sessionMatchesUser ? storedSession.activeSubject : initialQuestion?.subjectKey ?? 'maths');
+        setTimeLeft(sessionMatchesUser ? storedSession.timeLeft ?? DEFAULT_TIME_LEFT : DEFAULT_TIME_LEFT);
       } catch (error) {
         console.error('Failed to load exam questions:', error);
         if (mounted) {
@@ -69,21 +193,51 @@ export default function ExamInterface() {
       } finally {
         if (mounted) {
           setIsLoadingQuestions(false);
+          hasHydratedRef.current = true;
         }
       }
     };
 
     void bootstrap();
 
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+    return () => {
+      mounted = false;
+    };
+  }, [router]);
+
+  useEffect(() => {
+    if (isLoadingQuestions || !paper || !hasHydratedRef.current || !currentUserIdRef.current) {
+      return;
+    }
+
+    const sessionState: ExamSessionState = {
+      userId: currentUserIdRef.current,
+      currentQuestionIndex: currentQuestion,
+      currentQuestionKey: questions[currentQuestion]?.questionKey ?? null,
+      timeLeft,
+      activePaper,
+      activeSubject,
+      selectedAnswersByQuestionKey: getSelectedAnswersMap(questions),
+      markedQuestionKeys: [...marked],
+      visitedQuestionKeys: [...visited],
+    };
+
+    saveExamSession(sessionState);
+  }, [activePaper, activeSubject, currentQuestion, isLoadingQuestions, marked, paper, questions, timeLeft, visited]);
+
+  useEffect(() => {
+    if (isLoadingQuestions) {
+      return;
+    }
+
+    const timer = window.setInterval(() => {
+      setTimeLeft((previous) => (previous > 0 ? previous - 1 : 0));
     }, 1000);
 
     return () => {
-      mounted = false;
-      clearInterval(timer);
+      window.clearInterval(timer);
     };
-  }, [router]);
+  }, [isLoadingQuestions]);
 
   const formatTime = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
@@ -92,48 +246,66 @@ export default function ExamInterface() {
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
+  const activeQuestion = questions[currentQuestion] ?? null;
   const isTimeRunningOut = timeLeft < 300;
-  const activeQuestion = questions[currentQuestion];
 
-  const visibleQuestionIndexes = questions
-    .map((question, index) => ({ question, index }))
-    .filter(({ question }) => question.paper === activePaper && question.subjectKey === activeSubject)
-    .map(({ index }) => index);
+  const visibleQuestionIndexes = useMemo(() => {
+    return questions
+      .map((question, index) => ({ question, index }))
+      .filter(({ question }) => question.paper === activePaper && question.subjectKey === activeSubject)
+      .map(({ index }) => index);
+  }, [activePaper, activeSubject, questions]);
 
   const currentVisibleQuestionIndex = visibleQuestionIndexes.indexOf(currentQuestion);
+  // Fallback to 0 if current question not in visible list (e.g., after subject/paper change)
+  const safeVisibleQuestionIndex = currentVisibleQuestionIndex >= 0 ? currentVisibleQuestionIndex : 0;
 
   const focusQuestion = (index: number) => {
     const question = questions[index];
     if (!question) return;
 
+    const nextVisited = new Set(visited);
+    nextVisited.add(question.questionKey);
+
+    const nextSelected = question.selectedOptionIndexes ?? [];
+    const nextStatus = deriveQuestionStatus(question.questionKey, nextSelected, marked, nextVisited);
+
     setCurrentQuestion(index);
     setActivePaper(question.paper);
     setActiveSubject(question.subjectKey);
-    setSelectedAnswers(question.selectedOptionIndexes ?? []);
+    setSelectedAnswers(nextSelected);
+    setVisited(nextVisited);
+    setQuestions((previousQuestions) =>
+      previousQuestions.map((item, questionIndex) =>
+        questionIndex === index ? { ...item, status: nextStatus } : item
+      )
+    );
   };
 
   const selectSubject = (subject: SubjectKey) => {
+    if (!paper) return;
+
     setActivePaper(subjectToPaper(subject));
     const targetIndex = questions.findIndex((question) => question.subjectKey === subject);
     if (targetIndex === -1) return;
 
     setActiveSubject(subject);
-    setCurrentQuestion(targetIndex);
-    setSelectedAnswers(questions[targetIndex].selectedOptionIndexes ?? []);
+    focusQuestion(targetIndex);
   };
 
-  const selectPaper = (paper: PaperKey) => {
-    const firstSubject = PAPER_SUBJECTS[paper][0];
+  const selectPaper = (paperKey: PaperKey) => {
+    if (!paper) return;
+
+    const firstSubject = PAPER_SUBJECTS[paperKey][0];
     const targetIndex = questions.findIndex(
-      (question) => question.paper === paper && question.subjectKey === firstSubject
+      (question) => question.paper === paperKey && question.subjectKey === firstSubject
     );
 
-    setActivePaper(paper);
+    setActivePaper(paperKey);
     setActiveSubject(firstSubject);
 
     if (targetIndex !== -1) {
-      setCurrentQuestion(targetIndex);
-      setSelectedAnswers(questions[targetIndex].selectedOptionIndexes ?? []);
+      focusQuestion(targetIndex);
     }
   };
 
@@ -145,38 +317,61 @@ export default function ExamInterface() {
 
     const nextSelection = allowsMulti
       ? selectedAnswers.includes(index)
-        ? selectedAnswers.filter((x) => x !== index)
-        : [...selectedAnswers, index].sort((a, b) => a - b)
+        ? selectedAnswers.filter((selected) => selected !== index)
+        : [...selectedAnswers, index].sort((left, right) => left - right)
       : [index];
 
-    setSelectedAnswers(nextSelection);
+    const nextStatus = deriveQuestionStatus(question.questionKey, nextSelection, marked, visited);
 
-    const newQuestions = [...questions];
-    newQuestions[currentQuestion].status = nextSelection.length > 0 ? 'answered' : 'not-answered';
-    newQuestions[currentQuestion].selectedOptionIndexes = nextSelection;
-    setQuestions(newQuestions);
+    setSelectedAnswers(nextSelection);
+    setQuestions((previousQuestions) =>
+      previousQuestions.map((item, questionIndex) =>
+        questionIndex === currentQuestion
+          ? { ...item, selectedOptionIndexes: nextSelection, status: nextStatus }
+          : item
+      )
+    );
   };
 
   const handleMarkForReview = () => {
-    const newMarked = new Set(marked);
-    if (newMarked.has(currentQuestion)) {
-      newMarked.delete(currentQuestion);
-    } else {
-      newMarked.add(currentQuestion);
-    }
-    setMarked(newMarked);
+    const question = questions[currentQuestion];
+    if (!question) return;
 
-    const newQuestions = [...questions];
-    newQuestions[currentQuestion].status = marked.has(currentQuestion) ? 'answered' : 'marked';
-    setQuestions(newQuestions);
+    const nextMarked = new Set(marked);
+    if (nextMarked.has(question.questionKey)) {
+      nextMarked.delete(question.questionKey);
+    } else {
+      nextMarked.add(question.questionKey);
+    }
+
+    const nextStatus = deriveQuestionStatus(question.questionKey, question.selectedOptionIndexes, nextMarked, visited);
+
+    setMarked(nextMarked);
+    setQuestions((previousQuestions) =>
+      previousQuestions.map((item, questionIndex) =>
+        questionIndex === currentQuestion ? { ...item, status: nextStatus } : item
+      )
+    );
   };
 
   const handleClear = () => {
-    setSelectedAnswers([]);
-    const newQuestions = [...questions];
-    newQuestions[currentQuestion].status = 'not-answered';
-    newQuestions[currentQuestion].selectedOptionIndexes = [];
-    setQuestions(newQuestions);
+    const question = questions[currentQuestion];
+    if (!question) return;
+
+    const nextSelection: number[] = [];
+    const nextVisited = new Set(visited);
+    nextVisited.add(question.questionKey);
+    const nextStatus = deriveQuestionStatus(question.questionKey, nextSelection, marked, nextVisited);
+
+    setSelectedAnswers(nextSelection);
+    setVisited(nextVisited);
+    setQuestions((previousQuestions) =>
+      previousQuestions.map((item, questionIndex) =>
+        questionIndex === currentQuestion
+          ? { ...item, selectedOptionIndexes: nextSelection, status: nextStatus }
+          : item
+      )
+    );
   };
 
   const handleNext = () => {
@@ -190,26 +385,12 @@ export default function ExamInterface() {
     focusQuestion(index);
   };
 
-  const evaluateCategory3Score = (question: Question) => {
-    if (question.correctAnswers.length === 0) return 0;
-
-    const selectedValues = question.selectedOptionIndexes.map((idx) => question.options[idx]);
-    const selectedSet = new Set(selectedValues);
-    const correctSet = new Set(question.correctAnswers);
-
-    if (selectedSet.size === 0) return 0;
-
-    const selectedOnlyCorrect = [...selectedSet].every((option) => correctSet.has(option));
-    if (selectedOnlyCorrect && selectedSet.size === correctSet.size) return 2;
-    if (selectedOnlyCorrect && selectedSet.size === 1) return 1;
-
-    return 0;
-  };
-
   const handleSubmitExam = async () => {
+    if (!paper) return;
+
     setSubmitError('');
 
-    if (localStorage.getItem('submitted')) {
+    if (localStorage.getItem('submitted') === 'true') {
       return;
     }
 
@@ -221,55 +402,18 @@ export default function ExamInterface() {
 
     setIsSubmitting(true);
 
-    let mathScore = 0;
-    let physScore = 0;
-    let chemScore = 0;
-
-    let mathTotal = 0;
-    let physTotal = 0;
-    let chemTotal = 0;
-
-    questions.forEach((question) => {
-      const isAttempted = question.selectedOptionIndexes.length > 0;
-      const rule = CATEGORY_RULES[question.category];
-
-      let scoreChange = 0;
-      if (isAttempted) {
-        if (question.category === 3) {
-          scoreChange = evaluateCategory3Score(question);
-        } else {
-          const selectedValue = question.options[question.selectedOptionIndexes[0]];
-          const isCorrect = question.correctAnswers.includes(selectedValue);
-          scoreChange = isCorrect ? rule.correct : rule.incorrect;
-        }
-      }
-
-      const subject = question.subject.toLowerCase();
-      if (subject === 'maths' || subject === 'mathematics') {
-        mathScore += scoreChange;
-        mathTotal += 1;
-      } else if (subject === 'physics') {
-        physScore += scoreChange;
-        physTotal += 1;
-      } else if (subject === 'chemistry') {
-        chemScore += scoreChange;
-        chemTotal += 1;
-      }
-    });
-
-    const mathematics = mathTotal === 0 ? 0 : Number(mathScore.toFixed(2));
-    const physics = physTotal === 0 ? 0 : Number(physScore.toFixed(2));
-    const chemistry = chemTotal === 0 ? 0 : Number(chemScore.toFixed(2));
-    const total_marks = mathematics + physics + chemistry;
-
     try {
-      await submitExam({
-        id,
-        total_marks,
-        mathematics,
-        physics,
-        chemistry,
-      });
+      const userAnswers: UserAnswer[] = questions.map((question) => ({
+        questionKey: question.questionKey,
+        selectedOptionIndexes: question.selectedOptionIndexes,
+      }));
+
+      const evaluation = evaluateExam(paper, userAnswers);
+
+      const mathematics = Number(evaluation.subjectMarks.maths.toFixed(2));
+      const physics = Number(evaluation.subjectMarks.physics.toFixed(2));
+      const chemistry = Number(evaluation.subjectMarks.chemistry.toFixed(2));
+      const total_marks = Number(evaluation.totalMarks.toFixed(2));
 
       localStorage.setItem('submitted', 'true');
       localStorage.setItem('submittedUserId', id);
@@ -282,6 +426,8 @@ export default function ExamInterface() {
           chemistry,
         })
       );
+      localStorage.setItem('examResultDetails', JSON.stringify(evaluation));
+      clearExamSession();
 
       router.push('/result');
     } catch (error) {
@@ -341,7 +487,7 @@ export default function ExamInterface() {
               <p className="text-sm font-semibold text-slate-800">{candidateName}</p>
               <p className="text-xs font-medium tracking-wide text-slate-500">JEE Candidate</p>
             </div>
-            <div className="relative cursor-pointer group">
+            <div className="group relative cursor-pointer">
               <Image
                 src={`https://api.dicebear.com/9.x/micah/svg?seed=${avatarSeed}&backgroundColor=b6e3f4,c0aede,d1d4f9`}
                 alt="Candidate Profile"
@@ -376,7 +522,7 @@ export default function ExamInterface() {
                 <div className="flex items-center justify-between border-b-2 border-slate-400 bg-white/60 px-6 py-4">
                   <div className="flex items-center gap-4">
                     <span className="flex h-10 w-10 items-center justify-center rounded-2xl border-2 border-blue-400 bg-blue-50 text-base font-bold text-blue-600 shadow-inner">
-                      Q{activeQuestion.sourceId}
+                      Q{safeVisibleQuestionIndex + 1}
                     </span>
                     <p className="text-sm font-extrabold uppercase tracking-wider text-slate-700">
                       {CATEGORY_RULES[activeQuestion.category].allowsMulti
@@ -405,7 +551,7 @@ export default function ExamInterface() {
                 <div className="custom-scrollbar flex-1 overflow-auto px-6 py-6 scroll-smooth">
                   <div className="mx-auto max-w-4xl">
                     <h2 className="mb-5 text-[1.1rem] font-medium leading-relaxed text-slate-800 md:text-lg">
-                      {activeQuestion.text}
+                      {activeQuestion.question}
                     </h2>
 
                     {activeQuestion.image ? (
@@ -425,9 +571,9 @@ export default function ExamInterface() {
                         const isSelected = selectedAnswers.includes(index);
                         return (
                           <button
-                            key={index}
+                            key={`${activeQuestion.questionKey}-${index}`}
                             onClick={() => handleSelectOption(index)}
-                            className={`relative w-full overflow-hidden rounded-2xl border-2 p-4 text-left transition-all duration-200 group ${
+                            className={`group relative w-full overflow-hidden rounded-2xl border-2 p-4 text-left transition-all duration-200 ${
                               isSelected
                                 ? 'scale-[1.01] border-blue-500 bg-blue-50/40 shadow-md shadow-blue-500/10'
                                 : 'border-slate-300 bg-white shadow-sm hover:border-slate-400 hover:bg-slate-50/80 hover:shadow'
@@ -444,9 +590,7 @@ export default function ExamInterface() {
                                     : 'border-slate-400 bg-transparent group-hover:border-slate-500'
                                 }`}
                               >
-                                {isSelected ? (
-                                  <div className="h-2 w-2 rounded-full bg-white shadow-sm" />
-                                ) : null}
+                                {isSelected ? <div className="h-2 w-2 rounded-full bg-white shadow-sm" /> : null}
                               </div>
                               <div className="flex-1">
                                 <span className={`mr-3 font-bold ${isSelected ? 'text-blue-600' : 'text-slate-400'}`}>
@@ -492,14 +636,12 @@ export default function ExamInterface() {
                 </div>
               </>
             ) : (
-              <div className="flex h-full items-center justify-center p-8 text-sm text-slate-500">
-                No questions loaded.
-              </div>
+              <div className="flex h-full items-center justify-center p-8 text-sm text-slate-500">No questions loaded.</div>
             )}
           </div>
         </div>
 
-        <div className="hidden w-[340px] flex-shrink-0 flex-col min-w-0 lg:flex">
+        <div className="hidden min-w-0 w-[340px] flex-shrink-0 flex-col lg:flex">
           <div className="flex flex-1 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white/90 shadow-xl shadow-slate-200/40 backdrop-blur-md">
             {isLoadingQuestions ? (
               <div className="flex h-full w-full animate-pulse flex-col gap-4 p-5">
@@ -522,18 +664,18 @@ export default function ExamInterface() {
               <>
                 <div className="space-y-3 border-b border-slate-100 bg-slate-50/80 p-3">
                   <div className="flex gap-1.5 rounded-2xl bg-slate-200/60 p-1.5">
-                    {(['paper1', 'paper2'] as PaperKey[]).map((paper) => (
+                    {(['paper1', 'paper2'] as PaperKey[]).map((paperKey) => (
                       <button
-                        key={paper}
-                        onClick={() => selectPaper(paper)}
+                        key={paperKey}
+                        onClick={() => selectPaper(paperKey)}
                         type="button"
                         className={`flex-1 rounded-xl px-3 py-2 text-sm font-bold transition-all duration-200 ${
-                          activePaper === paper
+                          activePaper === paperKey
                             ? 'bg-white text-blue-600 shadow-sm'
                             : 'text-slate-500 hover:bg-slate-100/50 hover:text-slate-700'
                         }`}
                       >
-                        {paper === 'paper1' ? 'Paper 1' : 'Paper 2'}
+                        {paperKey === 'paper1' ? 'Paper 1' : 'Paper 2'}
                       </button>
                     ))}
                   </div>
@@ -563,25 +705,25 @@ export default function ExamInterface() {
                         color: 'bg-green-500',
                         border: 'border-green-600',
                         label: 'Answered',
-                        count: visibleQuestionIndexes.filter((questionIndex) => questions[questionIndex].status === 'answered').length,
+                        count: visibleQuestionIndexes.filter((questionIndex) => questions[questionIndex]?.status === 'answered').length,
                       },
                       {
                         color: 'bg-red-500',
                         border: 'border-red-600',
                         label: 'Not Answered',
-                        count: visibleQuestionIndexes.filter((questionIndex) => questions[questionIndex].status === 'not-answered').length,
+                        count: visibleQuestionIndexes.filter((questionIndex) => questions[questionIndex]?.status === 'not-answered').length,
                       },
                       {
                         color: 'bg-slate-100',
                         border: 'border-slate-300',
                         label: 'Not Visited',
-                        count: visibleQuestionIndexes.filter((questionIndex) => questions[questionIndex].status === 'not-visited').length,
+                        count: visibleQuestionIndexes.filter((questionIndex) => questions[questionIndex]?.status === 'not-visited').length,
                       },
                       {
                         color: 'bg-indigo-500',
                         border: 'border-indigo-600',
                         label: 'Marked',
-                        count: visibleQuestionIndexes.filter((questionIndex) => questions[questionIndex].status === 'marked').length,
+                        count: visibleQuestionIndexes.filter((questionIndex) => questions[questionIndex]?.status === 'marked').length,
                       },
                     ].map((item) => (
                       <div key={item.label} className="flex items-center gap-2">
@@ -609,22 +751,22 @@ export default function ExamInterface() {
                     </h3>
                   </div>
                   <div className="grid grid-cols-5 gap-2.5">
-                    {visibleQuestionIndexes.map((questionIndex) => {
+                    {visibleQuestionIndexes.map((questionIndex, vi) => {
                       const question = questions[questionIndex];
                       let bgColor = 'bg-slate-50';
                       let textColor = 'text-slate-600';
                       let borderColor = 'border-slate-200';
                       const shadow = 'shadow-sm';
 
-                      if (question.status === 'answered') {
+                      if (question?.status === 'answered') {
                         bgColor = 'bg-gradient-to-b from-green-400 to-green-500';
                         textColor = 'text-white';
                         borderColor = 'border-green-600';
-                      } else if (question.status === 'marked') {
+                      } else if (question?.status === 'marked') {
                         bgColor = 'bg-gradient-to-b from-indigo-400 to-indigo-500';
                         textColor = 'text-white';
                         borderColor = 'border-indigo-600';
-                      } else if (question.status === 'not-answered') {
+                      } else if (question?.status === 'not-answered') {
                         bgColor = 'bg-gradient-to-b from-red-400 to-red-500';
                         textColor = 'text-white';
                         borderColor = 'border-red-600';
@@ -634,14 +776,14 @@ export default function ExamInterface() {
 
                       return (
                         <button
-                          key={question.id}
+                          key={question?.questionKey ?? questionIndex}
                           onClick={() => goToQuestion(questionIndex)}
                           className={`relative aspect-square w-full rounded-xl border-2 text-[14px] font-extrabold transition-all duration-200 ${bgColor} ${textColor} ${borderColor} ${shadow} hover:brightness-110 active:scale-90 ${
                             isActive ? 'z-10 scale-[1.10] border-blue-600 ring-4 ring-blue-500/30 shadow-lg' : 'hover:scale-105'
                           }`}
                         >
-                          {question.sourceId}
-                          {question.status === 'marked' ? (
+                          {vi + 1}
+                          {question?.status === 'marked' ? (
                             <div className="absolute -bottom-1 -right-1 h-3 w-3 rounded-full border-2 border-white bg-yellow-400 shadow-sm" />
                           ) : null}
                         </button>
@@ -656,8 +798,6 @@ export default function ExamInterface() {
                       {submitError}
                     </p>
                   ) : null}
-
-                  
 
                   <button
                     disabled={isSubmitting}
@@ -679,9 +819,7 @@ export default function ExamInterface() {
                 </div>
               </>
             ) : (
-              <div className="flex h-full items-center justify-center p-8 text-sm text-slate-500">
-                No questions loaded.
-              </div>
+              <div className="flex h-full items-center justify-center p-8 text-sm text-slate-500">No questions loaded.</div>
             )}
           </div>
         </div>
