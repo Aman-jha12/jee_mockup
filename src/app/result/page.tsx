@@ -9,7 +9,7 @@ export default function ResultPage() {
   const router = useRouter();
   const [marks, setMarks] = useState({ mathematics: 70, physics: 60, chemistry: 50, total_marks: 180 });
   const [isGoingBack, setIsGoingBack] = useState(false);
-  const [isViewingSolutions, setIsViewingSolutions] = useState(false);
+  const [showSolutionPrompt, setShowSolutionPrompt] = useState(false);
 
   useEffect(() => {
     if (!isSessionValidForExam()) {
@@ -171,32 +171,38 @@ export default function ResultPage() {
                 setIsGoingBack(true);
                 router.push("/");
               }}
-              disabled={isGoingBack || isViewingSolutions}
+              disabled={isGoingBack || showSolutionPrompt}
               className="cursor-pointer flex items-center gap-2 px-8 py-3 rounded-xl border border-gray-800 text-gray-400 font-bold uppercase tracking-widest hover:border-red-600 hover:text-white transition-all min-w-[200px] justify-center h-[48px] text-sm bg-[#050a18]/80 backdrop-blur-sm"
             >
               {isGoingBack ? (
                 <div className="w-5 h-5 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
               ) : (
-                <>Go Back <span>←</span></>
+                <>Home <span>←</span></>
               )}
             </button>
-            <button
-              onClick={() => {
-                setIsViewingSolutions(true);
-                router.push("/solutions");
-              }}
-              disabled={isGoingBack || isViewingSolutions}
-              className="cursor-pointer flex items-center gap-2 px-8 py-3 rounded-xl bg-[#cc2229] text-white font-bold uppercase tracking-widest hover:bg-red-700 shadow-lg shadow-red-900/20 transition-all min-w-[200px] justify-center h-[48px] text-sm"
-            >
-              {isViewingSolutions ? (
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-              ) : (
-                <>View Solutions <span>→</span></>
-              )}
-            </button>
+            {!showSolutionPrompt && (
+              <button
+                onClick={() => {
+                  setShowSolutionPrompt(true);
+                }}
+                disabled={isGoingBack}
+                className="cursor-pointer flex items-center gap-2 px-8 py-3 rounded-xl bg-[#cc2229] text-white font-bold uppercase tracking-widest hover:bg-red-700 shadow-lg shadow-red-900/20 transition-all min-w-[200px] justify-center h-[48px] text-sm"
+              >
+                <>Finish <span>→</span></>
+              </button>
+            )}
           </div>
         </div>
       </main>
+
+      {showSolutionPrompt && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/60 px-4">
+          <div className="w-full max-w-md rounded-2xl border border-red-900/40 bg-[#0b1224] p-6 text-center shadow-2xl">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-red-400">Great Job</p>
+            <h3 className="mt-3 text-xl font-bold text-white">You worked really well</h3>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
