@@ -62,12 +62,12 @@ export default function InstructionsPage() {
             <div className="w-12 h-0.5 bg-[#cc2229] mx-auto mt-2 opacity-50"></div>
           </div>
 
-          {/* Instructions List - Compact Grid Layout */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+          {/* Instructions List - Grid Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
             {instructions.map((item) => (
               <div
                 key={item.id}
-                className="group relative bg-[#0b1224] border border-gray-800 rounded-lg p-3 md:p-4 flex flex-col gap-2 transition-all hover:border-red-900/50"
+                className="group relative bg-[#0b1224] border border-gray-800 rounded-lg p-5 flex flex-col gap-3 transition-all hover:border-red-900/50"
                 style={{
                   boxShadow: 'inset 0 0 10px rgba(0,0,0,0.5)',
                   borderLeft: '2px solid #cc2229'
