@@ -1,11 +1,12 @@
 import os
 import re
 import json
+import unicodedata
 import pdfplumber
 
-# =====================================
+# =========================================================
 # CONFIG
-# =====================================
+# =========================================================
 
 BASE_DIR = "../public"
 
@@ -20,20 +21,114 @@ OUTPUT_JSON_DIR = os.path.join(
     "json"
 )
 
-# =====================================
+# =========================================================
+# SYMBOL NORMALIZATION
+# =========================================================
+
+SYMBOL_REPLACEMENTS = {
+    "sqrt": "√",
+    "theta": "θ",
+    "alpha": "α",
+    "beta": "β",
+    "gamma": "γ",
+    "delta": "δ",
+    "lambda": "λ",
+    "mu": "μ",
+    "pi": "π",
+    "sigma": "σ",
+    "phi": "φ",
+    "omega": "ω",
+
+    "<=": "≤",
+    ">=": "≥",
+    "!=": "≠",
+
+    "integral": "∫",
+    "summation": "Σ",
+    "infinity": "∞"
+}
+
+# =========================================================
+# BAD TEXT PATTERNS
+# =========================================================
+
+BAD_PATTERNS = [
+    r'This paper contains.*?',
+    r'Ground truth based on provided keys.*?',
+    r'Only one option is correct.*?',
+    r'Negative marking.*?',
+    r'Partial marks.*?',
+    r'Correct response yields.*?',
+    r'Incorrect response yields.*?',
+    r'Page\s+\d+',
+    r'PAGE\s+\d+',
+    r'Category-I.*?',
+    r'Category-II.*?',
+    r'Category-III.*?'
+]
+
+# =========================================================
+# NORMALIZE MATH TEXT
+# =========================================================
+
+def normalize_math_text(text):
+
+    text = unicodedata.normalize("NFKC", text)
+
+    for old, new in SYMBOL_REPLACEMENTS.items():
+
+        text = re.sub(
+            rf'\b{re.escape(old)}\b',
+            new,
+            text,
+            flags=re.IGNORECASE
+        )
+
+    # powers
+    text = re.sub(r'(\w)\^2', r'\1²', text)
+    text = re.sub(r'(\w)\^3', r'\1³', text)
+
+    return text
+
+# =========================================================
 # CLEAN LINE
-# =====================================
+# =========================================================
 
 def clean_line(line):
 
+    line = unicodedata.normalize("NFKC", line)
+
+    # remove cid garbage
     line = re.sub(r'\(cid:\d+\)', ' ', line)
+
+    # remove page numbers
+    line = re.sub(
+        r'Page\s+\d+',
+        '',
+        line,
+        flags=re.IGNORECASE
+    )
+
+    # remove bad patterns
+    for pattern in BAD_PATTERNS:
+
+        line = re.sub(
+            pattern,
+            '',
+            line,
+            flags=re.IGNORECASE
+        )
+
+    line = normalize_math_text(line)
+
+    # clean spaces
     line = re.sub(r'\s+', ' ', line)
 
     return line.strip()
 
-# =====================================
-# CATEGORY EXTRACTION
-# =====================================
+# =========================================================
+# EXTRACT CATEGORY
+# =========================================================
 
 def extract_category(line):
 
@@ -48,17 +143,15 @@ def extract_category(line):
 
     return None
 
-# =====================================
-# ANSWER EXTRACTION
-# =====================================
+# =========================================================
+# EXTRACT ANSWER
+# =========================================================
 
 def extract_answer(text):
 
-    # Supports:
     # Ans: A
     # Ans: (A)
-    # Ans: (A, B)
-    # Ans: d)
+    # Ans: (A,B)
 
     match = re.search(
         r'Ans:\s*\(?([A-D,\s]+)\)?',
@@ -89,34 +182,45 @@ def extract_answer(text):
 
     return cleaned_text.strip(), answers
 
-# =====================================
-# VALID QUESTION FILTER
-# =====================================
+# =========================================================
+# VALID OPTION
+# =========================================================
 
-def is_valid_question(q):
+def valid_option(option):
 
-    if len(q["options"]) < 2:
+    option = option.strip()
+
+    if len(option) < 2:
         return False
 
-    bad_phrases = [
-        "this paper contains",
-        "negative marking",
-        "partial marks",
-        "only one option",
-        "one or more options may"
-    ]
-
-    q_text = q["question"].lower()
-
-    for phrase in bad_phrases:
-        if phrase in q_text:
-            return False
+    if option.lower().startswith("page"):
+        return False
 
     return True
 
-# =====================================
-# PDF EXTRACTION
-# =====================================
+# =========================================================
+# VALID QUESTION
+# =========================================================
+
+def is_valid_question(q):
+
+    if len(q["question"].strip()) < 8:
+        return False
+
+    if "Page" in q["question"]:
+        return False
+
+    if len(q["options"]) < 4:
+        return False
+
+    if q["answer"] is None:
+        return False
+
+    return True
+
+# =========================================================
+# EXTRACT LINES
+# =========================================================
 
 def extract_lines(pdf_path):
 
@@ -145,9 +249,9 @@ def extract_lines(pdf_path):
 
     return lines
 
-# =====================================
-# PARSER
-# =====================================
+# =========================================================
+# PARSE QUESTIONS
+# =========================================================
 
 def parse_questions(
     lines,
@@ -163,13 +267,11 @@ def parse_questions(
 
     global_id = starting_id
 
-    parsing_started = False
-
     for line in lines:
 
-        # -----------------------------
+        # =====================================
         # CATEGORY
-        # -----------------------------
+        # =====================================
 
         category = extract_category(line)
 
@@ -177,9 +279,9 @@ def parse_questions(
             current_category = category
             continue
 
-        # -----------------------------
+        # =====================================
         # QUESTION START
-        # -----------------------------
+        # =====================================
 
         q_match = re.match(
             r'^(\d+)\.\s*(.+)',
@@ -188,8 +290,6 @@ def parse_questions(
 
         if q_match:
 
-            parsing_started = True
-
             if current_question and is_valid_question(current_question):
                 questions.append(current_question)
 
@@ -197,11 +297,18 @@ def parse_questions(
 
             q_text, answer = extract_answer(q_text)
 
+            question_type = (
+                "multiple"
+                if current_category == "III"
+                else "single"
+            )
+
             current_question = {
                 "id": global_id,
                 "subject": subject,
                 "category": current_category,
-                "question": q_text,
+                "type": question_type,
+                "question": normalize_math_text(q_text),
                 "options": [],
                 "answer": answer,
                 "image": None,
@@ -212,30 +319,12 @@ def parse_questions(
 
             continue
 
-        if not parsing_started:
-            continue
-
         if not current_question:
             continue
 
-        # -----------------------------
-        # ANSWER LINE
-        # -----------------------------
-
-        if line.lower().startswith("ans:"):
-
-            _, ans = extract_answer(line)
-
-            if ans:
-                current_question["answer"] = ans
-
-            continue
-
-        # -----------------------------
+        # =====================================
         # INLINE OPTIONS
-        # Example:
-        # (A) option
-        # -----------------------------
+        # =====================================
 
         inline_options = re.findall(
             r'\(([A-D])\)\s*([^()]+)',
@@ -250,11 +339,14 @@ def parse_questions(
                     option_text
                 )
 
-                cleaned_option = option_text.strip()
+                option_text = normalize_math_text(
+                    option_text
+                )
 
-                if cleaned_option:
+                if valid_option(option_text):
+
                     current_question["options"].append(
-                        cleaned_option
+                        option_text.strip()
                     )
 
                 if ans:
@@ -262,11 +354,9 @@ def parse_questions(
 
             continue
 
-        # -----------------------------
+        # =====================================
         # NORMAL OPTIONS
-        # Example:
-        # A) option
-        # -----------------------------
+        # =====================================
 
         option_match = re.match(
             r'^\(?([A-D])\)?[\).\s]+(.+)',
@@ -281,11 +371,14 @@ def parse_questions(
                 option_text
             )
 
-            cleaned_option = option_text.strip()
+            option_text = normalize_math_text(
+                option_text
+            )
 
-            if cleaned_option:
+            if valid_option(option_text):
+
                 current_question["options"].append(
-                    cleaned_option
+                    option_text.strip()
                 )
 
             if ans:
@@ -293,36 +386,46 @@ def parse_questions(
 
             continue
 
-        # -----------------------------
+        # =====================================
+        # ANSWER LINE
+        # =====================================
+
+        if line.lower().startswith("ans:"):
+
+            _, ans = extract_answer(line)
+
+            if ans:
+                current_question["answer"] = ans
+
+            continue
+
+        # =====================================
         # QUESTION CONTINUATION
-        # -----------------------------
+        # =====================================
 
         text, ans = extract_answer(line)
+
+        text = normalize_math_text(text)
 
         current_question["question"] += " " + text
 
         if ans:
             current_question["answer"] = ans
 
-    # ---------------------------------
+    # =====================================
     # LAST QUESTION
-    # ---------------------------------
+    # =====================================
 
     if current_question and is_valid_question(current_question):
         questions.append(current_question)
 
     return questions
 
-# =====================================
-# SAVE JSON
-# =====================================
+# =========================================================
+# SAVE QUESTIONS
+# =========================================================
 
 def save_questions(subject, questions):
-
-    # Creates:
-    # questions/json/physics/
-    # questions/json/chemistry/
-    # questions/json/maths/
 
     subject_dir = os.path.join(
         OUTPUT_JSON_DIR,
@@ -333,10 +436,6 @@ def save_questions(subject, questions):
         subject_dir,
         exist_ok=True
     )
-
-    # Saves:
-    # physics/physics.json
-    # chemistry/chemistry.json
 
     output_path = os.path.join(
         subject_dir,
@@ -356,9 +455,9 @@ def save_questions(subject, questions):
             ensure_ascii=False
         )
 
-# =====================================
+# =========================================================
 # MAIN
-# =====================================
+# =========================================================
 
 def main():
 
@@ -418,7 +517,7 @@ def main():
             f"Saved {len(all_questions)} questions for {subject}"
         )
 
-# =====================================
+# =========================================================
 
 if __name__ == "__main__":
     main()
