@@ -407,6 +407,7 @@ export default function LoginPage() {
                       </div>
                       <select
                         className={`${inputClasses} appearance-none cursor-pointer ${formData.classStatus ? "text-white" : "text-white/40"}`}
+                        style={{ backgroundColor: "rgba(255,255,255,0.03)", WebkitAppearance: "none", MozAppearance: "none" }}
                         name="classStatus"
                         required
                         value={formData.classStatus}
@@ -427,6 +428,7 @@ export default function LoginPage() {
                       </div>
                       <select
                         className={`${inputClasses} appearance-none cursor-pointer ${formData.stream ? "text-white" : "text-white/40"}`}
+                        style={{ backgroundColor: "rgba(255,255,255,0.03)", WebkitAppearance: "none", MozAppearance: "none" }}
                         name="stream"
                         required
                         value={formData.stream}

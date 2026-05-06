@@ -118,6 +118,7 @@ export default function ExamInterface() {
   });
   const [isLoadingQuestions, setIsLoadingQuestions] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSubmitConfirm, setShowSubmitConfirm] = useState(false);
   const currentUserIdRef = useRef<string | null>(null);
   const hasHydratedRef = useRef(false);
 
@@ -253,6 +254,17 @@ export default function ExamInterface() {
 
   const activeQuestion = questions[currentQuestion] ?? null;
   const isTimeRunningOut = timeLeft < 300;
+  const notAttemptedByPaper = useMemo(() => {
+    const totals = { paper1: 0, paper2: 0 };
+
+    questions.forEach((question) => {
+      if (question.status === 'not-answered' || question.status === 'not-visited') {
+        totals[question.paper] += 1;
+      }
+    });
+
+    return totals;
+  }, [questions]);
 
   const visibleQuestionIndexes = useMemo(() => {
     return questions
@@ -826,7 +838,7 @@ export default function ExamInterface() {
 
                   <button
                     disabled={isSubmitting}
-                    onClick={handleSubmitExam}
+                    onClick={() => setShowSubmitConfirm(true)}
                     className="group relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-2xl border border-slate-700 bg-slate-900 py-4 text-[15px] font-bold tracking-wide text-white transition-all duration-300 hover:bg-slate-800 hover:shadow-xl hover:shadow-slate-900/20 active:scale-[0.98] disabled:opacity-80"
                   >
                     <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
@@ -849,6 +861,63 @@ export default function ExamInterface() {
           </div>
         </div>
       </main>
+
+      {showSubmitConfirm ? (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/60 px-4 backdrop-blur-sm">
+          <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-red-200/40 bg-white shadow-2xl">
+            <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-red-500 via-rose-500 to-orange-400" />
+            <div className="space-y-4 px-6 pb-6 pt-7 text-center">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50 text-red-600 shadow-sm">
+                <AlertCircle className="h-7 w-7" />
+              </div>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-red-500">Final Confirmation</p>
+                <h3 className="mt-2 text-xl font-bold text-slate-900">Submit final exam?</h3>
+                <p className="mt-2 text-sm text-slate-600">
+                  This will end your exam. You won&#39;t be able to answer again in this session.
+                </p>
+                <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-3">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+                    Not Attempted
+                  </p>
+                  <div className="mt-2 flex items-center justify-between text-sm font-semibold text-slate-700">
+                    <span>Paper 1</span>
+                    <span className="font-bold text-slate-900">
+                      {notAttemptedByPaper.paper1}
+                    </span>
+                  </div>
+                  <div className="mt-1 flex items-center justify-between text-sm font-semibold text-slate-700">
+                    <span>Paper 2</span>
+                    <span className="font-bold text-slate-900">
+                      {notAttemptedByPaper.paper2}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <button
+                  type="button"
+                  onClick={() => setShowSubmitConfirm(false)}
+                  className="flex-1 rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition-all hover:border-slate-400 hover:bg-slate-50"
+                >
+                  Continue Exam
+                </button>
+                <button
+                  type="button"
+                  disabled={isSubmitting}
+                  onClick={() => {
+                    setShowSubmitConfirm(false);
+                    handleSubmitExam();
+                  }}
+                  className="flex-1 rounded-2xl bg-gradient-to-r from-red-600 to-rose-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-red-500/30 transition-all hover:from-red-700 hover:to-rose-700"
+                >
+                  Submit & End
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
