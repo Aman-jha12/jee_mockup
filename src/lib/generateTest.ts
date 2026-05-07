@@ -29,7 +29,7 @@ export const EXAM_DISTRIBUTION: Record<SubjectKey, Record<QuestionCategory, numb
   chemistry: { I: 30, II: 5, III: 5 },
 };
 
-const EXAM_PAPER_SCHEMA_VERSION = 2;
+const EXAM_PAPER_SCHEMA_VERSION = 3;
 const CATEGORY_ORDER: QuestionCategory[] = ['I', 'II', 'III'];
 
 export function subjectToPaper(subject: SubjectKey): PaperKey {
@@ -37,8 +37,12 @@ export function subjectToPaper(subject: SubjectKey): PaperKey {
 }
 
 function normalizeCorrectAnswers(question: Question): string[] {
-  const tokens = String(question.answer ?? '')
-    .split(',')
+  const rawTokens = Array.isArray(question.answer)
+    ? question.answer
+    : String(question.answer ?? '').split(',');
+
+  const tokens = rawTokens
+    .map((entry) => String(entry))
     .map((entry) => entry.trim())
     .filter(Boolean);
 
@@ -54,32 +58,6 @@ function normalizeCorrectAnswers(question: Question): string[] {
   });
 
   return [...new Set(resolved)];
-}
-
-function questionFingerprint(question: Question): string {
-  return [
-    question.subject,
-    question.category,
-    question.question.trim().toLowerCase(),
-    question.options.map((option) => option.trim().toLowerCase()).join('||'),
-  ].join('::');
-}
-
-function uniqueQuestions(questions: Question[]): Question[] {
-  const seen = new Set<string>();
-  const deduplicated: Question[] = [];
-
-  for (const question of questions) {
-    const fingerprint = questionFingerprint(question);
-    if (seen.has(fingerprint)) {
-      continue;
-    }
-
-    seen.add(fingerprint);
-    deduplicated.push(question);
-  }
-
-  return deduplicated;
 }
 
 function pickQuestions(questions: Question[], count: number): Question[] {
@@ -107,17 +85,10 @@ function buildGeneratedQuestion(question: Question): GeneratedQuestion {
 }
 
 export function buildExamPaper(allQuestions: Question[], userId?: string): ExamPaper {
-  const deduplicated = uniqueQuestions(allQuestions);
   const generationNotes: string[] = [];
 
-  if (deduplicated.length < allQuestions.length) {
-    generationNotes.push(
-      `Deduplication removed ${allQuestions.length - deduplicated.length} duplicate questions; ${deduplicated.length} unique questions remain.`
-    );
-  }
-
   const selectedQuestions = (Object.keys(EXAM_DISTRIBUTION) as SubjectKey[]).flatMap((subject) => {
-    const subjectQuestions = deduplicated.filter((question) => question.subject === subject);
+    const subjectQuestions = allQuestions.filter((question) => question.subject === subject);
     const selectedForSubject = CATEGORY_ORDER.flatMap((category) => {
       const required = EXAM_DISTRIBUTION[subject][category];
       const pool = subjectQuestions.filter((question) => question.category === category);

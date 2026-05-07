@@ -32,11 +32,11 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 3,
+    "id": 4,
     "subject": "physics",
     "category": "I",
     "type": "single",
-    "question": "In a thermodynamic process, the pressure of a fixed mass of gas is changed such that the gas releases 20 J of heat and 8 J of work is done on the gas. If the initial internal energy was 30 J, the final internal energy is:",
+    "question": "J, the final internal energy is:",
     "options": [
       "18 J",
       "42 J",
@@ -48,23 +48,23 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 4,
+    "id": 5,
     "subject": "physics",
     "category": "I",
     "type": "single",
     "question": "Two point charges +q and -q are placed at a distance 2l apart. The electric potential at a point on the equatorial line at a distance r from the center of the dipole is:",
     "options": [
       "Zero",
-      "p /",
-      "p /",
-      "2p /"
+      "p / (4πε0r2)",
+      "p / (4πε0r3)",
+      "2p / (4πε0r2)"
     ],
     "answer": "A",
     "image": null,
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 5,
+    "id": 6,
     "subject": "physics",
     "category": "I",
     "type": "single",
@@ -80,7 +80,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 6,
+    "id": 7,
     "subject": "physics",
     "category": "I",
     "type": "single",
@@ -96,7 +96,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 7,
+    "id": 8,
     "subject": "physics",
     "category": "I",
     "type": "single",
@@ -112,7 +112,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 8,
+    "id": 9,
     "subject": "physics",
     "category": "I",
     "type": "single",
@@ -129,7 +129,55 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
+    "id": 10,
+    "subject": "physics",
+    "category": "I",
+    "type": "single",
+    "question": "A particle is projected with a velocity u making an angle θ with the horizontal. The magnitude of its velocity at the highest point of its trajectory is:",
+    "options": [
+      "u sinθ",
+      "u cosθ",
+      "u",
+      "Zero"
+    ],
+    "answer": "B",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
+    "id": 11,
+    "subject": "physics",
+    "category": "I",
+    "type": "single",
+    "question": "A car of mass m is moving on an unbanked circular track of radius R. If the coefficient of static friction is μ, the maximum safe speed is:",
+    "options": [
+      "√(μ R g)",
+      "μ R g",
+      "√(μ g / R)",
+      "μ g / R"
+    ],
+    "answer": "A",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
     "id": 12,
+    "subject": "physics",
+    "category": "I",
+    "type": "single",
+    "question": "A spring of force constant k is cut into two equal halves. The force constant of each half is:",
+    "options": [
+      "k/2",
+      "k",
+      "2k",
+      "4k"
+    ],
+    "answer": "C",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
+    "id": 13,
     "subject": "physics",
     "category": "I",
     "type": "single",
@@ -145,7 +193,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 13,
+    "id": 14,
     "subject": "physics",
     "category": "I",
     "type": "single",
@@ -165,6 +213,22 @@
     "subject": "physics",
     "category": "I",
     "type": "single",
+    "question": "Water rises in a vertical capillary tube up to a height h. If the tube is inclined at an angle of 45° with the vertical, the length of the water column will be:",
+    "options": [
+      "h",
+      "h / √2",
+      "h √2",
+      "2h"
+    ],
+    "answer": "C",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
+    "id": 16,
+    "subject": "physics",
+    "category": "I",
+    "type": "single",
     "question": "The magnetic flux linked with a coil varies with time t as φ = 3t2 + 4t + 9 Wb. The magnitude of the induced emf at t = 2 s is:",
     "options": [
       "8 V",
@@ -181,6 +245,22 @@
     "subject": "physics",
     "category": "I",
     "type": "single",
+    "question": "An ideal gas undergoes an isothermal expansion at temperature T. The work done by n moles of the gas in expanding from V1 to V2 is:",
+    "options": [
+      "nRT ln(V2/V1)",
+      "nRT ln(V1/V2)",
+      "nRT(V2 - V1)",
+      "(nR/T) ln(V2/V1)"
+    ],
+    "answer": "A",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
+    "id": 18,
+    "subject": "physics",
+    "category": "I",
+    "type": "single",
     "question": "The efficiency of a Carnot engine working between temperatures of 127°C and 27°C is:",
     "options": [
       "25%",
@@ -193,7 +273,39 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
+    "id": 19,
+    "subject": "physics",
+    "category": "I",
+    "type": "single",
+    "question": "The distance between two consecutive nodes in a stationary wave is:",
+    "options": [
+      "λ",
+      "λ/2",
+      "λ/4",
+      "2λ"
+    ],
+    "answer": "B",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
     "id": 20,
+    "subject": "physics",
+    "category": "I",
+    "type": "single",
+    "question": "According to Stokes' law, the terminal velocity of a small spherical body of radius r falling through a viscous medium is proportional to:",
+    "options": [
+      "r",
+      "r2",
+      "r3",
+      "1/r"
+    ],
+    "answer": "B",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
+    "id": 21,
     "subject": "physics",
     "category": "I",
     "type": "single",
@@ -213,6 +325,22 @@
     "subject": "physics",
     "category": "I",
     "type": "single",
+    "question": "The moment of inertia of a solid sphere of mass M and radius R about its diameter is:",
+    "options": [
+      "(2/5) MR2",
+      "(2/3) MR2",
+      "(1/2) MR2",
+      "MR2"
+    ],
+    "answer": "A",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
+    "id": 23,
+    "subject": "physics",
+    "category": "I",
+    "type": "single",
     "question": "According to Kepler's third law, the square of the time period of revolution of a planet is proportional to the:",
     "options": [
       "semi-major axis",
@@ -225,14 +353,14 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 23,
+    "id": 24,
     "subject": "physics",
     "category": "I",
     "type": "single",
     "question": "The electric field outside an infinite thin uniformly charged planar sheet with surface charge density σ is:",
     "options": [
       "σ / ε0",
-      "σ /",
+      "σ / (2ε0)",
       "2σ / ε0",
       "Zero"
     ],
@@ -242,6 +370,22 @@
   },
   {
     "id": 25,
+    "subject": "physics",
+    "category": "I",
+    "type": "single",
+    "question": "The equivalent capacitance of two capacitors C1 and C2 connected in series is:",
+    "options": [
+      "C1 + C2",
+      "(C1 C2) / (C1 + C2)",
+      "(C1 + C2) / (C1 C2)",
+      "|C1 - C2|"
+    ],
+    "answer": "B",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
+    "id": 26,
     "subject": "physics",
     "category": "I",
     "type": "single",
@@ -257,7 +401,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 26,
+    "id": 27,
     "subject": "physics",
     "category": "I",
     "type": "single",
@@ -273,7 +417,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 27,
+    "id": 28,
     "subject": "physics",
     "category": "I",
     "type": "single",
@@ -289,7 +433,39 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
+    "id": 29,
+    "subject": "physics",
+    "category": "I",
+    "type": "single",
+    "question": "The force experienced by a charge q moving with velocity v in a uniform magnetic field B is:",
+    "options": [
+      "q(v · B)",
+      "q(v x B)",
+      "q(B x v)",
+      "(v x B) / q"
+    ],
+    "answer": "B",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
     "id": 30,
+    "subject": "physics",
+    "category": "I",
+    "type": "single",
+    "question": "The resonant frequency fr of a series LCR circuit is:",
+    "options": [
+      "1 / (2π√(LC))",
+      "1 / √(LC)",
+      "2π√(LC)",
+      "(1/2π) √(L/C)"
+    ],
+    "answer": "A",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
+    "id": 31,
     "subject": "physics",
     "category": "I",
     "type": "single",
@@ -305,7 +481,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 31,
+    "id": 32,
     "subject": "physics",
     "category": "I",
     "type": "single",
@@ -321,7 +497,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 32,
+    "id": 33,
     "subject": "physics",
     "category": "I",
     "type": "single",
@@ -337,7 +513,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 33,
+    "id": 34,
     "subject": "physics",
     "category": "I",
     "type": "single",
@@ -345,26 +521,10 @@
     "options": [
       "λd / D",
       "λD / d",
-      "D /",
-      "d /"
+      "D / (λd)",
+      "d / (λD)"
     ],
     "answer": "B",
-    "image": null,
-    "source_pdf": "WBJEE_2026_Physics.pdf"
-  },
-  {
-    "id": 34,
-    "subject": "physics",
-    "category": "I",
-    "type": "single",
-    "question": "According to Brewster's law, the refractive index μ of a medium is related to the polarizing angle ip by:",
-    "options": [
-      "μ = sin",
-      "μ = cos",
-      "μ = tan",
-      "μ = cot"
-    ],
-    "answer": "C",
     "image": null,
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
@@ -373,19 +533,35 @@
     "subject": "physics",
     "category": "I",
     "type": "single",
+    "question": "According to Brewster's law, the refractive index μ of a medium is related to the polarizing angle ip by:",
+    "options": [
+      "μ = sin(ip)",
+      "μ = cos(ip)",
+      "μ = tan(ip)",
+      "μ = cot(ip)"
+    ],
+    "answer": "C",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
+    "id": 36,
+    "subject": "physics",
+    "category": "I",
+    "type": "single",
     "question": "The energy E of a photon of momentum p is given by (c = speed of light):",
     "options": [
       "E = pc",
       "E = p/c",
       "E = pc2",
-      "E = p2/"
+      "E = p2/(2m)"
     ],
     "answer": "A",
     "image": null,
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 36,
+    "id": 37,
     "subject": "physics",
     "category": "I",
     "type": "single",
@@ -405,12 +581,12 @@
     "subject": "physics",
     "category": "I",
     "type": "single",
-    "question": "The half-life T1/2 of a radioactive substance is related to its decay constant λ by:",
+    "question": "In the Bohr model of the hydrogen atom, the radius of the nth orbit is proportional to:",
     "options": [
-      "T1/2 = λ ln",
-      "T1/2 = ln",
-      "T1/2 = λ / ln",
-      "T1/2 = 1 / λ"
+      "n",
+      "n2",
+      "1/n",
+      "1/n2"
     ],
     "answer": "B",
     "image": null,
@@ -421,19 +597,35 @@
     "subject": "physics",
     "category": "I",
     "type": "single",
+    "question": "The half-life T1/2 of a radioactive substance is related to its decay constant λ by:",
+    "options": [
+      "T1/2 = λ ln(2)",
+      "T1/2 = ln(2) / λ",
+      "T1/2 = λ / ln(2)",
+      "T1/2 = 1 / λ"
+    ],
+    "answer": "B",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
+    "id": 40,
+    "subject": "physics",
+    "category": "I",
+    "type": "single",
     "question": "The maximum binding energy per nucleon occurs for the nucleus of:",
     "options": [
-      "Helium",
-      "Oxygen",
-      "Iron",
-      "Uranium"
+      "Helium (4He)",
+      "Oxygen (16O)",
+      "Iron (56Fe)",
+      "Uranium (238U)"
     ],
     "answer": "C",
     "image": null,
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 40,
+    "id": 41,
     "subject": "physics",
     "category": "I",
     "type": "single",
@@ -449,7 +641,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 41,
+    "id": 42,
     "subject": "physics",
     "category": "I",
     "type": "single",
@@ -465,7 +657,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 42,
+    "id": 43,
     "subject": "physics",
     "category": "I",
     "type": "single",
@@ -481,7 +673,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 43,
+    "id": 44,
     "subject": "physics",
     "category": "I",
     "type": "single",
@@ -501,6 +693,22 @@
     "subject": "physics",
     "category": "I",
     "type": "single",
+    "question": "The magnitude of the cross product of two parallel vectors is:",
+    "options": [
+      "Product of their magnitudes",
+      "Zero",
+      "One",
+      "∞"
+    ],
+    "answer": "B",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
+    "id": 46,
+    "subject": "physics",
+    "category": "I",
+    "type": "single",
     "question": "The angle of repose on a rough inclined plane is equal to the:",
     "options": [
       "Angle of incidence",
@@ -513,7 +721,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 46,
+    "id": 47,
     "subject": "physics",
     "category": "I",
     "type": "single",
@@ -529,7 +737,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 47,
+    "id": 48,
     "subject": "physics",
     "category": "I",
     "type": "single",
@@ -545,11 +753,43 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
+    "id": 49,
+    "subject": "physics",
+    "category": "I",
+    "type": "single",
+    "question": "A particle performs SHM with amplitude A. Its kinetic energy equals its potential energy when its displacement from the mean position is:",
+    "options": [
+      "A/2",
+      "A/√2",
+      "A",
+      "Zero"
+    ],
+    "answer": "B",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
     "id": 50,
     "subject": "physics",
     "category": "I",
     "type": "single",
-    "question": "The core of an electromagnet is made of soft iron because soft iron has: . 2 marks. In -0.5 marks.",
+    "question": "The power factor of a purely resistive AC circuit is:",
+    "options": [
+      "Zero",
+      "0.5",
+      "1",
+      "∞"
+    ],
+    "answer": "C",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
+    "id": 51,
+    "subject": "physics",
+    "category": "I",
+    "type": "single",
+    "question": "The core of an electromagnet is made of soft iron because soft iron has:",
     "options": [
       "High retentivity and high coercivity",
       "Low retentivity and low coercivity",
@@ -561,7 +801,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 51,
+    "id": 52,
     "subject": "physics",
     "category": "II",
     "type": "single",
@@ -581,6 +821,22 @@
     "subject": "physics",
     "category": "II",
     "type": "single",
+    "question": "A simple pendulum has a time period T1 on the earth's surface and T2 at a height R above the earth's surface, where R is earth's radius. The ratio T2/T1 is:",
+    "options": [
+      "1",
+      "√2",
+      "2",
+      "4"
+    ],
+    "answer": "C",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
+    "id": 54,
+    "subject": "physics",
+    "category": "II",
+    "type": "single",
     "question": "A parallel plate capacitor is charged by a battery which is then disconnected. A dielectric slab is now inserted between the plates. Which quantity remains constant?",
     "options": [
       "Capacitance",
@@ -593,7 +849,55 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
+    "id": 55,
+    "subject": "physics",
+    "category": "II",
+    "type": "single",
+    "question": "A particle of mass m and charge q is projected with velocity v perpendicular to a uniform magnetic field B. The work done by the magnetic force after one revolution is:",
+    "options": [
+      "mv2/r",
+      "qvB(2πr)",
+      "Zero",
+      "(1/2)mv2"
+    ],
+    "answer": "C",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
+    "id": 56,
+    "subject": "physics",
+    "category": "II",
+    "type": "single",
+    "question": "In a Young's double-slit experiment, the intensity of light where the path difference is λ is K. The intensity where the path difference is λ/4 will be:",
+    "options": [
+      "K",
+      "K/2",
+      "K/4",
+      "Zero"
+    ],
+    "answer": "B",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
     "id": 57,
+    "subject": "physics",
+    "category": "II",
+    "type": "single",
+    "question": "A block of mass m is pulled along a horizontal frictionless surface by a thick rope of mass m/2. If a force F is applied at the free end of the rope, the force exerted by the rope on the block is:",
+    "options": [
+      "F",
+      "2F/3",
+      "F/3",
+      "3F/2"
+    ],
+    "answer": "B",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
+    "id": 58,
     "subject": "physics",
     "category": "II",
     "type": "single",
@@ -609,11 +913,11 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 58,
+    "id": 60,
     "subject": "physics",
     "category": "II",
     "type": "single",
-    "question": "An ideal gas heat engine operates in a Carnot cycle between 227°C and 127°C. It absorbs 600 kcal at the higher temperature. The amount of heat converted into work is:",
+    "question": "kcal at the higher temperature. The amount of heat converted into work is:",
     "options": [
       "120 kcal",
       "240 kcal",
@@ -625,7 +929,23 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 60,
+    "id": 61,
+    "subject": "physics",
+    "category": "II",
+    "type": "single",
+    "question": "The equivalent resistance between diagonally opposite corners of a wire cube of resistance R on each edge is:",
+    "options": [
+      "5R/6",
+      "7R/12",
+      "3R/4",
+      "R"
+    ],
+    "answer": "A",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
+    "id": 62,
     "subject": "physics",
     "category": "II",
     "type": "single",
@@ -641,7 +961,23 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 62,
+    "id": 63,
+    "subject": "physics",
+    "category": "II",
+    "type": "single",
+    "question": "In a series LCR circuit connected to an AC source, the voltage across R, L, and C is 10 V each. If the capacitor is short-circuited, the new voltage across the inductor will be:",
+    "options": [
+      "10 V",
+      "10/√2 V",
+      "10/3 V",
+      "0"
+    ],
+    "answer": "B",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
+    "id": 64,
     "subject": "physics",
     "category": "II",
     "type": "single",
@@ -657,14 +993,14 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 63,
+    "id": 65,
     "subject": "physics",
     "category": "II",
     "type": "single",
     "question": "A radioactive sample with half-life T contains N0 active nuclei at t=0. The number of nuclei decayed in time t = T/2 is:",
     "options": [
       "N0 / √2",
-      "N0",
+      "N0 (1 - 1/√2)",
       "N0 / 2",
       "N0 / 4"
     ],
@@ -673,11 +1009,27 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 65,
+    "id": 66,
     "subject": "physics",
     "category": "II",
     "type": "single",
-    "question": "The minimum deviation produced by a hollow prism filled with a liquid is 30°. If the refracting angle of the prism is 60°, the refractive index of the liquid is: One or more options may be correct. 2 marks. No .",
+    "question": "Two thin lenses of focal lengths f1 and f2 are in contact and coaxial. The power of the combination is:",
+    "options": [
+      "f1 + f2",
+      "(f1 f2) / (f1+f2)",
+      "1/f1 + 1/f2",
+      "f1 / f2"
+    ],
+    "answer": "C",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Physics.pdf"
+  },
+  {
+    "id": 67,
+    "subject": "physics",
+    "category": "II",
+    "type": "single",
+    "question": "The minimum deviation produced by a hollow prism filled with a liquid is 30°. If the refracting angle of the prism is 60°, the refractive index of the liquid is:",
     "options": [
       "1.5",
       "1.33",
@@ -689,7 +1041,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 66,
+    "id": 68,
     "subject": "physics",
     "category": "III",
     "type": "multiple",
@@ -709,16 +1061,16 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 67,
+    "id": 69,
     "subject": "physics",
     "category": "III",
     "type": "multiple",
     "question": "Which of the following equations represent a traveling wave?",
     "options": [
-      "y = A sin",
-      "y = A cos",
-      "y = A sin",
-      "y = A e-"
+      "y = A sin(kx - ωt)",
+      "y = A cos(kx + ωt)",
+      "y = A sin(kx) cos(ωt)",
+      "y = A e-(x - vt)^2"
     ],
     "answer": [
       "A",
@@ -729,7 +1081,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 68,
+    "id": 70,
     "subject": "physics",
     "category": "III",
     "type": "multiple",
@@ -749,7 +1101,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 69,
+    "id": 71,
     "subject": "physics",
     "category": "III",
     "type": "multiple",
@@ -769,7 +1121,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 70,
+    "id": 72,
     "subject": "physics",
     "category": "III",
     "type": "multiple",
@@ -790,7 +1142,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 71,
+    "id": 73,
     "subject": "physics",
     "category": "III",
     "type": "multiple",
@@ -809,7 +1161,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 72,
+    "id": 74,
     "subject": "physics",
     "category": "III",
     "type": "multiple",
@@ -828,7 +1180,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 73,
+    "id": 75,
     "subject": "physics",
     "category": "III",
     "type": "multiple",
@@ -848,7 +1200,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 74,
+    "id": 76,
     "subject": "physics",
     "category": "III",
     "type": "multiple",
@@ -856,7 +1208,7 @@
     "options": [
       "If angle of incidence i > θc, total internal reflection occurs.",
       "If i < θc, the ray is partially reflected and partially refracted.",
-      "The refractive index of denser medium with respect to rarer medium is 1/sin",
+      "The refractive index of denser medium with respect to rarer medium is 1/sin(θc).",
       "Total internal reflection can occur when light travels from rarer to denser medium."
     ],
     "answer": [
@@ -868,7 +1220,7 @@
     "source_pdf": "WBJEE_2026_Physics.pdf"
   },
   {
-    "id": 75,
+    "id": 77,
     "subject": "physics",
     "category": "III",
     "type": "multiple",

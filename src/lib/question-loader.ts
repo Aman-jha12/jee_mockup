@@ -36,7 +36,9 @@ async function loadQuestionBank(key: QuestionBankKey): Promise<Question[]> {
           category: question.category.trim().toUpperCase() as Question['category'],
           options: Array.isArray(question.options) ? [...question.options] : [],
           image: question.image ?? null,
-          answer: String(question.answer ?? '').trim(),
+          answer: Array.isArray(question.answer)
+            ? question.answer.map((entry) => String(entry).trim()).filter(Boolean)
+            : String(question.answer ?? '').trim(),
           source_pdf: String(question.source_pdf ?? '').trim(),
           question: String(question.question ?? '').trim(),
         }))

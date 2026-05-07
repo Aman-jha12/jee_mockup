@@ -4,7 +4,7 @@
     "subject": "maths",
     "category": "I",
     "type": "single",
-    "question": "Let f(x)=√(log10(x2)). The set of all values of x for which f(x) is real is",
+    "question": "Let f(x)=√(log10(x^2)). The set of all values of x for which f(x) is real is",
     "options": [
       "[1, ∞]",
       "[-1, 1]",
@@ -36,7 +36,7 @@
     "subject": "maths",
     "category": "I",
     "type": "single",
-    "question": "If x(x2+1), -x2/2, 6 are consecutive terms of an A.P., the next two are",
+    "question": "If x(x^2+1), -x^2/2, 6 are consecutive terms of an A.P., the next two are",
     "options": [
       "14, 6",
       "-2, -10",
@@ -52,7 +52,7 @@
     "subject": "maths",
     "category": "I",
     "type": "single",
-    "question": "If a,b,c are real, a+b+c<0 and ax2+bx+c=0 has imaginary roots, then",
+    "question": "If a,b,c are real, a+b+c<0 and ax^2+bx+c=0 has imaginary roots, then",
     "options": [
       "a>0, c>0",
       "a<0, c>0",
@@ -68,7 +68,7 @@
     "subject": "maths",
     "category": "I",
     "type": "single",
-    "question": "If x2 + 9y2 + 25z2 = xyz(15/x + 5/y + 3/z) then x, y, z are in",
+    "question": "If x^2 + 9y^2 + 25z^2 = xyz(15/x + 5/y + 3/z) then x, y, z are in",
     "options": [
       "A.P.",
       "G.P.",
@@ -132,7 +132,7 @@
     "subject": "maths",
     "category": "I",
     "type": "single",
-    "question": "If f(x) = sin x + cos x and g(x) = x2 - 1, then g{f(x)} is invertible if",
+    "question": "If f(x) = sin x + cos x and g(x) = x^2 - 1, then g{f(x)} is invertible if",
     "options": [
       "-π/2 ≤ x ≤ 0",
       "-π/2 ≤ x ≤ π",
@@ -144,16 +144,63 @@
     "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
+    "id": 10,
+    "subject": "maths",
+    "category": "I",
+    "type": "single",
+    "question": "The value of lim(x->0) (1+3x)^((x+2)/x) is",
+    "options": [
+      "e^3",
+      "e^6",
+      "e^5",
+      "e"
+    ],
+    "answer": "B",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
+    "id": 11,
+    "subject": "maths",
+    "category": "I",
+    "type": "single",
+    "question": "If 2^x + 2^y = 2^(x+y), the value of dy/dx at (1,1) is",
+    "options": [
+      "0",
+      "-1",
+      "1",
+      "2"
+    ],
+    "answer": "B",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
+    "id": 12,
+    "subject": "maths",
+    "category": "I",
+    "type": "single",
+    "question": "Let f(x) = x(x-1)(x-2) on [0,4]. The point x=c satisfying MVT is",
+    "options": [
+      "0",
+      "c>3",
+      "1"
+    ],
+    "answer": "D",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
     "id": 13,
     "subject": "maths",
     "category": "I",
     "type": "single",
-    "question": "∫ of x^5 / √(1+x3) dx is",
+    "question": "∫ of x^5 / √(1+x^3) dx is",
     "options": [
-      "2/3[",
-      "1/3[",
-      "2/3[",
-      "1/3["
+      "2/3[(1+x^3)^(3/2)/3 - √(1+x^3)] + c",
+      "1/3[(1+x^3)^(3/2)/3 - √(1+x^3)] + c",
+      "2/3[(1+x^3)^(3/2)/3 + √(1+x^3)] + c",
+      "1/3[(1+x^3)^(3/2)/3 + √(1+x^3)] + c"
     ],
     "answer": "A",
     "image": null,
@@ -164,10 +211,10 @@
     "subject": "maths",
     "category": "I",
     "type": "single",
-    "question": "If ∫ (4e^x+6e^-x)/(9e^x-4e^-x) dx = Ax + B log(9e2x - 4) + C, then A, B, C are",
+    "question": "If ∫ (4e^x+6e^-x)/(9e^x-4e^-x) dx = Ax + B log(9e^2x - 4) + C, then A, B, C are",
     "options": [
       "A=5/2, B=31/36, C=-3/2 log 3 + c",
-      "A=-3/c2, B=35/36, C=-3/2 log 3 + c",
+      "A=-3/c^2, B=35/36, C=-3/2 log 3 + c",
       "A=5/2, B=31/36, C=3/2 log 3 + c",
       "A=-5/2, B=31/36, C=3/2 log 3 + c"
     ],
@@ -182,10 +229,26 @@
     "type": "single",
     "question": "∫ of sin x / sin(x-α) dx is",
     "options": [
-      "x cos α + sin α log sin",
-      "x cos α - sin α log sin",
-      "x cos α + sin α log sin",
-      "x cos α - sin α log sin"
+      "x cos α + sin α log sin(x-α) + c",
+      "x cos α - sin α log sin(x-α) + c",
+      "x cos α + sin α log sin(x+α) + c",
+      "x cos α - sin α log sin(x+α) + c"
+    ],
+    "answer": "A",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
+    "id": 16,
+    "subject": "maths",
+    "category": "I",
+    "type": "single",
+    "question": "∫ from -π/2 to π/2 of [f(x)+f(-x)][g(x)-g(-x)] dx (f, g continuous) is",
+    "options": [
+      "0",
+      "1",
+      "-1",
+      "2"
     ],
     "answer": "A",
     "image": null,
@@ -196,7 +259,7 @@
     "subject": "maths",
     "category": "I",
     "type": "single",
-    "question": "If f(x) = {2x2+1, x≤1; 4x2-1, x>1}, then ∫ from 0 to 2 of f(x) dx is",
+    "question": "If f(x) = {2x^2+1, x≤1; 4x^2-1, x>1}, then ∫ from 0 to 2 of f(x) dx is",
     "options": [
       "47/3",
       "50/3",
@@ -208,16 +271,48 @@
     "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
+    "id": 18,
+    "subject": "maths",
+    "category": "I",
+    "type": "single",
+    "question": "The order of differential equation: 2x^2 y'' - 3y' + y = 0 is",
+    "options": [
+      "2",
+      "1",
+      "0",
+      "undefined"
+    ],
+    "answer": "A",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
+    "id": 19,
+    "subject": "maths",
+    "category": "I",
+    "type": "single",
+    "question": "Number of arbitrary constants in general solution of 4th order diff eq is",
+    "options": [
+      "0",
+      "2",
+      "3",
+      "4"
+    ],
+    "answer": "D",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
     "id": 20,
     "subject": "maths",
     "category": "I",
     "type": "single",
     "question": "General solution of e^x dy + (ye^x + 2x) dx = 0 is",
     "options": [
-      "xe^x + x2 = c",
-      "xe^y + y2 = c",
-      "ye^x + x2 = c",
-      "xe^x - x2 = c"
+      "xe^x + x^2 = c",
+      "xe^y + y^2 = c",
+      "ye^x + x^2 = c",
+      "xe^x - x^2 = c"
     ],
     "answer": "C",
     "image": null,
@@ -228,7 +323,7 @@
     "subject": "maths",
     "category": "I",
     "type": "single",
-    "question": "Simplified form of cos^-1(4x3 - 3x) is",
+    "question": "Simplified form of cos^-1(4x^3 - 3x) is",
     "options": [
       "3 sin^-1 x",
       "3 cos^-1 x",
@@ -240,18 +335,161 @@
     "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
+    "id": 22,
+    "subject": "maths",
+    "category": "I",
+    "type": "single",
+    "question": "For triangle ABC, value of b^2 sin 2C + c^2 sin 2B is",
+    "options": [
+      "δ",
+      "2δ",
+      "3δ",
+      "4δ"
+    ],
+    "answer": "D",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
+    "id": 23,
+    "subject": "maths",
+    "category": "I",
+    "type": "single",
+    "question": "If tan α = a/(a+1) and tan β = 1/(2a+1), then α+β is",
+    "options": [
+      "π",
+      "π/2",
+      "π/3",
+      "π/4"
+    ],
+    "answer": "D",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
+    "id": 24,
+    "subject": "maths",
+    "category": "I",
+    "type": "single",
+    "question": "For triangle ABC, value of b^2 sin 2C + c^2 sin 2B is",
+    "options": [
+      "δ",
+      "2δ",
+      "3δ",
+      "4δ"
+    ],
+    "answer": "D",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
+    "id": 25,
+    "subject": "maths",
+    "category": "I",
+    "type": "single",
+    "question": "If sin A + sin B = 2 then value of sin(A+B) is",
+    "options": [
+      "2",
+      "0",
+      "1",
+      "-1"
+    ],
+    "answer": "B",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
+    "id": 26,
+    "subject": "maths",
+    "category": "I",
+    "type": "single",
+    "question": "If tan 25 = a, then (tan 155 - tan 115) / (1 + tan 155 tan 115) is",
+    "options": [
+      "2a/(1-a^2)",
+      "2a/(1+a^2)",
+      "(1-a^2)/2a",
+      "(1+a^2)/2a"
+    ],
+    "answer": "C",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
+    "id": 27,
+    "subject": "maths",
+    "category": "I",
+    "type": "single",
+    "question": "If length of conjugate axis > transverse axis in hyperbola, eccentricity e is",
+    "options": [
+      "√(2)",
+      ">√(2)",
+      "1/√(2)"
+    ],
+    "answer": "B",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
+    "id": 28,
+    "subject": "maths",
+    "category": "I",
+    "type": "single",
+    "question": "Number of intersecting points of 4x^2+9y^2=1 and 4x^2+y^2=4 is",
+    "options": [
+      "1",
+      "2",
+      "3",
+      "0"
+    ],
+    "answer": "D",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
     "id": 29,
     "subject": "maths",
     "category": "I",
     "type": "single",
-    "question": "Foci of hyperbola x2-y2+1=0 form diameter of circle. Circle equation is",
+    "question": "Foci of hyperbola x^2-y^2+1=0 form diameter of circle. Circle equation is",
     "options": [
-      "x2+y2=4",
-      "x2+y2=√",
-      "x2+y2=2",
-      "x2+y2=2sqrt"
+      "x^2+y^2=4",
+      "x^2+y^2=√(2)",
+      "x^2+y^2=2",
+      "x^2+y^2=2sqrt(2)"
     ],
     "answer": "C",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
+    "id": 30,
+    "subject": "maths",
+    "category": "I",
+    "type": "single",
+    "question": "Q is image of P(1,5) about y=x. R is image of Q about y=-x. Circumcentre of PQR is",
+    "options": [
+      "(5,1)",
+      "(-5,1)",
+      "(1,-5)",
+      "(0,0)"
+    ],
+    "answer": "D",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
+    "id": 31,
+    "subject": "maths",
+    "category": "I",
+    "type": "single",
+    "question": "Foot of perpendicular from (1,8,4) on line joining (0,-11,4) and (2,-3,1) is",
+    "options": [
+      "(4,5,2)",
+      "(-4,5,2)",
+      "(4,-5,2)",
+      "(4,5,-2)"
+    ],
+    "answer": "D",
     "image": null,
     "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
@@ -268,6 +506,54 @@
       "3:2"
     ],
     "answer": "B",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
+    "id": 33,
+    "subject": "maths",
+    "category": "I",
+    "type": "single",
+    "question": "Let P(n): n^3+n=3m. Which is true?",
+    "options": [
+      "P(1)",
+      "P(2)",
+      "P(3)",
+      "P(4)"
+    ],
+    "answer": "C",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
+    "id": 34,
+    "subject": "maths",
+    "category": "I",
+    "type": "single",
+    "question": "If sum of 5th and 6th terms of (a-b)^n is 0, a/b is",
+    "options": [
+      "5/(n-4)",
+      "1/5(n-4)",
+      "(n-5)/6",
+      "(n-4)/5"
+    ],
+    "answer": "D",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
+    "id": 35,
+    "subject": "maths",
+    "category": "I",
+    "type": "single",
+    "question": "The coefficient of x^3 in expansion of 3^x is",
+    "options": [
+      "(log_e 3)^3 / 6",
+      "(log_e 3)^3 / 3",
+      "log_e 3 / 6",
+      "(log_c 3)^3 / 3"
+    ],
+    "answer": "A",
     "image": null,
     "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
@@ -368,6 +654,22 @@
     "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
+    "id": 42,
+    "subject": "maths",
+    "category": "I",
+    "type": "single",
+    "question": "Set theory: (A U B)' U (A' n B) is",
+    "options": [
+      "A U B",
+      "A'",
+      "A",
+      "None"
+    ],
+    "answer": "B",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
     "id": 43,
     "subject": "maths",
     "category": "I",
@@ -390,10 +692,10 @@
     "type": "single",
     "question": "A={1,2,3}, R={(1,2),(2,1)}. R is",
     "options": [
-      "reflexive if",
-      "symmetric if",
-      "transitive if",
-      "symmetric if"
+      "reflexive if (1,1) added",
+      "symmetric if (2,3) added",
+      "transitive if (1,1) added",
+      "symmetric if (3,2) added"
     ],
     "answer": "C",
     "image": null,
@@ -440,8 +742,8 @@
     "options": [
       "2a",
       "a/2",
-      "a √",
-      "a/√"
+      "a √(2)",
+      "a/√(2)"
     ],
     "answer": "C",
     "image": null,
@@ -473,7 +775,7 @@
       "increasing in [0,a]",
       "increasing in [0,2a]",
       "decreasing in [0,a]",
-      "increasing in"
+      "increasing in (0,a)"
     ],
     "answer": "C",
     "image": null,
@@ -484,7 +786,7 @@
     "subject": "maths",
     "category": "I",
     "type": "single",
-    "question": "Area of {(x, y): |x| >= y >= x2} is 2 Marks Each. Only one correct option.",
+    "question": "Area of {(x, y): |x| ≥ y ≥ x^2} is",
     "options": [
       "2/3",
       "1/3",
@@ -496,16 +798,48 @@
     "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
+    "id": 51,
+    "subject": "maths",
+    "category": "II",
+    "type": "single",
+    "question": "If x, y, z are positive in A.P. then",
+    "options": [
+      "(x+y)/(2y-x) + (y+z)/(2y-z) ≥ 4",
+      "(x+y)/(2y-x) + (y+z)/(2y-z) ≥ 2",
+      "y^2 ≤ zx",
+      "(x+y)/(2y-x) + (y+z)/(2y-z) ≤ 2"
+    ],
+    "answer": "A",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
     "id": 52,
     "subject": "maths",
     "category": "II",
     "type": "single",
     "question": "Quadratic eq whose roots are A.M. and H.M. of two numbers a, b is",
     "options": [
-      "Ax2 -",
-      "Ax2 -",
-      "Hx2 -",
+      "Ax^2 - (A^2+H^2)x + AH^2 = 0",
+      "Ax^2 - (A^2+G^2)x + AG^2 = 0",
+      "Hx^2 - (H^2+G^2)x + HG^2 = 0",
       "none"
+    ],
+    "answer": "B",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
+    "id": 53,
+    "subject": "maths",
+    "category": "II",
+    "type": "single",
+    "question": "If |z1|=12 and |z2-3-4i|=5, minimum of |z1-z2| is",
+    "options": [
+      "7",
+      "0",
+      "2",
+      "17"
     ],
     "answer": "B",
     "image": null,
@@ -548,7 +882,7 @@
     "subject": "maths",
     "category": "II",
     "type": "single",
-    "question": "If e^f(x) = (10+x)/(10-x) and f(x)=kf(200x/(100+x2)), then k is",
+    "question": "If e^f(x) = (10+x)/(10-x) and f(x)=kf(200x/(100+x^2)), then k is",
     "options": [
       "1/2",
       "4/5",
@@ -564,7 +898,7 @@
     "subject": "maths",
     "category": "II",
     "type": "single",
-    "question": "If f(x)=2x+3, g(x)=x2+7, x values such that (g o f)(x)=8 are",
+    "question": "If f(x)=2x+3, g(x)=x^2+7, x values such that (g o f)(x)=8 are",
     "options": [
       "1, -2",
       "-1, 2",
@@ -582,10 +916,10 @@
     "type": "single",
     "question": "General solution of (1+e^(x/y))dx + (1-x/y)e^(x/y)dy = 0 is",
     "options": [
-      "x - ye^",
-      "y - ye^",
-      "x + ye^",
-      "y + ye^"
+      "x - ye^(x/y) = c",
+      "y - ye^(x/y) = c",
+      "x + ye^(x/y) = c",
+      "y + ye^(x/y) = c"
     ],
     "answer": "C",
     "image": null,
@@ -598,8 +932,8 @@
     "type": "single",
     "question": "Values of x satisfying tan^-1((x-1)/(x-2)) + tan^-1((x+1)/(x+2)) = π/4 are",
     "options": [
-      "+- 1/√",
-      "+- √",
+      "+- 1/√(2)",
+      "+- √(2)",
       "+- 1/2",
       "+- 2"
     ],
@@ -612,12 +946,12 @@
     "subject": "maths",
     "category": "II",
     "type": "single",
-    "question": "If P = 1/2 sin2 θ + 1/3 cos2 θ, then",
+    "question": "If P = 1/2 sin^2 θ + 1/3 cos^2 θ, then",
     "options": [
-      "1/3 <= P <= 1/2",
-      "P <= 1/2",
-      "2 <= P <= 3",
-      "P <= 1/3"
+      "1/3 ≤ P ≤ 1/2",
+      "P ≤ 1/2",
+      "2 ≤ P ≤ 3",
+      "P ≤ 1/3"
     ],
     "answer": "A",
     "image": null,
@@ -628,14 +962,30 @@
     "subject": "maths",
     "category": "II",
     "type": "single",
-    "question": "Length of chord of parabola y2=4ax passing through vertex making acute angle θ with axis",
+    "question": "Length of chord of parabola y^2=4ax passing through vertex making acute angle θ with axis",
     "options": [
       "+- 4a cot θ cosec θ",
       "4a cot θ cosec θ",
       "-4a cot θ cosec θ",
-      "4a cosec2 θ"
+      "4a cosec^2 θ"
     ],
     "answer": "B",
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
+    "id": 62,
+    "subject": "maths",
+    "category": "II",
+    "type": "single",
+    "question": "l, m, n are pth, qth, rth terms of G.P. Value of det[[log l, p, 1], [log m, q, 1], [log n, r, 1]] is",
+    "options": [
+      "-1",
+      "2",
+      "1",
+      "0"
+    ],
+    "answer": "D",
     "image": null,
     "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
@@ -644,7 +994,7 @@
     "subject": "maths",
     "category": "II",
     "type": "single",
-    "question": "Coefficient of b^10 a^7 c3 in expansion of (ab + bc + ca)^10",
+    "question": "Coefficient of b^10 a^7 c^3 in expansion of (ab + bc + ca)^10",
     "options": [
       "100",
       "110",
@@ -660,7 +1010,7 @@
     "subject": "maths",
     "category": "II",
     "type": "single",
-    "question": "Area of region bounded by y=x2+2, y=-x, x=0, x=1 is",
+    "question": "Area of region bounded by y=x^2+2, y=-x, x=0, x=1 is",
     "options": [
       "13/6",
       "15/8",
@@ -676,7 +1026,7 @@
     "subject": "maths",
     "category": "II",
     "type": "single",
-    "question": "If independent events P(A)=1/5, P(A U B)=7/10, then P(B_bar) is 2 Marks Each. Multiple correct options.",
+    "question": "If independent events P(A)=1/5, P(A U B)=7/10, then P(B_bar) is",
     "options": [
       "3/8",
       "2/7",
@@ -692,12 +1042,12 @@
     "subject": "maths",
     "category": "III",
     "type": "multiple",
-    "question": "If x2 + 4y2 = 12xy, x,y in [1,4], which are true?",
+    "question": "If x^2 + 4y^2 = 12xy, x,y in [1,4], which are true?",
     "options": [
-      "Max value of log2",
-      "Min value of log2",
-      "log2",
-      "2 ∫ pairs"
+      "Max value of log2(x+2y) is 4",
+      "Min value of log2(x+2y) is 3",
+      "log2(x+2y) in [2,4]",
+      "2 ∫ pairs (x,y) such that log2(x+2y)=3"
     ],
     "answer": [
       "A",
@@ -708,11 +1058,70 @@
     "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
   },
   {
+    "id": 67,
+    "subject": "maths",
+    "category": "III",
+    "type": "multiple",
+    "question": "Let f(x)=x^2(x+2)+x+3. Then",
+    "options": [
+      "f(-3-k)>0 and f(-2+k)<0",
+      "f(-3-k)<0 and f(-2+k)>0",
+      "f(x)=0 has root a s.t. [a]+3=0",
+      "f(x)=0 has root a s.t. (a)+2=0"
+    ],
+    "answer": [
+      "B",
+      "C",
+      "D"
+    ],
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
+    "id": 68,
+    "subject": "maths",
+    "category": "III",
+    "type": "multiple",
+    "question": "If |(2z-i)/(z+1)|=m represents a circle, m can be",
+    "options": [
+      "1/2",
+      "1",
+      "2",
+      "3"
+    ],
+    "answer": [
+      "A",
+      "B",
+      "D"
+    ],
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
+    "id": 69,
+    "subject": "maths",
+    "category": "III",
+    "type": "multiple",
+    "question": "Number of ways to select 3 numbers in A.P from 1,2,...,n",
+    "options": [
+      "((n-1)/2)^2 if even",
+      "n(n-1)/4 if even",
+      "((n-1)^2)/4 if odd",
+      "none"
+    ],
+    "answer": [
+      "B",
+      "C"
+    ],
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
     "id": 70,
     "subject": "maths",
     "category": "III",
     "type": "multiple",
-    "question": "If f(x) = {x2, x≥0; -x2, x<0}",
+    "question": "If f(x) = {x^2, x≥0; -x^2, x<0}",
     "options": [
       "Not differentiable at 0",
       "Discontinuous at 0",
@@ -750,17 +1159,36 @@
     "subject": "maths",
     "category": "III",
     "type": "multiple",
-    "question": "Hyperbola 16x2 - 3y2 - 32x - 12y = 44. Then",
+    "question": "Hyperbola 16x^2 - 3y^2 - 32x - 12y = 44. Then",
     "options": [
-      "Transverse axis is 2 √",
-      "Latus rectum is 32 √",
-      "Eccentricity is √",
-      "Directrix is x=√"
+      "Transverse axis is 2 √(3)",
+      "Latus rectum is 32 √(3)",
+      "Eccentricity is √(19/3)",
+      "Directrix is x=√(19/3)"
     ],
     "answer": [
       "A",
       "B",
       "C"
+    ],
+    "image": null,
+    "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
+  },
+  {
+    "id": 73,
+    "subject": "maths",
+    "category": "III",
+    "type": "multiple",
+    "question": "Line through (a, b) and (-a, -b) passes through",
+    "options": [
+      "(1,1)",
+      "(3a, -2b)",
+      "(a^2, ab)",
+      "(a, b)"
+    ],
+    "answer": [
+      "C",
+      "D"
     ],
     "image": null,
     "source_pdf": "WBJEE_2026_Mathematics_Complete.pdf"
@@ -793,8 +1221,8 @@
     "question": "Vectors a=ai+j+2k, b=i+aj-k, c=2i-j+ak are coplanar if",
     "options": [
       "a=-2",
-      "a=√",
-      "a=1-√",
+      "a=√(3)+1",
+      "a=1-√(3)",
       "a=2"
     ],
     "answer": [

@@ -10,7 +10,7 @@ export interface Question {
   category: QuestionCategory;
   question: string;
   options: string[];
-  answer: string;
+  answer: string | string[];
   image: string | null;
   source_pdf: string;
 }

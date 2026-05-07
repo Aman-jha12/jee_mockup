@@ -67,6 +67,37 @@ function buildQuestionViews(
   });
 }
 
+function renderMathText(text: string) {
+  const parts: React.ReactNode[] = [];
+  const pattern = /\^([0-9+-]+|\([^)]*\))/g;
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = pattern.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index));
+    }
+
+    const exponent = match[1].startsWith('(') && match[1].endsWith(')')
+      ? match[1].slice(1, -1)
+      : match[1];
+
+    parts.push(
+      <sup key={`${match.index}-${exponent}`} className="align-super text-[0.78em] leading-none">
+        {exponent}
+      </sup>
+    );
+
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+
+  return parts.length > 0 ? parts : text;
+}
+
 function sanitizeSelectedAnswers(
   paper: ExamPaper,
   selectedAnswersByQuestionKey: Record<string, number[]>
@@ -588,7 +619,7 @@ export default function ExamInterface() {
                 <div className="custom-scrollbar flex-1 overflow-auto px-6 py-6 scroll-smooth">
                   <div className="mx-auto max-w-4xl">
                     <h2 className="mb-5 text-[1.1rem] font-medium leading-relaxed text-slate-800 md:text-lg">
-                      {activeQuestion.question}
+                      {renderMathText(activeQuestion.question)}
                     </h2>
 
                     {activeQuestion.image ? (
@@ -634,7 +665,7 @@ export default function ExamInterface() {
                                   {String.fromCharCode(65 + index)}.
                                 </span>
                                 <span className={`text-[1rem] font-medium ${isSelected ? 'text-slate-900' : 'text-slate-600'}`}>
-                                  {option}
+                                  {renderMathText(option)}
                                 </span>
                               </div>
                             </div>

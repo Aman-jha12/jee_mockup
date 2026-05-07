@@ -22,10 +22,10 @@
     "type": "single",
     "question": "The type of hybridization and the magnetic property of [MnCl6]3- are",
     "options": [
-      "d2sp3, paramagnetic",
-      "sp3d2, paramagnetic",
-      "d2sp3, paramagnetic",
-      "sp3d2, paramagnetic"
+      "d2sp3, paramagnetic (4 unpaired e-)",
+      "sp3d2, paramagnetic (4 unpaired e-)",
+      "d2sp3, paramagnetic (2 unpaired e-)",
+      "sp3d2, paramagnetic (2 unpaired e-)"
     ],
     "answer": "B",
     "image": null,
@@ -80,6 +80,22 @@
     "source_pdf": "WBJEE_2026_chemistry.pdf"
   },
   {
+    "id": 6,
+    "subject": "chemistry",
+    "category": "I",
+    "type": "single",
+    "question": "The pH of pure water at 25°C is",
+    "options": [
+      "0",
+      "14",
+      "7",
+      "1"
+    ],
+    "answer": "C",
+    "image": null,
+    "source_pdf": "WBJEE_2026_chemistry.pdf"
+  },
+  {
     "id": 7,
     "subject": "chemistry",
     "category": "I",
@@ -92,6 +108,22 @@
       "Dalton's law"
     ],
     "answer": "C",
+    "image": null,
+    "source_pdf": "WBJEE_2026_chemistry.pdf"
+  },
+  {
+    "id": 8,
+    "subject": "chemistry",
+    "category": "I",
+    "type": "single",
+    "question": "The Bond Order of He2 is:",
+    "options": [
+      "0",
+      "0.5",
+      "1",
+      "1.5"
+    ],
+    "answer": "B",
     "image": null,
     "source_pdf": "WBJEE_2026_chemistry.pdf"
   },
@@ -182,7 +214,7 @@
     "type": "single",
     "question": "22.4 L of an ideal gas at STP contains",
     "options": [
-      "6.022 x 1023 molecules",
+      "6.022 x 10^23 molecules",
       "1 gram",
       "0.5 mole",
       "2 moles"
@@ -208,16 +240,32 @@
     "source_pdf": "WBJEE_2026_chemistry.pdf"
   },
   {
+    "id": 16,
+    "subject": "chemistry",
+    "category": "I",
+    "type": "single",
+    "question": "Standard enthalpy of formation of an element in its standard state is",
+    "options": [
+      "1",
+      "Zero",
+      "-1",
+      "100 kJ"
+    ],
+    "answer": "B",
+    "image": null,
+    "source_pdf": "WBJEE_2026_chemistry.pdf"
+  },
+  {
     "id": 17,
     "subject": "chemistry",
     "category": "I",
     "type": "single",
     "question": "A process is spontaneous if",
     "options": [
-      "ΔH > 0",
-      "ΔS < 0",
-      "ΔG < 0",
-      "ΔG > 0"
+      "δH > 0",
+      "δS < 0",
+      "δG < 0",
+      "δG > 0"
     ],
     "answer": "C",
     "image": null,
@@ -486,10 +534,10 @@
     "type": "single",
     "question": "Which complex is most likely to be high spin?",
     "options": [
-      "[Fe",
-      "[Fe",
-      "[Co",
-      "[Cr"
+      "[Fe(CN)6]4-",
+      "[Fe(H2O)6]2+",
+      "[Co(NH3)6]3+",
+      "[Cr(CN)6]3-"
     ],
     "answer": "B",
     "image": null,
@@ -522,6 +570,38 @@
       "HNO3",
       "H2SO4",
       "H3PO4"
+    ],
+    "answer": "C",
+    "image": null,
+    "source_pdf": "WBJEE_2026_chemistry.pdf"
+  },
+  {
+    "id": 37,
+    "subject": "chemistry",
+    "category": "I",
+    "type": "single",
+    "question": "Highest first ionization energy in second period is of:",
+    "options": [
+      "F",
+      "N",
+      "O",
+      "Ne"
+    ],
+    "answer": "D",
+    "image": null,
+    "source_pdf": "WBJEE_2026_chemistry.pdf"
+  },
+  {
+    "id": 38,
+    "subject": "chemistry",
+    "category": "I",
+    "type": "single",
+    "question": "Coordination number of sulfur in SF6 is:",
+    "options": [
+      "4",
+      "5",
+      "6",
+      "2"
     ],
     "answer": "C",
     "image": null,
@@ -672,6 +752,22 @@
     "source_pdf": "WBJEE_2026_chemistry.pdf"
   },
   {
+    "id": 48,
+    "subject": "chemistry",
+    "category": "I",
+    "type": "single",
+    "question": "Which pair represents enantiomers?",
+    "options": [
+      "(R)-2-butanol & (S)-2-butanol",
+      "cis-2-butene & trans-2-butene",
+      "1-butanol & 2-butanol",
+      "meso-tartaric acid & d-tartaric acid"
+    ],
+    "answer": "A",
+    "image": null,
+    "source_pdf": "WBJEE_2026_chemistry.pdf"
+  },
+  {
     "id": 49,
     "subject": "chemistry",
     "category": "I",
@@ -692,7 +788,7 @@
     "subject": "chemistry",
     "category": "I",
     "type": "single",
-    "question": "Polymer used in non-stick cookware is 2 Marks Each. .",
+    "question": "Polymer used in non-stick cookware is",
     "options": [
       "PVC",
       "Nylon",
@@ -716,6 +812,26 @@
       "Geometrical isomerism"
     ],
     "answer": "B",
+    "image": null,
+    "source_pdf": "WBJEE_2026_chemistry.pdf"
+  },
+  {
+    "id": 52,
+    "subject": "chemistry",
+    "category": "II",
+    "type": "single",
+    "question": "Among the following, the extensive variables are",
+    "options": [
+      "V (Volume)",
+      "P (Pressure)",
+      "E (Internal energy)",
+      "H (Enthalpy)"
+    ],
+    "answer": [
+      "A",
+      "C",
+      "D"
+    ],
     "image": null,
     "source_pdf": "WBJEE_2026_chemistry.pdf"
   },
@@ -745,10 +861,10 @@
     "type": "single",
     "question": "For spontaneous polymerization, which of the following is (are) correct?",
     "options": [
-      "ΔG is negative",
-      "ΔH is negative",
-      "ΔS is positive",
-      "ΔS is negative"
+      "δG is negative",
+      "δH is negative",
+      "δS is positive",
+      "δS is negative"
     ],
     "answer": [
       "A",
@@ -887,7 +1003,7 @@
       "Atomic radius",
       "Electronegativity",
       "Ionization enthalpy",
-      "Electron gain enthalpy"
+      "Electron gain enthalpy (less negative)"
     ],
     "answer": [
       "B",
@@ -963,7 +1079,7 @@
     "subject": "chemistry",
     "category": "II",
     "type": "single",
-    "question": "Which of the following compounds are aromatic in nature? 2 Marks Each. Multiple correct options.",
+    "question": "Which of the following compounds are aromatic in nature?",
     "options": [
       "Benzene",
       "Naphthalene",
@@ -1027,7 +1143,7 @@
     "options": [
       "Atomic radius",
       "Ionic radius",
-      "Density",
+      "Density (exception of K)",
       "First Ionization Enthalpy"
     ],
     "answer": [
