@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 import { DeviceGuard } from "@/components/DeviceGuard";
 
 export const metadata: Metadata = {
-  title: "JEE Mock Test",
+  title: "Prepjee",
   description: "JEE-style full-stack mock test web application",
 };
 
